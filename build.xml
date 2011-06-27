@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+<project name="xInvest" default="all" basedir=".">
+	<macrodef name="git">
+		<attribute name = "command" />
+		<attribute name = "dir" default = "" />
+		<element name = "args" optional = "true" />
+		<sequential>
+			<exec executable = "git" dir = "@{dir}">
+				<arg value = "@{command}" />
+				<args/>
+			</exec>
+		</sequential>
+	</macrodef>
+
+	<!-- variaveis -->
+	<property name="mainclass" value="org.xinvest.examples.Heranca"/>
+	<property name="mensagem"  value="commit default"/>
+	<property name="arg"       value=""/>
+
+	<!-- properties -->
+	<property name="lib"      value="${basedir}/lib"/>
+	<property name="web"      value="${basedir}/web"/>
+	<property name="src"      value="${basedir}/src"/>
+	<property name="build"    value="${basedir}/build"/>
+	<property name="classdir" value="${build}/classes"/>
+	<property name="warDir"   value="${build}/war"/>
+	<property name="warFile"  value="xInvest.war"/>
+
+	<path id="project.class.path">
+		<fileset dir="${lib}" includes="**/*.jar"/>
+	</path>
+
+	<target name="init">
+		<!-- Create Web-inf and classes directories -->
+		<mkdir dir="${build}"/>
+		<mkdir dir="${classdir}"/>
+		<mkdir dir="${warDir}/WEB-INF"/>
+		<mkdir dir="${warDir}/WEB-INF/classes"/>
+		<mkdir dir="${warDir}/WEB-INF/classes/org/xinvest/bundles"/>
+		<mkdir dir="${warDir}/WEB-INF/lib"/>
+	</target>
+
+	<!-- Main target -->
+	<target name="all" depends="clean,init,build,buildWar"/>
+
+	<!-- Compile Java Files and store in /build/src directory -->
+	<target name="build" depends="init">
+		<javac srcdir="${src}" destdir="${classdir}" debug="true" includes="**/*.java">
+			<classpath refid="project.class.path"/>
+		</javac>
+	</target>
+	
+	<!-- Create the JAVA Doc -->
+	<target name="javadoc" depends="build">
+		<delete dir="${basedir}/doc"/>
+		<mkdir dir="${basedir}/doc"/>
+		<javadoc sourcepath="${src}" destdir="${basedir}/doc">
+			<classpath refid="project.class.path"/>
+		</javadoc>
+	</target>
+
+	<!-- Create the War File -->
+	<target name="buildWar" depends="init">
+		<copy todir="${warDir}/WEB-INF/classes">
+			<fileset dir="${classdir}" includes="**/*.class" /> 
+		</copy>
+		
+		<copy todir="${warDir}/WEB-INF/classes/org/xinvest/bundles">
+			<fileset dir="${src}/org/xinvest/bundles/" includes="*.properties" />
+		</copy>
+
+		<copy todir="${warDir}/WEB-INF/classes">
+			<fileset dir="${basedir}" includes="hibernate.*" />
+			<fileset dir="${basedir}" includes="log4j.properties" />
+		</copy>
+		
+		<copy todir="${warDir}/WEB-INF">
+			<fileset dir="${basedir}" includes="web.xml" /> 
+		</copy>
+
+		<copy todir="${warDir}/WEB-INF/classes">
+			<fileset dir="${basedir}" includes="hibernate.*" /> 
+		</copy>
+
+		<copy todir="${warDir}">
+			<fileset dir="${web}" includes="**" /> 
+		</copy>
+
+		<copy todir="${warDir}/WEB-INF/lib">
+			<fileset dir="${lib}" includes="**/*.*" /> 
+		</copy>
+
+		<!-- Create war file and place in ear directory -->
+		<jar jarfile="${warFile}" basedir="${warDir}" />
+	</target>
+
+	<target name="clean" >
+		<delete dir="build"/>
+		<delete file="${warFile}"/>
+	</target>
+	
+	<target name="run" depends="build">
+		<java dir="${basedir}" classname="${mainclass}" fork="true" classpathref="project.class.path">
+			<classpath path="${classdir}:." />
+			<arg value="${arg}" />
+		</java>
+	</target>
+
+	<target name="pull">
+		<git command="pull" />
+	</target>
+
+	<target name="push" depends="clean">
+		<git command="add">
+			<args>
+				<arg value="." />
+			</args>
+		</git>
+		<git command="commit">
+			<args>
+				<arg value="-a" />
+				<arg value="-m" />
+				<arg value="${mensagem}" />
+			</args>
+		</git>
+		<git command="pull" />
+		<git command="push" />
+	</target>
+
+	<property name="webapps" value="/home/fabio/IDE/apache-tomcat-7.0.11/webapps"/>
+	<target name="deploy" depends="all">
+		<move file="${warFile}" todir="${webapps}"/>
+	</target>
+</project>
+
