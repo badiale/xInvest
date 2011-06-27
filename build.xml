@@ -16,6 +16,7 @@
 	<property name="mainclass" value="org.xinvest.examples.Heranca"/>
 	<property name="mensagem"  value="commit default"/>
 	<property name="arg"       value=""/>
+	<property name="webapps" value="/var/lib/tomcat6/webapps"/>
 
 	<!-- properties -->
 	<property name="lib"      value="${basedir}/lib"/>
@@ -127,7 +128,7 @@
 		<git command="push" />
 	</target>
 
-	<property name="webapps" value="/home/fabio/IDE/apache-tomcat-7.0.11/webapps"/>
+
 	<target name="deploy" depends="all">
 		<move file="${warFile}" todir="${webapps}"/>
 	</target>
