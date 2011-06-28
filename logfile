@@ -124,3 +124,5 @@ LOG:  unexpected EOF on client connection
 LOG:  unexpected EOF on client connection
 LOG:  unexpected EOF on client connection
 LOG:  unexpected EOF on client connection
+ERROR:  syntax error at or near "/" at character 21
+STATEMENT:  select * from quote /;
