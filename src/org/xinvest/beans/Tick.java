@@ -116,15 +116,40 @@ public class Tick implements Serializable {
 		private static void test02() {
 			Session session = DBManager.getSession();
 			session.beginTransaction();
-				Tick t2 = Tick.find(1);
+				Tick t2 = Tick.find(2);
 			session.getTransaction().commit();
 
 			log.info("Tick recuperado");
 			log.debug(t2.getQuote().getQuote());
 		}
+		
+		private static void test03() {
+			Session session = DBManager.getSession();
+			session.beginTransaction();
+				Tick t2 = Tick.find(1);
+				
+				t2.remove();
+				
+			session.getTransaction().commit();
+			log.info("Tick removido");
+
+		}
+		
+		private static void test04() {
+			Session session = DBManager.getSession();
+			session.beginTransaction();
+				Tick t2 = Tick.find(2);
+				t2.setTick(new Float(2));
+				
+			session.getTransaction().commit();
+			log.info("Tick alterado");
+
+		}
 
 		public static void main (String args[]) {
-			test01();
-			test02();
+			//test01();
+			//test02();
+			//test03();
+			test04();
 		}
 }
