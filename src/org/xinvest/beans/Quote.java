@@ -58,23 +58,17 @@ public class Quote implements Serializable {
 		//SQLERS
 		public void insert() {
 			Session session = DBManager.getSession();
-			session.beginTransaction();
 			session.save(this);
-			session.getTransaction().commit();
 		}
 
 		public void remove() {
 			Session session = DBManager.getSession();
-			session.beginTransaction();
 			session.delete(this);
-			session.getTransaction().commit();
 		}
 
 		public void update() {
 			Session session = DBManager.getSession();
-			session.beginTransaction();
 			session.update(this);
-			session.getTransaction().commit();
 		}
 	
 		public static Quote find(String quote) {
@@ -91,27 +85,31 @@ public class Quote implements Serializable {
 
 		//TESTERS
 		private static void test01() {
-			Quote q = new Quote();
-			q.setQuote("PBR");
-			q.setName("Petrobras");
+			Session session = DBManager.getSession();
+			session.beginTransaction();
 			
-			q.insert();
+				Quote q = new Quote();
+				q.setQuote("PBR");
+				q.setName("Petrobras");
 			
+				q.insert();
+			
+			session.getTransaction().commit();
 			log.info("Quote Inserida");
 		}
 		
 		private static void test02() {
 			Session session = DBManager.getSession();
 			session.beginTransaction();
-			Quote q = Quote.find("PBR");			
+				Quote q = Quote.find("PBR");			
 			
-			log.info("Quote Recuperada");
+				log.info("Quote Recuperada");
 			
-			Iterator it = q.getTicks().iterator();
-			while (it.hasNext()) {
-				Tick t = (Tick) it.next();
-				log.info(t.getTick());
-			}
+				Iterator it = q.getTicks().iterator();
+				while (it.hasNext()) {
+					Tick t = (Tick) it.next();
+					log.info(t.getTick());
+				}
 		
 			session.getTransaction().commit();
 			log.info("Todos os ticks listados");	
