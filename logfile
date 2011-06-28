@@ -91,3 +91,8 @@ STATEMENT:  drop table A
 ERROR:  table "b" does not exist
 STATEMENT:  drop table B
 LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection

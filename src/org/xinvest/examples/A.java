@@ -46,7 +46,10 @@ public class A implements Serializable {
 			session.save(b);
 			a.getBs().add(b);
 		}
+		session.getTransaction().commit();
 		
+		session = DBManager.getSession();
+		session.beginTransaction();
 		a2 = (A) session.load(A.class, id);
 		
 		System.out.println("Id de A: " + a.getId());
