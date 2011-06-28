@@ -110,14 +110,42 @@ public class Quote implements Serializable {
 					log.info(t.getTick());
 				}
 		
-			session.getTransaction().commit();
+			
 			log.info("Todos os ticks listados");	
 			
+		}
+		
+		private static void test03() {
+			Session session = DBManager.getSession();
+			session.beginTransaction();
+				Quote q = Quote.find("PBR");			
+			
+				log.info("Quote Recuperada");
+				q.remove();
+			
+				session.getTransaction().commit();
+				log.info("Quote Removida");
+		}
+		
+			private static void test04() {
+			Session session = DBManager.getSession();
+			session.beginTransaction();
+				Quote q = Quote.find("PBR");			
+			
+				log.info("Quote Recuperada");
+				
+				q.setName("Petroobras");
+				q.update();
+			
+				session.getTransaction().commit();
+				log.info("Quote Alterada");
 		}
 
 		public static void main (String args[]) {
 			//test01();
-			test02();
+			//test02();
+			//test03();
+			//test04();
 
 		}
 }
