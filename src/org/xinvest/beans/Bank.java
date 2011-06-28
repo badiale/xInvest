@@ -42,7 +42,7 @@ public class Bank extends User {
             System.err.println("ERRO:Test01:INSERT: "+e);
             e.printStackTrace();
         }
-        Bank bankdb = (Bank) User.findByEmail("bank");
+        Bank bankdb = (Bank) User.find("bank");
         System.out.println("Email: "+bankdb.getEmail());
         System.out.println("Name: "+bankdb.getName());
         System.out.println("Pass: "+bankdb.getPassword());

@@ -98,6 +98,18 @@ public class User implements Serializable, Config {
     }
     
     /**
+     * @param email E-mail of the user.
+     * @return User object with all data of the user with given e-mail.
+     */
+    public static User find (String email) {
+        Session session = DBManager.getSession();
+        session.beginTransaction();
+        User user = (User) session.get("org.xinvest.beans.User", email);
+        session.getTransaction().commit();
+        return user;
+    }
+    
+    /**
      * @return All users from the database.
      */
     public static List findAll () {
@@ -109,18 +121,6 @@ public class User implements Serializable, Config {
         List list = query.list();
         session.getTransaction().commit();
         return list;
-    }
-    
-    /**
-     * @param email E-mail of the user.
-     * @return User object with all data of the user with given e-mail.
-     */
-    public static User findByEmail (String email) {
-        Session session = DBManager.getSession();
-        session.beginTransaction();
-        User user = (User) session.get("org.xinvest.beans.User", email);
-        session.getTransaction().commit();
-        return user;
     }
     
     private static void Test01 () {
@@ -170,7 +170,7 @@ public class User implements Serializable, Config {
             System.err.println("ERRO:Test03:INSERT: "+e);
             e.printStackTrace();
         }
-        User userdb = User.findByEmail("mail02");
+        User userdb = User.find("mail02");
         System.out.println("Email: "+userdb.getEmail());
         System.out.println("Name: "+userdb.getName());
         System.out.println("Pass: "+userdb.getPassword());
