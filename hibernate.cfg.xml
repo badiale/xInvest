@@ -34,6 +34,9 @@
 		<!-- Mapeamento: colocar o nome da classe que vai ser mapeada -->
 
 
+		<!-- Classes de exemplo -->
+		<mapping class="org.xinvest.examples.A" />
+		<mapping class="org.xinvest.examples.B" />
     </session-factory>
 
 </hibernate-configuration>

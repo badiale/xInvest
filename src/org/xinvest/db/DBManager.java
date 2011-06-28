@@ -1,4 +1,4 @@
-package org.xcommerce.db;
+package org.xinvest.db;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
