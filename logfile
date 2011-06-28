@@ -1,0 +1,93 @@
+LOG:  database system was shut down at 2011-06-28 17:22:42 BRT
+LOG:  database system is ready to accept connections
+LOG:  autovacuum launcher started
+LOG:  unexpected EOF on client connection
+ERROR:  table "a" does not exist
+STATEMENT:  drop table A
+ERROR:  sequence "hibernate_sequence" does not exist
+STATEMENT:  drop sequence hibernate_sequence
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+ERROR:  relation "b" does not exist
+STATEMENT:  alter table B drop constraint FK42B07AAF00
+ERROR:  table "b" does not exist
+STATEMENT:  drop table B
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+ERROR:  relation "a_b" does not exist
+STATEMENT:  alter table A_B drop constraint FKFFC4B07AAF00
+ERROR:  relation "a_b" does not exist
+STATEMENT:  alter table A_B drop constraint FKFFC4B5E7DD11
+ERROR:  table "a_b" does not exist
+STATEMENT:  drop table A_B
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+ERROR:  cannot drop table a because other objects depend on it
+DETAIL:  constraint fkffc4b07aaf00 on table a_b depends on table a
+	constraint fk42b07aaf00 on table b depends on table a
+HINT:  Use DROP ... CASCADE to drop the dependent objects too.
+STATEMENT:  drop table a;
+ERROR:  relation "a_b" does not exist
+STATEMENT:  alter table A_B drop constraint FKFFC4B07AAF00
+ERROR:  relation "a_b" does not exist
+STATEMENT:  alter table A_B drop constraint FKFFC4B5E7DD11
+ERROR:  relation "b" does not exist
+STATEMENT:  alter table B drop constraint FK42B07AAF00
+ERROR:  table "a" does not exist
+STATEMENT:  drop table A
+ERROR:  table "a_b" does not exist
+STATEMENT:  drop table A_B
+ERROR:  table "b" does not exist
+STATEMENT:  drop table B
+LOG:  unexpected EOF on client connection
+ERROR:  cannot drop table a because other objects depend on it
+DETAIL:  constraint fkffc4b07aaf00 on table a_b depends on table a
+HINT:  Use DROP ... CASCADE to drop the dependent objects too.
+STATEMENT:  drop table A
+ERROR:  cannot drop table b because other objects depend on it
+DETAIL:  constraint fkffc4b5e7dd11 on table a_b depends on table b
+HINT:  Use DROP ... CASCADE to drop the dependent objects too.
+STATEMENT:  drop table B
+ERROR:  relation "a" already exists
+STATEMENT:  create table A (id int4 not null, primary key (id))
+ERROR:  relation "b" already exists
+STATEMENT:  create table B (id int4 not null, a_id int4, primary key (id))
+ERROR:  duplicate key value violates unique constraint "a_pkey"
+DETAIL:  Key (id)=(10) already exists.
+STATEMENT:  insert into A (id) values ($1)
+LOG:  unexpected EOF on client connection
+ERROR:  cannot drop table a because other objects depend on it
+DETAIL:  constraint fkffc4b07aaf00 on table a_b depends on table a
+HINT:  Use DROP ... CASCADE to drop the dependent objects too.
+STATEMENT:  drop table A
+ERROR:  cannot drop table b because other objects depend on it
+DETAIL:  constraint fkffc4b5e7dd11 on table a_b depends on table b
+HINT:  Use DROP ... CASCADE to drop the dependent objects too.
+STATEMENT:  drop table B
+ERROR:  relation "a" already exists
+STATEMENT:  create table A (id int4 not null, primary key (id))
+ERROR:  relation "b" already exists
+STATEMENT:  create table B (id int4 not null, a_id int4, primary key (id))
+ERROR:  duplicate key value violates unique constraint "a_pkey"
+DETAIL:  Key (id)=(10) already exists.
+STATEMENT:  insert into A (id) values ($1)
+LOG:  unexpected EOF on client connection
+ERROR:  cannot drop table b because other objects depend on it
+DETAIL:  constraint fkffc4b5e7dd11 on table a_b depends on table b
+HINT:  Use DROP ... CASCADE to drop the dependent objects too.
+STATEMENT:  drop table b;
+ERROR:  relation "b" does not exist
+STATEMENT:  alter table B drop constraint FK42B07AAF00
+ERROR:  table "a" does not exist
+STATEMENT:  drop table A
+ERROR:  table "b" does not exist
+STATEMENT:  drop table B
+LOG:  unexpected EOF on client connection

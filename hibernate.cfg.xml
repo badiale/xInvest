@@ -35,6 +35,9 @@
 				<mapping class="org.xinvest.beans.Quote"/>
 				<mapping class="org.xinvest.beans.Tick"/>
 
+		<!-- Classes de exemplo -->
+		<mapping class="org.xinvest.examples.A" />
+		<mapping class="org.xinvest.examples.B" />
     </session-factory>
 
 </hibernate-configuration>
