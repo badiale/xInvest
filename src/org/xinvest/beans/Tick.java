@@ -65,23 +65,18 @@ public class Tick implements Serializable {
 		//SQLERS
 		public void insert() {
 			Session session = DBManager.getSession();
-			//session.beginTransaction();
 			session.save(this);
-			//session.getTransaction().commit();
+
 		}
 
 		public void remove() {
 			Session session = DBManager.getSession();
-			session.beginTransaction();
 			session.delete(this);
-			session.getTransaction().commit();
 		}
 
 		public void update() {
 			Session session = DBManager.getSession();
-			session.beginTransaction();
 			session.update(this);
-			session.getTransaction().commit();
 		}
 	
 		public static Tick find(Integer id) {
@@ -100,19 +95,18 @@ public class Tick implements Serializable {
 		private static void test01() {
 			Session session = DBManager.getSession();
 			session.beginTransaction();
-			Quote q = Quote.find("PBR");
 			
+				Quote q = Quote.find("PBR");
 			
+				log.debug(q.getQuote());
 			
-			log.debug(q.getQuote());
-			
-			Tick t = new Tick();
-			t.setQuote(q);			
-			t.setTick(new Float(31.23));
-			t.setTimestamp("28/06/2011");
-			t.insert();
+				Tick t = new Tick();
+				t.setQuote(q);			
+				t.setTick(new Float(31.23));
+				t.setTimestamp("28/06/2011");
+				t.insert();
 
-			q.getTicks().add(t);
+				q.getTicks().add(t);
 
 			
 			session.getTransaction().commit();
@@ -122,11 +116,10 @@ public class Tick implements Serializable {
 		private static void test02() {
 			Session session = DBManager.getSession();
 			session.beginTransaction();
-			Tick t2 = Tick.find(1);
+				Tick t2 = Tick.find(1);
 			session.getTransaction().commit();
 
 			log.info("Tick recuperado");
-			
 			log.debug(t2.getQuote().getQuote());
 		}
 
