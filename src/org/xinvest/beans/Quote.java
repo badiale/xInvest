@@ -26,8 +26,8 @@ public class Quote implements Serializable {
 		private String name;
 		
 		@OneToMany
-	  //@JoinColumn(name="tick_fk")
-		private Set<Tick> ticks;
+	    @JoinColumn(name="tick_fk")
+		private Set<Tick> ticks = new HashSet<Tick>();
 
 		
 		/**
@@ -41,7 +41,6 @@ public class Quote implements Serializable {
     public Quote() {
 			this.quote = new String();
 			this.name = new String();
-			this.ticks = new HashSet<Tick>();
 		}
 
 		//SETTERS E GETTERS

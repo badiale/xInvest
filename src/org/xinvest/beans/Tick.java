@@ -26,8 +26,8 @@ public class Tick implements Serializable {
 		private Integer id;
 		
 		@ManyToOne
-    //@JoinColumn(name="tick_fk", insertable=false, updatable=false)
-    private Quote quote;
+    @JoinColumn(name="tick_fk", insertable=false, updatable=false)
+    private Quote quote = null;
 		
 		@Column
 		private Float tick;	

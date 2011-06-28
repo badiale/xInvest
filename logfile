@@ -96,3 +96,31 @@ LOG:  unexpected EOF on client connection
 LOG:  unexpected EOF on client connection
 LOG:  unexpected EOF on client connection
 LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+ERROR:  relation "b" does not exist
+STATEMENT:  alter table B drop constraint FK42B07AAF00
+ERROR:  relation "tick" does not exist
+STATEMENT:  alter table Tick drop constraint FK27C5BDC60A5A0D
+ERROR:  table "a" does not exist
+STATEMENT:  drop table A
+ERROR:  table "b" does not exist
+STATEMENT:  drop table B
+ERROR:  table "quote" does not exist
+STATEMENT:  drop table Quote
+ERROR:  table "tick" does not exist
+STATEMENT:  drop table Tick
+ERROR:  sequence "hibernate_sequence" does not exist
+STATEMENT:  drop sequence hibernate_sequence
+ERROR:  sequence "seq_tickid" does not exist
+STATEMENT:  drop sequence seq_tickid
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
