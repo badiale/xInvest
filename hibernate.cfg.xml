@@ -32,7 +32,8 @@
         <property name="hbm2ddl.auto">create</property>
 	
 		<!-- Mapeamento: colocar o nome da classe que vai ser mapeada -->
-
+		<mapping class="org.xinvest.beans.User"/>
+		<mapping class="org.xinvest.beans.Bank"/>
 
     </session-factory>
 
