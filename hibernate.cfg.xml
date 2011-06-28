@@ -31,8 +31,9 @@
         <!-- Drop and re-create the database schema on startup -->
         <property name="hbm2ddl.auto">create</property>
 	
-		<!-- Mapeamento: colocar o nome da classe que vai ser mapeada -->
-
+				<!-- Mapeamento: colocar o nome da classe que vai ser mapeada -->
+				<mapping class="org.xinvest.beans.Quote"/>
+				<mapping class="org.xinvest.beans.Tick"/>
 
     </session-factory>
 
