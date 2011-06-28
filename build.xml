@@ -107,11 +107,7 @@
 		</java>
 	</target>
 
-	<target name="pull">
-		<git command="pull" />
-	</target>
-
-	<target name="push" depends="clean">
+	<target name="pull" depends="clean">
 		<git command="add">
 			<args>
 				<arg value="." />
@@ -125,6 +121,9 @@
 			</args>
 		</git>
 		<git command="pull" />
+	</target>
+
+	<target name="push" depends="pull">
 		<git command="push" />
 	</target>
 

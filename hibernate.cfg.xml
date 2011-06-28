@@ -29,12 +29,17 @@
         <property name="show_sql">false</property>
 
         <!-- Drop and re-create the database schema on startup -->
-        <property name="hbm2ddl.auto">create</property>
+        <property name="hbm2ddl.auto">update</property>
 	
 		<!-- Mapeamento: colocar o nome da classe que vai ser mapeada -->
+		<mapping class="org.xinvest.beans.Quote"/>
+		<mapping class="org.xinvest.beans.Tick"/>
 		<mapping class="org.xinvest.beans.User"/>
 		<mapping class="org.xinvest.beans.Bank"/>
 
+		<!-- Classes de exemplo -->
+		<mapping class="org.xinvest.examples.A" />
+		<mapping class="org.xinvest.examples.B" />
     </session-factory>
 
 </hibernate-configuration>
