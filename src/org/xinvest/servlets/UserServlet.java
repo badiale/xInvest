@@ -203,7 +203,7 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
             targetUrl = "/xCommerce/message.jsp?msg=404";
 		break;
 	}
-    if (targetUrl != null) response.sendRedirect(targetUrl);
+	if (targetUrl != null) response.sendRedirect(targetUrl);
 }
 
 public void doPost (HttpServletRequest request, HttpServletResponse response)
