@@ -60,7 +60,7 @@ public class ClienteServlet extends HttpServlet {
 					l.setValue(Float.parseFloat(request.getParameter("value")));
 					l.setPassive(passive);
 					l.setActive(user);
-					l.setInterest(Float.parseFloat(request.getParameter("interest")))
+					l.setInterest(Float.parseFloat(request.getParameter("interest")));
 
 					l.insert();
 
