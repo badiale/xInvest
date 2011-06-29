@@ -16,7 +16,7 @@
 	<property name="mainclass" value="org.xinvest.examples.Heranca"/>
 	<property name="mensagem"  value="commit default"/>
 	<property name="arg"       value=""/>
-	<property name="webapps" value="/var/lib/tomcat6/webapps"/>
+	<property name="webapps" value="/home/fabio/IDE/apache-tomcat-7.0.11/webapps"/>
 
 	<!-- properties -->
 	<property name="lib"      value="${basedir}/lib"/>
