@@ -55,18 +55,18 @@ public class Transaction implements Serializable {
 	}
 	
 	// sets
-	private void setId        (Integer id   ) { this.id        = id   ; }
-	private void setTimestamp (Date    time ) { this.timestamp = time ; }
-	private void setValue     (Float   value) { this.value     = value; }
-	private void setPassive   (User    user ) { this.passive   = user ; }
-	private void setActive    (User    user ) { this.active    = user ; }
+	public void setId        (Integer id   ) { this.id        = id   ; }
+	public void setTimestamp (Date    time ) { this.timestamp = time ; }
+	public void setValue     (Float   value) { this.value     = value; }
+	public void setPassive   (User    user ) { this.passive   = user ; }
+	public void setActive    (User    user ) { this.active    = user ; }
 
 	// gets
-	private Integer getId        () { return this.id       ; }
-	private Date    getTimestamp () { return this.timestamp; }
-	private Float   getValue     () { return this.value    ; }
-	private User    getPassive   () { return this.passive  ; }
-	private User    getActive    () { return this.active   ; }
+	public Integer getId        () { return this.id       ; }
+	public Date    getTimestamp () { return this.timestamp; }
+	public Float   getValue     () { return this.value    ; }
+	public User    getPassive   () { return this.passive  ; }
+	public User    getActive    () { return this.active   ; }
 
 	// sql
 	public void insert() {
