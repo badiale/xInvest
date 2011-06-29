@@ -32,6 +32,10 @@ public class Quote implements Serializable {
 		@ManyToOne
     	@JoinColumn(name="quotes_fk", insertable=false, updatable=false)
     private WebQuotes webQuotes = null;
+    
+    @OneToMany
+	    @JoinColumn(name="investment_fk")
+		private Set<Investment> investments = new HashSet<Investment>();
 
 		
 		/**
@@ -56,6 +60,9 @@ public class Quote implements Serializable {
 
     public Set getTicks() { return this.ticks; }
     public void setTicks(Set ticks) { this.ticks = ticks; }
+    
+    public Set getInvestments() { return this.investments; }
+    public void setInvestments(Set investments) { this.ticks = investments; }
     
     public WebQuotes getWebQuotes() { return this.webQuotes; }
     public void setWebQuotes(WebQuotes webQuotes) { this.webQuotes = webQuotes; }
@@ -122,7 +129,7 @@ public class Quote implements Serializable {
 					log.info(t.getTick());
 				}
 		
-			
+			session.getTransaction().commit();
 			log.info("Todos os ticks listados");	
 			
 		}
@@ -152,12 +159,30 @@ public class Quote implements Serializable {
 				session.getTransaction().commit();
 				log.info("Quote Alterada");
 		}
+		
+		private static void test05() {
+			Session session = DBManager.getSession();
+			session.beginTransaction();
+				Quote q = Quote.find("PBR");			
+			
+				log.info("Quote Recuperada");
+			
+				Iterator it = q.getInvestments().iterator();
+				while (it.hasNext()) {
+					Investment i = (Investment) it.next();
+					log.info(i.getAmount());
+				}
+		
+			session.getTransaction().commit();
+			log.info("Todos os investments listados");	
+		}
 
 		public static void main (String args[]) {
-			test01();
-			//test02();
+			//test01();
+			test02();
 			//test03();
 			//test04();
+			test05();
 
 		}
 }

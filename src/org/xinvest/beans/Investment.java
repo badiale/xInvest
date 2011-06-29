@@ -21,7 +21,10 @@ public class Investment extends Transaction implements Serializable {
     @Column(name="amount")
     private Integer amount;
     
-    public Investment () {}
+    public Investment () {
+    	super();
+    	this.amount = new Integer(0);
+    }
     
     public void setQuote(Quote quote) { this.quote = quote; }
     public void setAmount(Integer amount) { this.amount = amount; }
@@ -33,5 +36,46 @@ public class Investment extends Transaction implements Serializable {
         float tick = this.value/this.amount;
         return new Float(tick);
     }
+    
+   	//TESTERS
+		private static void test01() {
+			Session session = DBManager.getSession();
+			session.beginTransaction();
+				
+				Quote q = Quote.find("PBR");
+			
+				Investment i = new Investment();
+				
+				i.setAmount(new Integer(100));
+				i.setValue(new Float(1.11));
+				i.setQuote(q);
+				i.insert();
+				
+				q.getInvestments().add(i);
+			
+			session.getTransaction().commit();
+			log.info("Investment Inserido");
+		}
+		
+		private static void test02() {
+			Session session = DBManager.getSession();
+			session.beginTransaction();
+	
+			
+				Investment i = (Investment) Investment.find(new Integer(1));
+				log.info("Investment Encontrado");
+				
+				log.info(i.getQuote().getQuote());
+	
+			
+			session.getTransaction().commit();
+			log.info("Investment Encontrado");
+		}
+
+		public static void main (String args[]) {
+			//test01();
+			test02();
+
+		}
     
 }
