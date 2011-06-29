@@ -151,3 +151,12 @@ STATEMENT:  alter table Transaction drop constraint FKE30A7ABE7188BAC4
 LOG:  unexpected EOF on client connection
 LOG:  unexpected EOF on client connection
 LOG:  unexpected EOF on client connection
+ERROR:  constraint "fk4ac4e5c9e298a62" of relation "quote" does not exist
+STATEMENT:  alter table Quote drop constraint FK4AC4E5C9E298A62
+ERROR:  constraint "fke30a7abee0592f9b" of relation "transaction" does not exist
+STATEMENT:  alter table Transaction drop constraint FKE30A7ABEE0592F9B
+ERROR:  constraint "fke30a7abe34aa7054" of relation "transaction" does not exist
+STATEMENT:  alter table Transaction drop constraint FKE30A7ABE34AA7054
+ERROR:  table "webquotes" does not exist
+STATEMENT:  drop table WebQuotes
+LOG:  unexpected EOF on client connection
