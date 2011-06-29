@@ -103,13 +103,14 @@ public class ClienteServlet extends HttpServlet {
 							Transaction t = (Transaction) it.next();
 							totalLend += t.getValue();
 						}
-						
+						session.getTransaction().commit();
+
 						//TODO calcular o interest de forma mais coerente
 						interest = (totalLend / 100) * 0.1;
 						l.setInterest(new Float(interest));
 						l.insert();				
 
-		   				session.getTransaction().commit();
+		   				
 						
 						targetUrl = "/xInvest/message.jsp?msg=105";
 					}
