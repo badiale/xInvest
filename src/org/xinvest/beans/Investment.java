@@ -34,12 +34,4 @@ public class Investment extends Transaction implements Serializable {
         return new Float(tick);
     }
     
-    public static Investment find (Integer id) {
-        Session session = DBManager.getSession();
-
-        Investment investment = (Investment) session.get("org.xinvest.beans.Investment", id);
-        
-        return investment;
-    }
-    
 }
