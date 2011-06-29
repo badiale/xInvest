@@ -42,7 +42,7 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
 	     operation = Integer.parseInt(request.getParameter("op"));
 	} catch (Exception e) {
 	    targetUrl = "/xInvest/message.jsp?msg=404";
-	    response.sendRedirect(targetUrl);
+	    //response.sendRedirect(targetUrl);
 	}
     
     String name = null;
@@ -78,7 +78,7 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
             }
         } catch (FileUploadException e) {
             targetUrl = "/xInvest/message.jsp?msg=100";
-            response.sendRedirect(targetUrl);
+            //response.sendRedirect(targetUrl);
         }
 	} else {
         operation = Integer.parseInt(request.getParameter("op"));
@@ -104,12 +104,13 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
                 session.getTransaction().commit();
             } catch (Exception e) {
                 targetUrl = "/xInvest/message.jsp?msg=200";
-                response.sendRedirect(targetUrl);
             }
 		break;
 
 	    case LOGIN:
             try {
+                System.out.println("\n\nMAIL: "+mail);
+                System.out.println("PASS: "+pass+"\n");
                 session.beginTransaction();
                 user = User.authenticate(mail,pass);
                 session.getTransaction().commit();
@@ -120,23 +121,20 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
                 } else {
                     targetUrl = "/xInvest/message.jsp?msg=0";
                 }
-                response.sendRedirect(targetUrl);
             } catch (Exception e) {
-                targetUrl = "/xInvest/message.jsp?msg=0";
-                response.sendRedirect(targetUrl);
+                targetUrl = "/xInvest/message.jsp?msg=exception";
             }
 		break;
             
 	    case LOGOUT:
             httpSession.invalidate();
             targetUrl = "/xInvest/index.jsp";
-            response.sendRedirect(targetUrl);
 		break;
 
 	    case REGISTER:
             user = new User();
             try {
-                File picture = new File(User.imagesFolder+"/"+user.getEmail());
+                File picture = new File(User.imagesFolder+"/"+mail);
                 if (fitem.getContentType().equals("image/jpeg") ||
                         fitem.getContentType().equals("image/png") ||
                         fitem.getContentType().equals("image/bmp")) {
@@ -157,7 +155,7 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
                 }
             } catch (Exception e) {
                 targetUrl = "/xInvest/message.jsp?msg=202";
-                response.sendRedirect(targetUrl);
+                System.out.println(e);
             }
 		break;
 
@@ -178,7 +176,7 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
                 session.getTransaction().commit();
             } catch (Exception e) {
                 targetUrl = "/xInvest/message.jsp?msg=204";
-                response.sendRedirect(targetUrl);
+                //response.sendRedirect(targetUrl);
             }
         break;
 
@@ -197,7 +195,7 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
 		    }
 		} catch (Exception e) {
 		    targetUrl = "/xInvest/message.jsp?msg=203";
-		    response.sendRedirect(targetUrl);
+		    //response.sendRedirect(targetUrl);
 		}
 		break;
 
@@ -205,7 +203,7 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
             targetUrl = "/xCommerce/message.jsp?msg=404";
 		break;
 	}
-    if (targetUrl != null) response.sendRedirect(targetUrl);
+	if (targetUrl != null) response.sendRedirect(targetUrl);
 }
 
 public void doPost (HttpServletRequest request, HttpServletResponse response)

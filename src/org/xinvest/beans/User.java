@@ -49,7 +49,12 @@ public class User implements Serializable, Config {
         filesdir.mkdir();
     }
 
-    public User() {}
+    public User() {
+        this.email = null;
+        this.name = null;
+        this.password = null;
+        this.money = new Float(100000);
+    }
     
     public User(String email, String name, String pass, float money) {
         setEmail(email);
