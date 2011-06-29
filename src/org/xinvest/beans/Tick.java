@@ -51,7 +51,7 @@ public class Tick implements Serializable {
 
 		//SETTERS E GETTERS
 		public Integer getId() { return this.id; }
-    public void setQuote(Integer id) { this.id = id; }
+    public void setId(Integer id) { this.id = id; }
     
     public Quote getQuote() { return this.quote; }
     public void setQuote(Quote quote) { this.quote = quote; }
