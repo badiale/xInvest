@@ -138,6 +138,9 @@ public class User implements Serializable, Config {
     }
     
     private static void Test01 () {
+        Session session = DBManager.getSession();
+        session.beginTransaction();
+
         User user = new User("mail01","name01","pass01",100);
         System.out.println("Email: "+user.getEmail());
         System.out.println("Name: "+user.getName());
@@ -149,13 +152,25 @@ public class User implements Serializable, Config {
             System.err.println("ERRO:Test01:INSERT: "+e);
             e.printStackTrace();
         }
+        
+		session.getTransaction().commit();
     }
     private static void Test02 () {
+        Session session = DBManager.getSession();
+        session.beginTransaction();
         User user1 = new User("mail01","name01","pass01",100);
         User user2 = new User("mail02","name02","pass02",200);
         User user3 = new User("mail03","name03","pass03",300);
+
         try {
             user1.insert(); 
+			for (int i = 0; i < 10; i++) {
+				Transaction t = new Transaction();
+				t.setPassive(user1);
+				t.setValue(new Float(1000 * (i + 1)));
+				t.insert();
+				user1.getTransactionActives().add(t);
+			}
             user2.insert(); 
             user3.insert(); 
         } catch (Exception e) {
@@ -169,10 +184,21 @@ public class User implements Serializable, Config {
             System.out.println("Email: "+userdb.getEmail());
             System.out.println("Name: "+userdb.getName());
             System.out.println("Pass: "+userdb.getPassword());
-            System.out.println("Money: "+userdb.getMoney()+"\n");
+            System.out.println("Money: "+userdb.getMoney());
+
+			Iterator it2 = userdb.getTransactionActives().iterator();
+			while (it2.hasNext()) {
+				Transaction t = (Transaction) it2.next();
+				System.out.println("\tData da transacao: " + t.getTimestamp());
+				System.out.println("\tValor da transacao: " + t.getValue());
+			}
+			System.out.println("");
         }
+		session.getTransaction().commit();
     }
     private static void Test03 () {
+        Session session = DBManager.getSession();
+        session.beginTransaction();
         User user1 = new User("mail01","name01","pass01",100);
         User user2 = new User("mail02","name02","pass02",200);
         User user3 = new User("mail03","name03","pass03",300);
@@ -189,11 +215,12 @@ public class User implements Serializable, Config {
         System.out.println("Name: "+userdb.getName());
         System.out.println("Pass: "+userdb.getPassword());
         System.out.println("Money: "+userdb.getMoney()+"\n");
+		session.getTransaction().commit();
     }
     
     public static void main (String args[]){
         //Test01();
-        //Test02();
-        Test03();
+        Test02();
+        //Test03();
     } 
 }

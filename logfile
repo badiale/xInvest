@@ -160,3 +160,9 @@ STATEMENT:  alter table Transaction drop constraint FKE30A7ABE34AA7054
 ERROR:  table "webquotes" does not exist
 STATEMENT:  drop table WebQuotes
 LOG:  unexpected EOF on client connection
+ERROR:  relation "bank" does not exist
+STATEMENT:  alter table Bank drop constraint FK1F7A5CEB2B53D
+ERROR:  table "bank" does not exist
+STATEMENT:  drop table Bank
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
