@@ -28,6 +28,11 @@ public class Bank extends User {
     
     public void setInterest(Float interest) { this.interest = interest; }
     public Float getInterest() { return this.interest; }
+	
+	public static Bank find (Integer id) {
+		Session session = DBManager.getSession();
+		return (Bank) session.load(Bank.class, id);
+	}
     
     private static void Test01 () {
         Bank bank = new Bank();

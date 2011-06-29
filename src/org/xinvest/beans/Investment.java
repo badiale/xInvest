@@ -36,6 +36,11 @@ public class Investment extends Transaction implements Serializable {
         float tick = this.value/this.amount;
         return new Float(tick);
     }
+
+	public static Investment find (Integer id) {
+		Session session = DBManager.getSession();
+		return (Investment) session.load(Investment.class, id);
+	}
     
    	//TESTERS
 		private static void test01() {
