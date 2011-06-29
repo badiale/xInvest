@@ -15,6 +15,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import java.util.*;
+import java.text.*; 
 
 // URL
 import java.io.*;
@@ -30,6 +31,7 @@ import org.xinvest.beans.*;
 
 public class Robot implements Serializable {
 
+		private String[] companies = {"YHOO","AAPL","GOOG", "MSFT"};
 
 		/**
 		* Logger
@@ -37,7 +39,7 @@ public class Robot implements Serializable {
 		static Logger log = Logger.getLogger("org.xinvest.robot.Robot");
 
     public Robot() {
-	
+			
 		}
 		
 		public String getXml() {
@@ -49,7 +51,7 @@ public class Robot implements Serializable {
 
       try {
 
-
+				//OBS AS EMPRESAS ESTAO DEFINIDAS HARCODED SE MUDAR TEM QUE MUDAR O VETOR COMPANIES
          u = new URL("http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22YHOO%22%2C%22AAPL%22%2C%22GOOG%22%2C%22MSFT%22)%0A%09%09&diagnostics=true&env=http%3A%2F%2Fdatatables.org%2Falltables.env");
          is = u.openStream();     
          dis = new DataInputStream(new BufferedInputStream(is));
@@ -68,6 +70,60 @@ public class Robot implements Serializable {
 		 		
 		 }
 		 
+		 public String getXmlHistorical(String quote) {
+			URL u;
+      InputStream is = null;
+      DataInputStream dis;
+      String s;
+      String buffer = new String();
+
+      try {
+
+
+					//OBS AS DATAS ESTAO DEFINIDAS HARCODED
+         u = new URL("http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20in%20(%22"+quote+"%22)%20and%20startDate%20%3D%20%222010-06-01%22%20and%20endDate%20%3D%20%222050-01-01%22%0A%09%09&diagnostics=true&env=http%3A%2F%2Fdatatables.org%2Falltables.env");
+         is = u.openStream();     
+         dis = new DataInputStream(new BufferedInputStream(is));
+
+         while ((s = dis.readLine()) != null) {
+            buffer += s;
+         }
+				
+				 is.close();
+					
+					return buffer;
+					
+			  } catch (Exception e) { e.printStackTrace();}
+			     
+			return buffer;
+		 		
+		 }
+		
+		 //popula os ticks das quotes escolhidas 
+		 public void doHistory() throws Exception {
+		 	 //Event Interface
+		    xmlParser2 SAXHandler = new xmlParser2();
+		    
+
+		    //XERCES SAXParser CLASS 
+		    SAXParser parser = new SAXParser();
+		    parser.setContentHandler(SAXHandler);
+		    parser.setErrorHandler(SAXHandler);
+		    
+		    Robot r = new Robot();
+		    
+		    
+		 		int i = 0;
+		 		for(i = 0; i< this.companies.length; i++) {
+		 			SAXHandler.quote = companies[i];
+		 			parser.parse(new org.xml.sax.InputSource(new java.io.StringReader(r.getXmlHistorical(companies[i]))));
+		    	log.debug(SAXHandler.count);
+		 		}
+		
+		 }
+		 
+		 
+		 
 		 //1 for insertion
 		 //0 for update
 		 public void robotize(int i) {
@@ -75,26 +131,30 @@ public class Robot implements Serializable {
                   //Event Interface
                   xmlParser SAXHandler = new xmlParser(i);
 
-                  //XERCES SAXParser CLASS
+                  //XERCES SAXParser CLASS 
                   SAXParser parser = new SAXParser();
                   parser.setContentHandler(SAXHandler);
                   parser.setErrorHandler(SAXHandler);
                   
                   Robot r = new Robot();
-                  r.getXml();
                   
                   parser.parse(new org.xml.sax.InputSource(new java.io.StringReader(r.getXml())));
                   log.debug(SAXHandler.count);
+                  
+                  
+                  if(i == 1) {
+                  	r.doHistory();
+                  }
                                               
             }
             catch (Exception ex) {
-                  System.out.println(ex);
+                  ex.printStackTrace();
             }
 		 }
 		  
 		public static void main(String args[]) {
 			Robot r =  new Robot();
-			r.robotize(0);
+			r.robotize(1);
 		}
 }
 
@@ -307,6 +367,96 @@ class xmlParser extends DefaultHandler
                 }
             }
             
+      }
+
+      public void endDocument()
+      {
+					System.out.println("Parsing Terminado");
+      }
+}
+
+
+/**
+*	Handler class for the SAX Parser
+**/
+class xmlParser2 extends DefaultHandler
+{
+      String value = "";
+      String currentElement = "";
+      public int count = 0;
+      
+      // Quote Attributes
+      public String quote;
+      Float tick;
+      Date timestamp;
+   
+
+      public void startElement(String uri, String localName,
+         String rawName, Attributes attributes)
+      {
+					this.currentElement = localName;
+					try{
+							if(this.currentElement.equals("quote")) {
+							 int length = attributes.getLength();
+
+								for (int i=0; i<length; i++) {
+								String attr = attributes.getQName(i);
+									if(attr.equals("date")) {
+										SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+										Date date = format.parse(attributes.getValue(i));
+										this.timestamp = date;
+										System.out.println();
+										System.out.println(date.toString());
+
+									}
+								}
+						
+					}
+					} catch (Exception e) {e.printStackTrace(); }
+		  }
+
+		  public void endElement(String namespaceURI, String localName,
+		          String rawName) {
+		    
+		    if(localName.equals("quote")) {
+
+		    	Session session = DBManager.getSession();
+					session.beginTransaction();
+					
+					Quote q = Quote.find(this.quote);
+					
+					Tick t = new Tick();
+							
+							t.setTick(this.tick);
+							t.setQuote(q);
+							t.setTimestamp(this.timestamp);
+							t.insert();
+							    	
+							q.getTicks().add(t);   	
+		 
+		 			session.getTransaction().commit();
+		 			
+				  this.tick = null;
+				  this.timestamp = null;
+			
+		    }     
+		    
+				count++;
+				this.currentElement = "";
+        value = "";
+		  }
+
+      public void characters(char[] ch, int start, int length)
+            throws SAXException {
+            
+            if(this.currentElement.equals("Close")) {
+                String buffer = new String(ch, start, length);
+                if(!buffer.trim().equals("")) {
+                    this.value = buffer;
+                    System.out.println("Close:"+value);
+                    this.tick = Float.parseFloat(value);
+                }
+            }        
       }
 
       public void endDocument()
