@@ -5,7 +5,7 @@ import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 // xCommerce Imports
-import org.xinvest.beans.Cliente;
+import org.xinvest.beans.*;
 import org.xinvest.db.DBManager;
 // Hibernate Imports
 import org.hibernate.Session;
@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
  * Servlet to handle loan operations.
  * @author Rodrigo Leonavas
  */
-public class ClienteServlet extends HttpServlet {
+public class LoanServlet extends HttpServlet {
     private final int USERLOAN 		= 0;
     private final int BANKLOAN	    = 1;
     private final int USERPAY       = 2; 
@@ -59,8 +59,8 @@ public class ClienteServlet extends HttpServlet {
 
 					l.setValue(Float.parseFloat(request.getParameter("value")));
 					l.setPassive(passive);
-					l.setActive(user);
-					l.setInterest(Float.parseFloat(request.getParameter("interest")))
+					l.setActive(active);
+					l.setInterest(Float.parseFloat(request.getParameter("interest")));
 
 					l.insert();
 
@@ -79,8 +79,8 @@ public class ClienteServlet extends HttpServlet {
 
 			case BANKLOAN:
 				try {
-					float interest;
-					float totalLend;
+					float interest = 0;
+					float totalLend = 0 ;
 					
 					active = (User) session.getAttribute("user");
 				
@@ -101,12 +101,12 @@ public class ClienteServlet extends HttpServlet {
 						Iterator it = b.getTransactionPassives().iterator();
 						while (it.hasNext()) {
 							Transaction t = (Transaction) it.next();
-							totalLend += t.getValue();
+							totalLend = totalLend + t.getValue();
 						}
-						session.getTransaction().commit();
+						dbSession.getTransaction().commit();
 
 						//TODO calcular o interest de forma mais coerente
-						interest = (totalLend / 100) * 0.1;
+						interest = (totalLend / 100) * (float) 0.1;
 						l.setInterest(new Float(interest));
 						l.insert();				
 
