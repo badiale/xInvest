@@ -12,7 +12,7 @@ import org.xinvest.config.Config;   // Hibernate session handler
  * @author Fábio Abrão Luca
  */
 @Entity
-public class Loan /*extends Transaction*/ implements Serializable {
+public class Loan extends Transaction implements Serializable {
     @Column(name="interest")
     private Float interest;
     

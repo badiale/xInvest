@@ -30,16 +30,16 @@ public class Investment extends Transaction implements Serializable {
     public Integer getAmount() { return this.amount; }
     
     public Float getAverageTick () {
-        float tick = this.getValue()/this.amount;
+        float tick = this.value/this.amount;
         return new Float(tick);
     }
     
-    public static Investment findByQuote (Quote quote) {
+    public static Investment find (Integer id) {
         Session session = DBManager.getSession();
-        session.beginTransaction();
-        Investment investment = (Investment) session.get("org.xinvest.beans.Investment", quote);
-        session.getTransaction().commit();
-        return user;
+
+        Investment investment = (Investment) session.get("org.xinvest.beans.Investment", id);
+        
+        return investment;
     }
     
 }
