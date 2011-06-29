@@ -67,16 +67,13 @@ public class Robot implements Serializable {
 			return buffer;
 		 		
 		 }
-		  
-		//TESTERS
-		private static void test01() {
-      
-		}
-
-		public static void main(String args[]) {
-			      try {
+		 
+		 //1 for insertion
+		 //0 for update
+		 public void robotize(int i) {
+		 		try {
                   //Event Interface
-                  xmlParser SAXHandler = new xmlParser();
+                  xmlParser SAXHandler = new xmlParser(i);
 
                   //XERCES SAXParser CLASS
                   SAXParser parser = new SAXParser();
@@ -93,7 +90,11 @@ public class Robot implements Serializable {
             catch (Exception ex) {
                   System.out.println(ex);
             }
-
+		 }
+		  
+		public static void main(String args[]) {
+			Robot r =  new Robot();
+			r.robotize(0);
 		}
 }
 
@@ -104,8 +105,12 @@ class xmlParser extends DefaultHandler
 {
       String value = "";
       String currentElement = "";
+      int mode;
       public int count = 0;
 
+			xmlParser(int i) {
+				this.mode = i;
+			}
       
       // Quote Attributes
       String name;
@@ -145,39 +150,68 @@ class xmlParser extends DefaultHandler
 		          String rawName) {
 		    
 		    if(localName.equals("quote")) {
-		    	//insere
+
 		    	Session session = DBManager.getSession();
 					session.beginTransaction();
 					
 		    	WebQuotes w = WebQuotes.find(1);
 		    	
-		    	Quote q = new Quote();
-		    	q.setWebQuotes(w);
-		    	
-		    	q.setQuote(this.quote);
-		    	q.setName(this.name);
-		    	q.setDaysHigh(this.daysHigh);
-		    	q.setDaysLow(this.daysLow);
-		    	q.setYearLow(this.yearLow);
-		    	q.setYearHigh(this.yearHigh);
-		    	q.setFiftydayMovingAverage(this.fiftydayMovingAverage);
-		    	q.setVolume(this.volume);
-		    	q.setStockExchange(this.stockExchange);
-		    	
-		    	q.insert();
-		    	
-		    	w.getQuotes().add(q);
-		    	
-		    	Tick t = new Tick();
-		    	
-		    	t.setTick(this.tick);
-		    	t.setQuote(q);
-		    	t.insert();
-		    	    	
-		    	q.getTicks().add(t);   	
-		    	
-		    	session.getTransaction().commit();
-		    	System.out.println("Quote Inserida");
+		    			    
+		    	if(mode == 1) {
+		    		//insere
+							Quote q = new Quote();
+							q.setWebQuotes(w);
+							
+							q.setQuote(this.quote);
+							q.setName(this.name);
+							q.setDaysHigh(this.daysHigh);
+							q.setDaysLow(this.daysLow);
+							q.setYearLow(this.yearLow);
+							q.setYearHigh(this.yearHigh);
+							q.setFiftydayMovingAverage(this.fiftydayMovingAverage);
+							q.setVolume(this.volume);
+							q.setStockExchange(this.stockExchange);
+							
+							q.insert();
+							
+							w.getQuotes().add(q);
+							
+							Tick t = new Tick();
+							
+							t.setTick(this.tick);
+							t.setQuote(q);
+							t.insert();
+							    	
+							q.getTicks().add(t);   	
+							
+							session.getTransaction().commit();
+							System.out.println("Quote Inserida");
+		    	} else if(mode == 0) {
+		    		//Atualiza
+		    			Quote q = Quote.find(this.quote);
+							
+							q.setName(this.name);
+							q.setDaysHigh(this.daysHigh);
+							q.setDaysLow(this.daysLow);
+							q.setYearLow(this.yearLow);
+							q.setYearHigh(this.yearHigh);
+							q.setFiftydayMovingAverage(this.fiftydayMovingAverage);
+							q.setVolume(this.volume);
+							q.setStockExchange(this.stockExchange);
+							
+							q.update();
+							
+							Tick t = new Tick();
+							
+							t.setTick(this.tick);
+							t.setQuote(q);
+							t.insert();
+							    	
+							q.getTicks().add(t);   	
+							
+							session.getTransaction().commit();
+							System.out.println("Quote Atualizada");
+		    	}
 			
 		    	this.name = null;
 				  this.quote = null;
