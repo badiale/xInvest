@@ -10,6 +10,19 @@ import java.util.*;
 import javax.servlet.http.*;
 import javax.servlet.*;
 
+/**
+ * Classe que desenha um grafico qualquer.<br>
+ * Basicamente para se fazer um grafico, soh eh necessario criar um dataset, 
+ * inserir dados nele, plotar e entao salvar isso.<br>
+ * Esse exemplo mostra como fazer um grafico em forma de uma curva, dados pontos (x, y).<br>
+ * Pra fazer algum outro grafico, eh soh ver as implementacoes disponiveis de datasets 
+ * <a href="http://www.jfree.org/jfreechart/api/javadoc/org/jfree/data/general/Dataset.html">aqui</a>.<br>
+ * <br>
+ * Isso nao vai funcionar direto. <br>
+ * Para isso funcionar, eh necessario rodar este comando:<br>
+ * <code>xhost +</code>
+ * */
+
 public class Chart extends HttpServlet {
 	public void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
 		// conjunto de dados que vamos plotar
