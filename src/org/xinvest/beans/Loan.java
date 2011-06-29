@@ -30,4 +30,9 @@ public class Loan extends Transaction implements Serializable {
     public void addInterest () {
         this.value += this.value*this.interest;
     }
+
+	public static Loan find (Integer id) {
+		Session session = DBManager.getSession();
+		return (Loan) session.load(Loan.class, id);
+	}
 }
