@@ -31,9 +31,12 @@ public class LoanServlet extends HttpServlet {
 		float interest = new Float(0.0);		
 		String html = "";
 
+		Session dbSession = DBManager.getSession();
+		dbSession.beginTransaction();	
+
 		Bank b = new Bank();
 		b = Bank.find("bank@bank.com");
-
+		dbSession.getTransaction().commit();
 		
 
 		html += "<h1>"+msg.getString("LOAN_TITLE")+"</h1><br><br>"+
@@ -53,7 +56,11 @@ public class LoanServlet extends HttpServlet {
     public void doGet (HttpServletRequest request, HttpServletResponse response)
 	    throws ServletException, IOException {
 		
-		PrintWriter out = response.getWriter();
+		Locale currentLocale = request.getLocale();
+		this.msg = ResourceBundle.getBundle("org.xinvest.bundles.message", currentLocale);
+		this.out = response.getWriter();
+
+		//PrintWriter out = response.getWriter();
 	
 		HttpSession session = request.getSession();
 
@@ -70,7 +77,7 @@ public class LoanServlet extends HttpServlet {
 		if (active == null) {
 			targetUrl = "index.jsp";
 			response.sendRedirect(targetUrl);
-			operation = -2;
+			operation = 0;
 		}
 		
 		try {
