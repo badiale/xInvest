@@ -79,12 +79,12 @@ public class User implements Serializable, Config {
      * Inserts the object of this class in the database and touches the hard
      * drive for a blank file to write the uploaded picture to.
      */
-    public void insert () { //throws IOException {
+    public void insert () throws IOException {
         Session session = DBManager.getSession();
         session.save(this);
         // Touching hard drive
-        //File file = new File(imagesFolder+"/"+this.email);
-        //file.createNewFile(); // May generate IOException
+        File file = new File(imagesFolder+"/"+this.email);
+        file.createNewFile(); // May generate IOException
     }
     
     /**

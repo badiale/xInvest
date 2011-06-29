@@ -108,7 +108,12 @@ public class Transaction implements Serializable {
 		user.setName("Teste");
 		user.setPassword("pass");
 		user.setMoney(new Float(1000));
-		user.insert();
+		try {
+			user.insert();
+		} catch (Exception e) {
+			log.error("Nao pode inserir o usuario: " + e.getMessage());
+			return;
+		}
 
 		log.info("Inserindo 10 transacoes");
 		for (int i = 0; i < 10; i++) {

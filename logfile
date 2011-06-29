@@ -204,3 +204,17 @@ LOG:  unexpected EOF on client connection
 LOG:  unexpected EOF on client connection
 LOG:  unexpected EOF on client connection
 LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+ERROR:  duplicate key value violates unique constraint "quote_pkey"
+DETAIL:  Key (quote)=(YHOO) already exists.
+STATEMENT:  insert into Quote (name, daysHigh, daysLow, yearLow, yearHigh, fiftydayMovingAverage, volume, stockExchange, quote) values ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+LOG:  unexpected EOF on client connection
+ERROR:  update or delete on table "quote" violates foreign key constraint "fke9cc0ef31ec76517" on table "investment"
+DETAIL:  Key (quote)=(PBR) is still referenced from table "investment".
+STATEMENT:  delete from quote ;
+LOG:  unexpected EOF on client connection
+ERROR:  duplicate key value violates unique constraint "user_xinvest_pkey"
+DETAIL:  Key (email)=(pira) already exists.
+STATEMENT:  insert into user_xinvest (name, password, money, email) values ($1, $2, $3, $4)
+ERROR:  syntax error at or near "pira" at character 38
+STATEMENT:  delete from user_xinvest WHERE email pira;
