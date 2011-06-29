@@ -20,13 +20,24 @@ public class User implements Serializable, Config {
     @Id
     @Column(name="email",unique=true,nullable=false)
     private String email;
+
     @Column(name="name",nullable=false)
     private String name;
+
     @Column(name="password",nullable=false)
     private String password;
+
     @Column(name="money")
     private Float money;
     
+	@OneToMany
+	@JoinColumn(name="user_active")
+	private Set<Transaction> tactives = new HashSet<Transaction>();
+	
+	@OneToMany
+	@JoinColumn(name="user_passive")
+	private Set<Transaction> tpassives = new HashSet<Transaction>();
+
     // quotes
     // selling
     // debts
@@ -55,12 +66,14 @@ public class User implements Serializable, Config {
     public String getName() { return this.name; }
     public String getPassword() { return this.password; }
     public Float getMoney() { return this.money; }
+	public Set<Transaction> getTransactionActives() { return this.tactives; }
+	public Set<Transaction> getTransactionPassives() { return this.tpassives; }
     
     /**
      * Inserts the object of this class in the database and touches the hard
      * drive for a blank file to write the uploaded picture to.
      */
-    public void insert () {
+    public void insert () { //throws IOException {
         Session session = DBManager.getSession();
         // Database transaction to save the object
         //session.beginTransaction();
@@ -77,9 +90,9 @@ public class User implements Serializable, Config {
     public void update () {
         Session session = DBManager.getSession();
         // Updates entry in the database
-        session.beginTransaction();
+        //session.beginTransaction();
         session.update(this);
-        session.getTransaction().commit();
+        //session.getTransaction().commit();
     }
     
     /**
@@ -92,9 +105,9 @@ public class User implements Serializable, Config {
         File file = new File(imagesFolder+"/"+this.email);
         file.delete();
         // Removes entry from the database
-        session.beginTransaction();
+        //session.beginTransaction();
         session.delete(this);
-        session.getTransaction().commit();
+        //session.getTransaction().commit();
     }
     
     /**
@@ -103,9 +116,9 @@ public class User implements Serializable, Config {
      */
     public static User find (String email) {
         Session session = DBManager.getSession();
-        session.beginTransaction();
+        //session.beginTransaction();
         User user = (User) session.get("org.xinvest.beans.User", email);
-        session.getTransaction().commit();
+        //session.getTransaction().commit();
         return user;
     }
     
@@ -116,10 +129,10 @@ public class User implements Serializable, Config {
         Session session = DBManager.getSession();
         // Query in Hibernate Query Language
         String hql = "from User";
-        session.beginTransaction();
+        //session.beginTransaction();
         org.hibernate.Query query = session.createQuery(hql);
         List list = query.list();
-        session.getTransaction().commit();
+        //session.getTransaction().commit();
         return list;
     }
     
