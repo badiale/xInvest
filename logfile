@@ -178,3 +178,24 @@ LOG:  unexpected EOF on client connection
 LOG:  unexpected EOF on client connection
 LOG:  unexpected EOF on client connection
 LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+ERROR:  duplicate key value violates unique constraint "user_xinvest_pkey"
+DETAIL:  Key (email)=(bank) already exists.
+STATEMENT:  insert into user_xinvest (name, password, money, email) values ($1, $2, $3, $4)
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+ERROR:  duplicate key value violates unique constraint "user_xinvest_pkey"
+DETAIL:  Key (email)=(bank2) already exists.
+STATEMENT:  insert into user_xinvest (name, password, money, email) values ($1, $2, $3, $4)
+LOG:  unexpected EOF on client connection
+ERROR:  syntax error at or near "user" at character 13
+STATEMENT:  delete from user where email like 'bank%';
+ERROR:  update or delete on table "user_xinvest" violates foreign key constraint "fk1f7a5ceb2b53d" on table "bank"
+DETAIL:  Key (email)=(bank) is still referenced from table "bank".
+STATEMENT:  delete from user_xinvest where email like 'bank%';
+ERROR:  update or delete on table "user_xinvest" violates foreign key constraint "fk1f7a5ceb2b53d" on table "bank"
+DETAIL:  Key (email)=(bank) is still referenced from table "bank".
+STATEMENT:  delete from user_xinvest where email like 'bank%';
+LOG:  unexpected EOF on client connection
