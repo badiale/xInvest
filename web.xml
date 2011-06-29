@@ -5,9 +5,18 @@
     <servlet-name>chart</servlet-name>
     <servlet-class>org.xinvest.examples.Chart</servlet-class>
   </servlet>
-
   <servlet-mapping>
     <servlet-name>chart</servlet-name>
     <url-pattern>/chart</url-pattern>
   </servlet-mapping>
+  
+	<servlet>
+        <servlet-name>userservlet</servlet-name>
+        <servlet-class>org.xinvest.servlets.UserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>userservlet</servlet-name>
+        <url-pattern>/user/userservlet</url-pattern>
+	</servlet-mapping>
+
 </web-app>
