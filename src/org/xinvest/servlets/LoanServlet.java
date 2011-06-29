@@ -58,6 +58,7 @@ public class LoanServlet extends HttpServlet {
 
 					l.setValue(Float.parseFloat(request.getParameter("value")));
 					l.setPassive(passive);
+
 					l.setActive(active);
 					l.setInterest(Float.parseFloat(request.getParameter("interest")));
 

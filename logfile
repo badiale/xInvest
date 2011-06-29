@@ -199,3 +199,8 @@ ERROR:  update or delete on table "user_xinvest" violates foreign key constraint
 DETAIL:  Key (email)=(bank) is still referenced from table "bank".
 STATEMENT:  delete from user_xinvest where email like 'bank%';
 LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
