@@ -102,11 +102,6 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
                     targetUrl = "/xInvest/user";
                 }
                 session.getTransaction().commit();
-
-                if (targetUrl != null) {
-                    response.sendRedirect(targetUrl);
-                }
-
             } catch (Exception e) {
                 targetUrl = "/xInvest/message.jsp?msg=200";
                 response.sendRedirect(targetUrl);
@@ -145,21 +140,21 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
                 if (fitem.getContentType().equals("image/jpeg") ||
                         fitem.getContentType().equals("image/png") ||
                         fitem.getContentType().equals("image/bmp")) {
+                    
                     fitem.write(picture);
+                    
+                    user.setName(name);
+                    user.setEmail(mail);
+                    user.setPassword(pass);
+
+                    session.beginTransaction();
+                    user.insert();
+                    session.getTransaction().commit();
+
+                    targetUrl = "/xInvest/message.jsp?msg=201";
                 } else {
                     targetUrl="/xInvest/message.jsp?msg=106";
-                    response.sendRedirect(targetUrl);
                 }
-
-                user.setName(name);
-                user.setEmail(mail);
-                user.setPassword(pass);
-
-                session.beginTransaction();
-                user.insert();
-                session.getTransaction().commit();
-
-                targetUrl = "/xInvest/message.jsp?msg=201";
             } catch (Exception e) {
                 targetUrl = "/xInvest/message.jsp?msg=202";
                 response.sendRedirect(targetUrl);
@@ -210,7 +205,7 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
             targetUrl = "/xCommerce/message.jsp?msg=404";
 		break;
 	}
-        response.sendRedirect(targetUrl);
+    if (targetUrl != null) response.sendRedirect(targetUrl);
 }
 
 public void doPost (HttpServletRequest request, HttpServletResponse response)
