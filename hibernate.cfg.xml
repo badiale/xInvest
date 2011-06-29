@@ -34,6 +34,7 @@
 		<!-- Mapeamento: colocar o nome da classe que vai ser mapeada -->
 		<mapping class="org.xinvest.beans.Quote"/>
 		<mapping class="org.xinvest.beans.Tick"/>
+		<mapping class="org.xinvest.beans.WebQuotes"/>
 		<mapping class="org.xinvest.beans.User"/>
 		<mapping class="org.xinvest.beans.Bank"/>
 		<mapping class="org.xinvest.beans.Transaction"/>

@@ -28,6 +28,10 @@ public class Quote implements Serializable {
 		@OneToMany
 	    @JoinColumn(name="tick_fk")
 		private Set<Tick> ticks = new HashSet<Tick>();
+		
+		@ManyToOne
+    	@JoinColumn(name="quotes_fk", insertable=false, updatable=false)
+    private WebQuotes webQuotes = null;
 
 		
 		/**
@@ -52,6 +56,9 @@ public class Quote implements Serializable {
 
     public Set getTicks() { return this.ticks; }
     public void setTicks(Set ticks) { this.ticks = ticks; }
+    
+    public WebQuotes getWebQuotes() { return this.webQuotes; }
+    public void setWebQuotes(WebQuotes webQuotes) { this.webQuotes = webQuotes; }
     
 
 		//SQLERS
@@ -86,12 +93,17 @@ public class Quote implements Serializable {
 		private static void test01() {
 			Session session = DBManager.getSession();
 			session.beginTransaction();
+				WebQuotes w = WebQuotes.find(new Integer(1));
 			
+				
 				Quote q = new Quote();
 				q.setQuote("PBR");
+				q.setWebQuotes(w);
 				q.setName("Petrobras");
 			
 				q.insert();
+				
+				w.getQuotes().add(q);
 			
 			session.getTransaction().commit();
 			log.info("Quote Inserida");
@@ -142,7 +154,7 @@ public class Quote implements Serializable {
 		}
 
 		public static void main (String args[]) {
-			//test01();
+			test01();
 			//test02();
 			//test03();
 			//test04();
