@@ -81,7 +81,7 @@ public class Robot implements Serializable {
 
 
 					//OBS AS DATAS ESTAO DEFINIDAS HARCODED
-         u = new URL("http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20in%20(%22"+quote+"%22)%20and%20startDate%20%3D%20%222011-01-01%22%20and%20endDate%20%3D%20%222050-01-01%22%0A%09%09&diagnostics=true&env=http%3A%2F%2Fdatatables.org%2Falltables.env");
+         u = new URL("http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20in%20(%22"+quote+"%22)%20and%20startDate%20%3D%20%222010-06-01%22%20and%20endDate%20%3D%20%222050-01-01%22%0A%09%09&diagnostics=true&env=http%3A%2F%2Fdatatables.org%2Falltables.env");
          is = u.openStream();     
          dis = new DataInputStream(new BufferedInputStream(is));
 
@@ -154,7 +154,7 @@ public class Robot implements Serializable {
 		  
 		public static void main(String args[]) {
 			Robot r =  new Robot();
-			r.robotize(0);
+			r.robotize(1);
 		}
 }
 
