@@ -34,11 +34,11 @@ public class Transaction implements Serializable {
 	
 	// TODO voltar esses JoinColumn quando fizer o OneToMany no usuario
 	@ManyToOne
-	//@JoinColumn(name = "user_active", insertable=false, updatable=false)
+	@JoinColumn(name = "user_active", insertable=false, updatable=false)
 	private User active = null;
 	
 	@ManyToOne
-	//@JoinColumn(name = "user_passive", insertable=false, updatable=false)
+	@JoinColumn(name = "user_passive", insertable=false, updatable=false)
 	private User passive = null;
 
 	/**
