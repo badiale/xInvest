@@ -24,6 +24,20 @@ public class Quote implements Serializable {
 		private String quote;
 		@Column
 		private String name;
+ 		@Column
+		private Float daysHigh;
+		@Column
+		private Float daysLow;
+		@Column
+ 		private Float yearLow;
+ 		@Column
+ 		private Float yearHigh;
+ 		@Column
+  	private Float fiftydayMovingAverage;
+  	@Column
+  	private Integer volume;
+  	@Column
+  	private String stockExchange;
 		
 		@OneToMany
 	    @JoinColumn(name="tick_fk")
@@ -66,6 +80,30 @@ public class Quote implements Serializable {
     
     public WebQuotes getWebQuotes() { return this.webQuotes; }
     public void setWebQuotes(WebQuotes webQuotes) { this.webQuotes = webQuotes; }
+
+    public Float getDaysHigh() { return this.daysHigh; }
+    public void setDaysHigh(Float daysHigh) { this.daysHigh = daysHigh; }  
+    
+		public Float getDaysLow() { return this.daysLow; }
+    public void setDaysLow(Float daysLow) { this.daysLow = daysLow; }
+    
+    public Float getYearHigh() { return this.yearHigh; }
+    public void setYearHigh(Float yearHigh) { this.yearHigh = yearHigh; }
+    
+    public Float getYearLow() { return this.yearLow; }
+    public void setYearLow(Float yearLow) { this.yearLow = yearLow; }
+    
+    public Float getFiftydayMovingAverage() { return this.fiftydayMovingAverage; }
+    public void setFiftydayMovingAverage(Float fiftydayMovingAverage) { this.fiftydayMovingAverage = fiftydayMovingAverage; }
+    
+    public Integer getVolume() { return this.volume; }
+    public void setVolume(Integer volume) { this.volume = volume; }
+    
+    public String getStockExchange() { return this.stockExchange; }
+    public void setStockExchange(String stockExchange) { this.stockExchange = stockExchange; }  
+    
+    
+    
     
 
 		//SQLERS
