@@ -24,22 +24,22 @@ public class Transaction implements Serializable {
 	@Column
 	@SequenceGenerator(name = "seq_trans", sequenceName = "seq_trans")
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_trans")
-	private Integer id;
+	protected Integer id;
 
 	@Column
-	private Date timestamp;
+	protected Date timestamp;
 	
 	@Column
-	private Float value;;
+	protected Float value;;
 	
 	// TODO voltar esses JoinColumn quando fizer o OneToMany no usuario
 	@ManyToOne
 	@JoinColumn(name = "user_active", insertable=false, updatable=false)
-	private User active = null;
+	protected User active = null;
 	
 	@ManyToOne
 	@JoinColumn(name = "user_passive", insertable=false, updatable=false)
-	private User passive = null;
+	protected User passive = null;
 
 	/**
 	* Logger
