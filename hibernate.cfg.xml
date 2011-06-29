@@ -29,7 +29,7 @@
         <property name="show_sql">false</property>
 
         <!-- Drop and re-create the database schema on startup -->
-        <property name="hbm2ddl.auto">update</property>
+        <property name="hbm2ddl.auto">create</property>
 	
 		<!-- Mapeamento: colocar o nome da classe que vai ser mapeada -->
 		<mapping class="org.xinvest.beans.Quote"/>
@@ -37,6 +37,7 @@
 		<mapping class="org.xinvest.beans.WebQuotes"/>
 		<mapping class="org.xinvest.beans.User"/>
 		<mapping class="org.xinvest.beans.Bank"/>
+		<mapping class="org.xinvest.beans.Transaction"/>
 
 		<!-- Classes de exemplo -->
 		<mapping class="org.xinvest.examples.A" />

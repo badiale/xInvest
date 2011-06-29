@@ -126,3 +126,28 @@ LOG:  unexpected EOF on client connection
 LOG:  unexpected EOF on client connection
 ERROR:  syntax error at or near "/" at character 21
 STATEMENT:  select * from quote /;
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+ERROR:  relation "transaction" does not exist
+STATEMENT:  alter table Transaction drop constraint FKE30A7ABEE0592F9B
+ERROR:  relation "transaction" does not exist
+STATEMENT:  alter table Transaction drop constraint FKE30A7ABE34AA7054
+ERROR:  table "transaction" does not exist
+STATEMENT:  drop table Transaction
+ERROR:  sequence "seq_trans" does not exist
+STATEMENT:  drop sequence seq_trans
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+ERROR:  constraint "fke30a7abe7188bac4" of relation "transaction" does not exist
+STATEMENT:  alter table Transaction drop constraint FKE30A7ABE7188BAC4
+LOG:  unexpected EOF on client connection
+ERROR:  constraint "fke30a7abee0592f9b" of relation "transaction" does not exist
+STATEMENT:  alter table Transaction drop constraint FKE30A7ABEE0592F9B
+ERROR:  constraint "fke30a7abe24dd4e25" of relation "transaction" does not exist
+STATEMENT:  alter table Transaction drop constraint FKE30A7ABE24DD4E25
+LOG:  unexpected EOF on client connection
+ERROR:  constraint "fke30a7abe7188bac4" of relation "transaction" does not exist
+STATEMENT:  alter table Transaction drop constraint FKE30A7ABE7188BAC4
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection

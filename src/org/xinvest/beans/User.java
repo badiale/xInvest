@@ -14,6 +14,7 @@ import org.xinvest.config.Config;   // Hibernate session handler
  */
 @Entity
 @Table(name="user_xinvest")
+@Inheritance(strategy=InheritanceType.JOINED)
 public class User implements Serializable, Config {
     public static final String imagesFolder = appFolder+"/xInvest/user_pictures";
     
@@ -60,12 +61,12 @@ public class User implements Serializable, Config {
      * Inserts the object of this class in the database and touches the hard
      * drive for a blank file to write the uploaded picture to.
      */
-    public void insert () throws IOException {
+    public void insert () {
         Session session = DBManager.getSession();
         // Database transaction to save the object
-        session.beginTransaction();
+        //session.beginTransaction();
         session.save(this);
-        session.getTransaction().commit();
+        //session.getTransaction().commit();
         // Touching hard drive
         //File file = new File(imagesFolder+"/"+this.email);
         //file.createNewFile(); // May generate IOException
