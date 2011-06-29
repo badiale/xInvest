@@ -11,7 +11,6 @@ import org.xinvest.db.DBManager;
 import org.hibernate.Session;
 // Other Imports
 import java.util.*;
-import java.text.SimpleDateFormat;
 
 /**
  * Servlet to handle loan operations.
