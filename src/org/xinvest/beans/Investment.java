@@ -69,7 +69,6 @@ public class Investment extends Transaction implements Serializable {
 	
 			
 			session.getTransaction().commit();
-			log.info("Investment Encontrado");
 		}
 
 		public static void main (String args[]) {
