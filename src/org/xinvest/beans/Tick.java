@@ -32,7 +32,7 @@ public class Tick implements Serializable {
 		@Column
 		private Float tick;	
 		@Column
-		private String timestamp;
+		private Date timestamp;
 		
 		/**
 		* Logger
@@ -46,7 +46,7 @@ public class Tick implements Serializable {
     	this.id = new Integer(-1);
 			this.quote = new Quote();
 			this.tick = new Float(0);
-			this.timestamp = new String();
+			this.timestamp = new Date();
 		}
 
 		//SETTERS E GETTERS
@@ -59,8 +59,8 @@ public class Tick implements Serializable {
     public Float getTick() { return this.tick; }
     public void setTick(Float tick) { this.tick = tick; }
     
-    public String getTimestamp() { return this.timestamp; }
-    public void setTimestamp(String timestamp) { this.timestamp = timestamp; }  
+    public Date getTimestamp() { return this.timestamp; }
+    public void setTimestamp(Date timestamp) { this.timestamp = timestamp; }  
 
 		//SQLERS
 		public void insert() {
@@ -103,7 +103,6 @@ public class Tick implements Serializable {
 				Tick t = new Tick();
 				t.setQuote(q);			
 				t.setTick(new Float(31.23));
-				t.setTimestamp("28/06/2011");
 				t.insert();
 
 				q.getTicks().add(t);
