@@ -12,7 +12,7 @@ import org.xinvest.config.Config;   // Hibernate session handler
  * @author Fábio Abrão Luca
  */
 @Entity
-public class Investment /*extends Transaction*/ implements Serializable {
+public class Investment extends Transaction implements Serializable {
     
     @ManyToOne
     @JoinColumn(name="investment_fk", insertable=false, updatable=false)
@@ -30,7 +30,7 @@ public class Investment /*extends Transaction*/ implements Serializable {
     public Integer getAmount() { return this.amount; }
     
     public Float getAverageTick () {
-        float tick = this.value/this.amount;
+        float tick = this.getValue()/this.amount;
         return new Float(tick);
     }
     
