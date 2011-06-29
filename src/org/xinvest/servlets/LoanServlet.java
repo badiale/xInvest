@@ -36,7 +36,7 @@ public class LoanServlet extends HttpServlet {
 
 		Bank b = new Bank();
 		b = Bank.find("bank@bank.com");
-		dbSession.getTransaction().commit();
+		
 		
 
 		html += "<h1>"+msg.getString("LOAN_TITLE")+"</h1><br><br>"+
@@ -49,7 +49,7 @@ public class LoanServlet extends HttpServlet {
     			"<input type=\"submit\" value=\"Submit\">"+
 			"</form><br/>";
 
-
+		dbSession.getTransaction().commit();
 		out.println(html);
 	}
 
