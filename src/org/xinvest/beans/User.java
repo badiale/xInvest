@@ -76,10 +76,7 @@ public class User implements Serializable, Config {
      */
     public void insert () { //throws IOException {
         Session session = DBManager.getSession();
-        // Database transaction to save the object
-        //session.beginTransaction();
         session.save(this);
-        //session.getTransaction().commit();
         // Touching hard drive
         //File file = new File(imagesFolder+"/"+this.email);
         //file.createNewFile(); // May generate IOException
@@ -90,10 +87,7 @@ public class User implements Serializable, Config {
      */
     public void update () {
         Session session = DBManager.getSession();
-        // Updates entry in the database
-        //session.beginTransaction();
         session.update(this);
-        //session.getTransaction().commit();
     }
     
     /**
@@ -106,35 +100,47 @@ public class User implements Serializable, Config {
         File file = new File(imagesFolder+"/"+this.email);
         file.delete();
         // Removes entry from the database
-        //session.beginTransaction();
         session.delete(this);
-        //session.getTransaction().commit();
     }
     
     /**
-     * @param email E-mail of the user.
+     * @param email String E-mail of the user.
      * @return User object with all data of the user with given e-mail.
      */
     public static User find (String email) {
         Session session = DBManager.getSession();
-        //session.beginTransaction();
         User user = (User) session.get("org.xinvest.beans.User", email);
-        //session.getTransaction().commit();
         return user;
     }
     
     /**
-     * @return All users from the database.
+     * @return List All users from the database.
      */
     public static List findAll () {
         Session session = DBManager.getSession();
         // Query in Hibernate Query Language
         String hql = "from User";
-        //session.beginTransaction();
         org.hibernate.Query query = session.createQuery(hql);
         List list = query.list();
-        //session.getTransaction().commit();
         return list;
+    }
+    
+    /**
+     * Function to authenticate a user in the system. It's done by verifying if
+     * the given e-mail and password are a match and exists in the database.
+     * @param email String User's e-mail
+     * @param password String User's password
+     * @return User The authenticated user or null if user not found
+     */
+    public static User authenticate(String email, String password) {
+        User u = new User();
+
+        Session session = DBManager.getSession();
+        session.load(u, email);
+        if (u != null && u.getPassword().equals(password)) {
+            return u;
+        }
+        return null;
     }
     
     private static void Test01 () {
