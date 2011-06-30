@@ -19,7 +19,7 @@
                 out.println("<div id=\"menu-user\"><table><tr>");
                 out.println("<td><a href=\"/xInvest/user\">"+msg.getString("HOME")+"</a></td>");
                 out.println("<td><a href=\"/xInvest/user/profile.jsp\">"+msg.getString("PROFILE")+"</a></td>");
-                out.println("<td><a href=\"/xInvest/user\">"+msg.getString("HISTORY")+"</a></td>");
+                out.println("<td><a href=\"/xInvest/history\">"+msg.getString("HISTORY")+"</a></td>");
                 out.println("<td><a href=\"/xInvest/webquotes\">"+msg.getString("Cotacoes")+"</a></td>");
                 out.println("<td><a href=\"/xInvest/user\">"+msg.getString("MARKET")+"</a></td>");
                 out.println("<td><a href=\"/xInvest/user\">"+msg.getString("LOANS")+"</a></td>");
