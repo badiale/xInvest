@@ -77,9 +77,9 @@ public class TickJurosServlet extends HttpServlet {
 
 					// retorna uma abstracao do grafo
 					JFreeChart chart = ChartFactory.createXYLineChart( 
-							msg.getString("NOME_GRAFICO"),      // titulo do grafico
-							msg.getString("X_GRAFICO"),                        // descricao do eixo X
-							msg.getString("Y_GRAFICO"),                        // descricao do eixo Y
+							msg.getString("NOME_GRAFICO_TICKJUROS"),      // titulo do grafico
+							msg.getString("X_GRAFICO_TICKJUROS"),                        // descricao do eixo X
+							msg.getString("Y_GRAFICO_TICKJUROS"),                        // descricao do eixo Y
 							dataset,                    // dados
 							PlotOrientation.VERTICAL,   // orientacao do grafico
 							false,                       // mostrar legendas
