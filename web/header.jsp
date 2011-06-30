@@ -1,6 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.*" %>
-<%@page import="org.xinvest.beans.User" %>
 <%
 	Locale currentLocale = request.getLocale();
 	ResourceBundle msg = ResourceBundle.getBundle("org.xinvest.bundles.message", currentLocale);
@@ -21,6 +20,7 @@
                 out.println("<td><a href=\"/xInvest/user\">Home</a></td>");
                 out.println("<td><a href=\"/xInvest/user/profile.jsp\">Profile</a></td>");
                 out.println("<td><a href=\"/xInvest/user\">Histórico</a></td>");
+                out.println("<td><a href=\"/xInvest/user\">Cotacões</a></td>");
                 out.println("<td><a href=\"/xInvest/user\">Mercado</a></td>");
                 out.println("<td><a href=\"/xInvest/user\">Empréstimo</a></td>");
                 out.println("<td><a href=\"/xInvest/user/userservlet?op=2\">Logout</a></td>");

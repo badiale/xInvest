@@ -4,12 +4,12 @@
     <form action="user/userservlet">
         <input type="hidden" name="op" value="1"/>
         <table>
-            <tr><td>E-mail:</td><td><input type="text" name="email" style="width: 100%"></td></tr>
-            <tr><td>Password:</td><td><input type="password" name="pass" style="width: 100%"></td></tr>
+            <tr><td><%=msg.getString("EMAIL")%>:</td><td><input type="text" name="email" style="width: 100%"></td></tr>
+            <tr><td><%=msg.getString("PASSWORD")%>:</td><td><input type="password" name="pass" style="width: 100%"></td></tr>
         </table>
         <div id="submitLogin">
-            <a href="user/register.jsp">Register</a>
-            <input type="submit" value="Login"/></td>
+            <a href="user/register.jsp"><%=msg.getString("REGISTER")%></a>
+            <input type="submit" value="<%=msg.getString("LOGIN")%>"/></td>
         </div>
     </form>
 </div>

@@ -53,7 +53,7 @@ public class WebQuotesServlet extends HttpServlet {
 										Quote q = (Quote) it.next();
 										out.println("<tr><td>"+q.getQuote()+"</td>");
 										out.println("<td>"+q.getName()+"</td>");
-										out.println("<td>"+ ( (Tick) q.getTicks().iterator().next() ).getTick()+"</td>");
+										out.println("<td>"+q.getLastestTick()+"</td>");
 										out.println("<td>"+q.getFiftydayMovingAverage()+"</td>");
 										out.println("<td><a href=\"/xInvest/quote/index.jsp?quote="+q.getQuote()+"\">Ver</a></td></tr>");
 										

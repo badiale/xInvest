@@ -72,13 +72,13 @@ public class QuoteServlet extends HttpServlet {
 
 					// retorna uma abstracao do grafo
 					JFreeChart chart = ChartFactory.createXYLineChart( 
-							"Grafico muito loko!",      // titulo do grafico
-							"X",                        // descricao do eixo X
-							"Y",                        // descricao do eixo Y
+							"Historical Values",      // titulo do grafico
+							"Último Ano",                        // descricao do eixo X
+							"Tick",                        // descricao do eixo Y
 							dataset,                    // dados
 							PlotOrientation.VERTICAL,   // orientacao do grafico
-							true,                       // mostrar legendas
-							true,                       // mostrar tooltips
+							false,                       // mostrar legendas
+							false,                       // mostrar tooltips
 							false);                     // mostrar urls (nao sei o q eh isso)
 
 					OutputStream outS = response.getOutputStream();
@@ -110,12 +110,23 @@ public class QuoteServlet extends HttpServlet {
 						
 					out.println("<h1>"+q.getQuote()+" - "+q.getName()+"</h1>");
 					
+					out.println("<br/>");
+					out.println("<br/>");
+					out.println("<br/>");
 					out.println("<table>");
-					out.println("<tr class=\"labelRow\"><th>Tick</th><th>50day Avg</th></tr>");
-					out.println("<tr><td>"+ ( (Tick) q.getTicks().iterator().next() ).getTick()+"</td>");
+					out.println("<tr class=\"labelRow\"><th>Tick</th><th>50day Avg</th><th>DaysLow</th><th>DaysHigh</th><th>YearLow</th><th>YearHigh</th><th>Volume</th><th>StockExchange</th></tr>");
+					out.println("<tr><td>"+q.getLastestTick()+"</td>");
 					out.println("<td>"+q.getFiftydayMovingAverage()+"</td>");
-										
+					out.println("<td>"+q.getDaysLow()+"</td>");					
+					out.println("<td>"+q.getDaysHigh()+"</td>");		
+					out.println("<td>"+q.getYearLow()+"</td>");		
+					out.println("<td>"+q.getYearHigh()+"</td>");		
+					out.println("<td>"+q.getVolume()+"</td>");		
+					out.println("<td>"+q.getStockExchange()+"</td></tr>");		
 					out.println("</table>");
+					out.println("<br/>");
+					out.println("<br/>");
+					out.println("<br/>");
 					
 						
 					session.getTransaction().commit();
