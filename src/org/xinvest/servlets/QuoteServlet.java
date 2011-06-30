@@ -37,14 +37,19 @@ public class QuoteServlet extends HttpServlet {
 
 		String targetUrl = null;
 		String html = null;
+	  Locale currentLocale = request.getLocale();
+	  ResourceBundle msg = ResourceBundle.getBundle("org.xinvest.bundles.message", currentLocale);
 
 		int operation = -1;
 		try {
+	
 			 operation = Integer.parseInt(request.getParameter("op"));
 		} catch (Exception e) {
 			targetUrl = "/xInvest/message.jsp?msg=100";
 			response.sendRedirect(targetUrl);
 		}
+		
+		
 
 		switch (operation) {
 			case GRAPH:
@@ -72,9 +77,9 @@ public class QuoteServlet extends HttpServlet {
 
 					// retorna uma abstracao do grafo
 					JFreeChart chart = ChartFactory.createXYLineChart( 
-							"Historical Values",      // titulo do grafico
-							"Último Ano",                        // descricao do eixo X
-							"Tick",                        // descricao do eixo Y
+							msg.getString("NOME_GRAFICO"),      // titulo do grafico
+							msg.getString("X_GRAFICO"),                        // descricao do eixo X
+							msg.getString("Y_GRAFICO"),                        // descricao do eixo Y
 							dataset,                    // dados
 							PlotOrientation.VERTICAL,   // orientacao do grafico
 							false,                       // mostrar legendas
@@ -114,7 +119,7 @@ public class QuoteServlet extends HttpServlet {
 					out.println("<br/>");
 					out.println("<br/>");
 					out.println("<table>");
-					out.println("<tr class=\"labelRow\"><th>Tick</th><th>50day Avg</th><th>DaysLow</th><th>DaysHigh</th><th>YearLow</th><th>YearHigh</th><th>Volume</th><th>StockExchange</th></tr>");
+					out.println("<tr class=\"labelRow\"><th>TICK</th><th>"+msg.getString("50_AVG")+"</th><th>"+msg.getString("DAYS_LOW")+"</th><th>"+msg.getString("DAYS_HIGH")+"</th><th>"+msg.getString("YEAR_LOW")+"</th><th>"+msg.getString("YEAR_HIGH")+"</th><th>Volume</th><th>"+msg.getString("STOCK_EXCHANGE")+"</th></tr>");
 					out.println("<tr><td>"+q.getLastestTick()+"</td>");
 					out.println("<td>"+q.getFiftydayMovingAverage()+"</td>");
 					out.println("<td>"+q.getDaysLow()+"</td>");					
