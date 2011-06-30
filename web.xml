@@ -54,5 +54,14 @@
         <servlet-name>QuoteServlet</servlet-name>
         <url-pattern>/quote/QuoteServlet</url-pattern>
 	</servlet-mapping>
+	
+		<servlet>
+        <servlet-name>TickJurosServlet</servlet-name>
+        <servlet-class>org.xinvest.servlets.TickJurosServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TickJurosServlet</servlet-name>
+        <url-pattern>/history/TickJurosServlet</url-pattern>
+	</servlet-mapping>
 
 </web-app>

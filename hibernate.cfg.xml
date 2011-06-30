@@ -40,6 +40,8 @@
 		<mapping class="org.xinvest.beans.Transaction"/>
 		<mapping class="org.xinvest.beans.Investment"/>
 		<mapping class="org.xinvest.beans.Loan"/>
+		<mapping class="org.xinvest.beans.TickJuros"/>
+
 
 		<!-- Classes de exemplo -->
 		<mapping class="org.xinvest.examples.A" />
