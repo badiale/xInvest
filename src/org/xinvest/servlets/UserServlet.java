@@ -3,6 +3,7 @@ package org.xinvest.servlets;
 // Servlet Imports
 import java.io.*;
 import javax.servlet.*;
+import javax.servlet.jsp.*;
 import javax.servlet.http.*;
 // xInvest Imports
 import org.xinvest.beans.User;
@@ -38,12 +39,7 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
 
 	String targetUrl = null;
 	int operation = -1;
-	try {
-	     operation = Integer.parseInt(request.getParameter("op"));
-	} catch (Exception e) {
-	    targetUrl = "/xInvest/message.jsp?msg=404";
-	}
-    
+
     String name = null;
     String mail = null;
     String pass = null;
@@ -93,13 +89,18 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
 	    case CONFIRMLOGIN:
             try {
                 user = (User) httpSession.getAttribute("user");
-
-                session.beginTransaction();
-                if (user == null || ((user != null) &&
-                        (User.authenticate(user.getEmail(),user.getPassword())==null))) {
-                    targetUrl = "/xInvest";
+                if (user != null) {
+                    session.beginTransaction();
+                    user = User.authenticate(user.getEmail(),user.getPassword());
+                    session.getTransaction().commit();
                 }
-                session.getTransaction().commit();
+                if (user == null) {
+                    // redirecionar de forma forcada
+                    PageContext pageContext = JspFactory.getDefaultFactory().
+                            getPageContext(this,request,response,null,true,8192,true);
+                    pageContext.forward("/xInvest/index.jsp");
+                    return;
+                }
             } catch (Exception e) {
                 targetUrl = "/xInvest/message.jsp?msg=201";
             }
@@ -204,6 +205,7 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
 		break;
 	}
 	if (targetUrl != null) response.sendRedirect(targetUrl);
+    return;
 }
 
 public void doPost (HttpServletRequest request, HttpServletResponse response)
