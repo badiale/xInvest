@@ -15,7 +15,10 @@ public class Bank extends User {
     @Column(name="interest")
     private Float interest; // taxa de juros atual
     
-    public Bank() {}
+    public Bank() {
+        super();
+        this.interest = new Float(0.0);
+    }
     
     public Bank(String email, String name, String pass,
             float money,float interest) {
