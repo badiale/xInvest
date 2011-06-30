@@ -298,3 +298,20 @@ LOG:  unexpected EOF on client connection
 LOG:  unexpected EOF on client connection
 LOG:  unexpected EOF on client connection
 LOG:  unexpected EOF on client connection
+ERROR:  syntax error at or near "=" at character 18
+STATEMENT:  update set email = 'bank@bank.com' where email = 'bank2';
+ERROR:  update or delete on table "user_xinvest" violates foreign key constraint "fk1f7a5ceb2b53d" on table "bank"
+DETAIL:  Key (email)=(bank2) is still referenced from table "bank".
+STATEMENT:  update user_xinvest set email = 'bank@bank.com' where email = 'bank2';
+ERROR:  syntax error at or near "cascade" at character 71
+STATEMENT:  update user_xinvest set email = 'bank@bank.com' where email = 'bank2' cascade;
+ERROR:  update or delete on table "user_xinvest" violates foreign key constraint "fke30a7abee0592f9b" on table "transaction"
+DETAIL:  Key (email)=(bank2) is still referenced from table "transaction".
+STATEMENT:  update user_xinvest set email = 'bank@bank.com' where email = 'bank2';
+ERROR:  column "email" does not exist at character 31
+STATEMENT:  delete from transaction where email = 'bank2';
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
