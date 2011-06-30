@@ -51,22 +51,22 @@ public class QuoteServlet extends HttpServlet {
 				try {
 					Session session = DBManager.getSession();
 					session.beginTransaction();
-					//Quote q = Quote.find(request.getParameter("quote"));
+					Quote q = Quote.find(request.getParameter("quote"));
 					
 					// conjunto de dados que vamos plotar
 					XYSeriesCollection dataset = new XYSeriesCollection();
 
 					// dados de uma "curva"
 					XYSeries curva1 = new XYSeries("Ticks");
-					curva1.add(1.0, 1.0); // (x, y)
-					curva1.add(2.0, 4.0);
-					curva1.add(3.0, 3.0);
-					curva1.add(4.0, 5.0);
-					curva1.add(5.0, 5.0);
-					curva1.add(6.0, 7.0);
-					curva1.add(7.0, 7.0);
-					curva1.add(8.0, 8.0);
-	
+					
+			
+					
+					Iterator it = q.getTicks().iterator();
+					while (it.hasNext()) {
+						Tick t = (Tick) it.next();
+						curva1.add(t.getTimestamp().getTime(),t.getTick()); // (x, y)
+					}
+				
 					// coloca a curva no conjunto de dados
 					dataset.addSeries(curva1);
 
@@ -109,6 +109,14 @@ public class QuoteServlet extends HttpServlet {
 					Quote q = Quote.find(request.getParameter("quote"));
 						
 					out.println("<h1>"+q.getQuote()+" - "+q.getName()+"</h1>");
+					
+					out.println("<table>");
+					out.println("<tr class=\"labelRow\"><th>Tick</th><th>50day Avg</th></tr>");
+					out.println("<tr><td>"+ ( (Tick) q.getTicks().iterator().next() ).getTick()+"</td>");
+					out.println("<td>"+q.getFiftydayMovingAverage()+"</td>");
+										
+					out.println("</table>");
+					
 						
 					session.getTransaction().commit();
 				} catch (Exception e) {e.printStackTrace(); 
