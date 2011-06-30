@@ -10,6 +10,15 @@
     <url-pattern>/chart</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>path</servlet-name>
+    <servlet-class>org.xinvest.examples.Path</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>path</servlet-name>
+    <url-pattern>/path</url-pattern>
+  </servlet-mapping>
+  
 	<servlet>
         <servlet-name>loanservlet</servlet-name>
         <servlet-class>org.xinvest.servlets.LoanServlet</servlet-class>
