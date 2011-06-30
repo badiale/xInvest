@@ -13,10 +13,12 @@
     </head>
     <body>
         <div id="wrapper">
-            <div id="header"></div>
+			<div id="header"></div>
 <%
-            if (request.getSession().getAttribute("user")!=null) {
+			User USER = request.getSession().getAttribute("user")
+            if (USER!=null) {
                 out.println("<div id=\"menu-user\"><table><tr>");
+                out.println("<td>"+msg.getString("HELLO")+ USER.getName() + "</a></td>");
                 out.println("<td><a href=\"/xInvest/user\">"+msg.getString("HOME")+"</a></td>");
                 out.println("<td><a href=\"/xInvest/user/profile.jsp\">"+msg.getString("PROFILE")+"</a></td>");
                 out.println("<td><a href=\"/xInvest/history\">"+msg.getString("HISTORY")+"</a></td>");
