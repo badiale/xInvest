@@ -1,4 +1,7 @@
 <%@ include file="/header.jsp"%>
+<jsp:include page="/user/userservlet">
+    <jsp:param name="op" value="0"/>
+</jsp:include>
 <% String quote = request.getParameter("quote"); %>
 
 <br/>
