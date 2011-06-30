@@ -1,5 +1,5 @@
 <%@include file="/header.jsp"%>
-<h1><%=msg.getString("REDISTER")%></h1>
+<h1><%=msg.getString("REGISTER")%></h1>
 <form action="userservlet" method="post" enctype="multipart/form-data">
     <input type="hidden" name="op" value="3">
     <table>
