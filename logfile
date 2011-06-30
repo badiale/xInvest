@@ -228,3 +228,9 @@ LOG:  unexpected EOF on client connection
 LOG:  unexpected EOF on client connection
 LOG:  unexpected EOF on client connection
 LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+ERROR:  update or delete on table "quote" violates foreign key constraint "fk27c5bdc60a5a0d" on table "tick"
+DETAIL:  Key (quote)=(YHOO) is still referenced from table "tick".
+STATEMENT:  delete from quote ;
