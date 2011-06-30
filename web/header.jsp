@@ -1,5 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="java.util.*" %>
+<%@page import="java.util.*,org.xinvest.beans.User" %>
 <%
 	Locale currentLocale = request.getLocale();
 	ResourceBundle msg = ResourceBundle.getBundle("org.xinvest.bundles.message", currentLocale);
@@ -13,13 +13,15 @@
     </head>
     <body>
         <div id="wrapper">
-            <div id="header"></div>
+			<div id="header"></div>
 <%
-            if (request.getSession().getAttribute("user")!=null) {
+			User USER = (User) request.getSession().getAttribute("user");
+            if (USER!=null) {
                 out.println("<div id=\"menu-user\"><table><tr>");
+                out.println("<td>"+msg.getString("HELLO")+ " " +USER.getName() + "</a></td>");
                 out.println("<td><a href=\"/xInvest/user\">"+msg.getString("HOME")+"</a></td>");
                 out.println("<td><a href=\"/xInvest/user/profile.jsp\">"+msg.getString("PROFILE")+"</a></td>");
-                out.println("<td><a href=\"/xInvest/user\">"+msg.getString("HISTORY")+"</a></td>");
+                out.println("<td><a href=\"/xInvest/history\">"+msg.getString("HISTORY")+"</a></td>");
                 out.println("<td><a href=\"/xInvest/webquotes\">"+msg.getString("Cotacoes")+"</a></td>");
                 out.println("<td><a href=\"/xInvest/user\">"+msg.getString("MARKET")+"</a></td>");
                 out.println("<td><a href=\"/xInvest/user/loan\">"+msg.getString("LOANS")+"</a></td>");
