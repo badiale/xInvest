@@ -11,6 +11,15 @@
   </servlet-mapping>
   
 	<servlet>
+        <servlet-name>loanservlet</servlet-name>
+        <servlet-class>org.xinvest.servlets.LoanServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>loanservlet</servlet-name>
+        <url-pattern>/loan/loanservlet</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
         <servlet-name>userservlet</servlet-name>
         <servlet-class>org.xinvest.servlets.UserServlet</servlet-class>
     </servlet>
