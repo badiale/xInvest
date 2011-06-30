@@ -36,18 +36,28 @@ public class LoanServlet extends HttpServlet {
 
 		Bank b = new Bank();
 		b = Bank.find("bank@bank.com");
-		
-		
+
 
 		html += "<h1>"+msg.getString("LOAN_TITLE")+"</h1><br><br>"+
-			"<form action=\"loanservlet\" method=\"post\" enctype=\"multipart/form-data\">"+
-			"<p>"+msg.getString("LOAN_TITLE")+"</p><br><br>"+
-    			"<table>"+
+			"<center><table cellspacing=\"50\"><tr><td>"+
+				"<form action=\"loanservlet\" method=\"post\" enctype=\"multipart/form-data\">"+
+				"<p><b>"+msg.getString("LOAN_BANK_TITLE")+"</b></p><br><br>"+
+					"<table>"+
+					"<tr><td>"+msg.getString("LOAN_ATT1")+":</td><td><input type=\"text\" name=\"valor\"></td></tr>"+
+					"<tr><td>"+msg.getString("LOAN_ATT2")+":</td><td><label for=\"juros\">"+b.getInterest()+"</label></td></tr>"+
+					"</table>"+
+					"<input type=\"submit\" value=\"Submit\">"+
+				"</form></td>"+
+			
+			"<td><form action=\"loanservlet\" method=\"post\" enctype=\"multipart/form-data\">"+
+				"<p><b>"+msg.getString("LOAN_CREATE")+"</b></p><br><br>"+
+				"<table>"+
 				"<tr><td>"+msg.getString("LOAN_ATT1")+":</td><td><input type=\"text\" name=\"valor\"></td></tr>"+
-				"<tr><td>"+msg.getString("LOAN_ATT2")+":</td><td><label for=\"juros\">"+b.getInterest()+"</label></td></tr>"+
-    			"</table>"+
-    			"<input type=\"submit\" value=\"Submit\">"+
-			"</form><br/>";
+				"<tr><td>"+msg.getString("LOAN_ATT2")+":</td><td><input type=\"text\" name=\"juros\"></td></tr>"+
+				"</table>"+
+				"<input type=\"submit\" value=\"Submit\">"+
+			"</form></tr></td>"+
+			"</tr></td></table></center>";
 
 		dbSession.getTransaction().commit();
 		out.println(html);

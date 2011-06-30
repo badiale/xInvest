@@ -32,7 +32,6 @@ public class QuoteServlet extends HttpServlet {
     public void doGet (HttpServletRequest request, HttpServletResponse response)
 	    throws ServletException, IOException {
 		
-		PrintWriter out = response.getWriter();
 	
 	//	HttpSession session = request.getSession();
 
@@ -94,6 +93,7 @@ public class QuoteServlet extends HttpServlet {
 	
 				
 					
+					outS.close();
 					session.getTransaction().commit();
 				} catch (Exception e) {e.printStackTrace(); 
 														}
@@ -101,6 +101,9 @@ public class QuoteServlet extends HttpServlet {
 			
 			case QUOTEINFO:
 				try {
+					PrintWriter out = response.getWriter();
+
+					response.setContentType("text/html");
 					Session session = DBManager.getSession();
 					session.beginTransaction();
 					Quote q = Quote.find(request.getParameter("quote"));
@@ -121,6 +124,7 @@ public class QuoteServlet extends HttpServlet {
 					}
 			break;
 			}
+
 		}
 		
     public void doPost (HttpServletRequest request, HttpServletResponse response)

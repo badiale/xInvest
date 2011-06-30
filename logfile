@@ -218,3 +218,13 @@ DETAIL:  Key (email)=(pira) already exists.
 STATEMENT:  insert into user_xinvest (name, password, money, email) values ($1, $2, $3, $4)
 ERROR:  syntax error at or near "pira" at character 38
 STATEMENT:  delete from user_xinvest WHERE email pira;
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
