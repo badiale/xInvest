@@ -35,4 +35,9 @@ public class Loan extends Transaction implements Serializable {
 		Session session = DBManager.getSession();
 		return (Loan) session.load(Loan.class, id);
 	}
+
+	public static List findAll() {
+		Session session = DBManager.getSession();
+		return session.createQuery("SELECT l FROM Loan l").list();
+	}
 }
