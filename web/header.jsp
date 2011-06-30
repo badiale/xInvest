@@ -1,5 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="java.util.*" %>
+<%@page import="java.util.*,org.xinvest.beans.User" %>
 <%
 	Locale currentLocale = request.getLocale();
 	ResourceBundle msg = ResourceBundle.getBundle("org.xinvest.bundles.message", currentLocale);
