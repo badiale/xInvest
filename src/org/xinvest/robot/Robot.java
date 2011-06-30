@@ -154,7 +154,7 @@ public class Robot implements Serializable {
 		  
 		public static void main(String args[]) {
 			Robot r =  new Robot();
-			r.robotize(0);
+			r.robotize(1);
 		}
 }
 
