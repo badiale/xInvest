@@ -31,7 +31,8 @@ public class QuoteServlet extends HttpServlet {
     public void doGet (HttpServletRequest request, HttpServletResponse response)
 	    throws ServletException, IOException {
 		
-		PrintWriter out = response.getWriter();
+		OutputStream outS = response.getOutputStream();
+		PrintWriter out = new PrintWriter(outS);
 	
 	//	HttpSession session = request.getSession();
 
@@ -81,7 +82,6 @@ public class QuoteServlet extends HttpServlet {
 							true,                       // mostrar tooltips
 							false);                     // mostrar urls (nao sei o q eh isso)
 
-					OutputStream outS = response.getOutputStream();
 					response.setContentType("image/png");
 
 					// metodo que salva o grafo em um arquivo temporario
