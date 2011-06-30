@@ -16,7 +16,7 @@ import org.xinvest.config.Config;   // Hibernate session handler
 @Table(name="user_xinvest")
 @Inheritance(strategy=InheritanceType.JOINED)
 public class User implements Serializable, Config {
-    public static final String imagesFolder = appFolder+"/xInvest/user_pictures";
+    public static final String imagesFolder = appFolder+"/xInvest/user/pictures";
     
     @Id
     @Column(name="email",unique=true,nullable=false)

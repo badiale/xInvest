@@ -15,6 +15,18 @@
     <body>
         <div id="wrapper">
             <div id="header"></div>
+<%
+            if (request.getSession().getAttribute("user")!=null) {
+                out.println("<div id=\"menu-user\"><table><tr>");
+                out.println("<td><a href=\"/xInvest/user\">Home</a></td>");
+                out.println("<td><a href=\"/xInvest/user/profile.jsp\">Profile</a></td>");
+                out.println("<td><a href=\"/xInvest/user\">Histórico</a></td>");
+                out.println("<td><a href=\"/xInvest/user\">Mercado</a></td>");
+                out.println("<td><a href=\"/xInvest/user\">Empréstimo</a></td>");
+                out.println("<td><a href=\"/xInvest/user/userservlet?op=2\">Logout</a></td>");
+                out.println("</tr></table></div>");
+            }
+%>                    
             <div id="body-top"></div>
             <div id="content">
                 
