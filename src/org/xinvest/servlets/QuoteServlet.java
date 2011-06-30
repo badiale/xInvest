@@ -25,7 +25,8 @@ import org.jfree.chart.servlet.ServletUtilities;
  * @author Gabriel Gimenes
  */
 public class QuoteServlet extends HttpServlet {
-    private final int QUOTEINFO = 0;
+    private final int GRAPH = 0;
+    private final int QUOTEINFO = 1;
 
 
     public void doGet (HttpServletRequest request, HttpServletResponse response)
@@ -47,11 +48,11 @@ public class QuoteServlet extends HttpServlet {
 		}
 
 		switch (operation) {
-			case QUOTEINFO:
+			case GRAPH:
 				try {
 					Session session = DBManager.getSession();
 					session.beginTransaction();
-					Quote q = Quote.find(request.getParameter("quote"));
+					//Quote q = Quote.find(request.getParameter("quote"));
 					
 					// conjunto de dados que vamos plotar
 					XYSeriesCollection dataset = new XYSeriesCollection();
@@ -96,6 +97,19 @@ public class QuoteServlet extends HttpServlet {
 					session.getTransaction().commit();
 				} catch (Exception e) {e.printStackTrace(); 
 														}
+			break;
+			
+			case QUOTEINFO:
+				try {
+					Session session = DBManager.getSession();
+					session.beginTransaction();
+					Quote q = Quote.find(request.getParameter("quote"));
+						
+					out.println("<h1>"+q.getQuote()+" - "+q.getName()+"</h1>");
+						
+					session.getTransaction().commit();
+				} catch (Exception e) {e.printStackTrace(); 
+					}
 			break;
 			}
 		}
