@@ -11,7 +11,14 @@ import org.xinvest.db.DBManager;
 import org.hibernate.Session;
 // Other Imports
 import java.util.*;
+import java.io.*;
 import java.text.SimpleDateFormat;
+
+// Graficos
+import org.jfree.chart.*;
+import org.jfree.chart.plot.*;
+import org.jfree.data.xy.*;
+import org.jfree.chart.servlet.ServletUtilities;
 
 /**
  * Servlet to handle Quote operations.
@@ -48,9 +55,48 @@ public class QuoteServlet extends HttpServlet {
 					
 					out.println("<h1>"+q.getQuote()+" - "+q.getName()+"</h1>");
 					
+					// conjunto de dados que vamos plotar
+					XYSeriesCollection dataset = new XYSeriesCollection();
+
+					// dados de uma "curva"
+					XYSeries curva1 = new XYSeries("Ticks");
+					curva1.add(1.0, 1.0); // (x, y)
+					curva1.add(2.0, 4.0);
+					curva1.add(3.0, 3.0);
+					curva1.add(4.0, 5.0);
+					curva1.add(5.0, 5.0);
+					curva1.add(6.0, 7.0);
+					curva1.add(7.0, 7.0);
+					curva1.add(8.0, 8.0);
+	
+					// coloca a curva no conjunto de dados
+					dataset.addSeries(curva1);
+
+					// retorna uma abstracao do grafo
+					JFreeChart chart = ChartFactory.createXYLineChart( 
+							"Grafico muito loko!",      // titulo do grafico
+							"X",                        // descricao do eixo X
+							"Y",                        // descricao do eixo Y
+							dataset,                    // dados
+							PlotOrientation.VERTICAL,   // orientacao do grafico
+							true,                       // mostrar legendas
+							true,                       // mostrar tooltips
+							false);                     // mostrar urls (nao sei o q eh isso)
+
+					OutputStream outS = response.getOutputStream();
+					response.setContentType("image/png");
+
+					// metodo que salva o grafo em um arquivo temporario
+					ChartUtilities.writeChartAsPNG(
+							outS,   // output stream
+							chart, // grafico
+							500,   // largura
+							300);  // altura
+	
+				
 					
 					session.getTransaction().commit();
-				} catch (Exception e) {//redirect 
+				} catch (Exception e) {e.printStackTrace(); 
 														}
 			break;
 			}

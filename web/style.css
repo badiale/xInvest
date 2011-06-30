@@ -166,3 +166,23 @@ p.success_msg {
     text-align: right;
     font-weight: bold;
 }
+table tr.labelRow {
+    text-align: center;
+    font-weight: bold;
+    color: white;
+    background-color: black;
+}
+table td.idCell {
+    font-weight: bold;
+    background-color: lightgray;
+}
+
+.thumbs {
+    width: 200px;
+    height: auto;
+    text-align: center;
+}
+.thumbs {
+    width: auto;
+    height: 200px;
+}
