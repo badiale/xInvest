@@ -42,6 +42,14 @@ public class Investment extends Transaction implements Serializable {
 		return (Investment) session.load(Investment.class, id);
 	}
     
+    public static List findByUser (User user) {
+        Session session = DBManager.getSession();
+        // Query in Hibernate Query Language
+        String hql = "select i from Investment i where i.active.email = "+user.getEmail();
+        org.hibernate.Query query = session.createQuery(hql);
+        return query.list();
+    }
+    
    	//TESTERS
 		private static void test01() {
 			Session session = DBManager.getSession();
@@ -75,11 +83,10 @@ public class Investment extends Transaction implements Serializable {
 			
 			session.getTransaction().commit();
 		}
-
+        
 		public static void main (String args[]) {
 			//test01();
 			test02();
-
 		}
     
 }
