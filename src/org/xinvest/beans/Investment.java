@@ -42,44 +42,77 @@ public class Investment extends Transaction implements Serializable {
 		return (Investment) session.load(Investment.class, id);
 	}
     
-   	//TESTERS
-		private static void test01() {
-			Session session = DBManager.getSession();
-			session.beginTransaction();
-				
-				Quote q = Quote.find("PBR");
-			
-				Investment i = new Investment();
-				
-				i.setAmount(new Integer(100));
-				i.setValue(new Float(1.11));
-				i.setQuote(q);
-				i.insert();
-				
-				q.getInvestments().add(i);
-			
-			session.getTransaction().commit();
-			log.info("Investment Inserido");
-		}
-		
-		private static void test02() {
-			Session session = DBManager.getSession();
-			session.beginTransaction();
-	
-			
-				Investment i = (Investment) Investment.find(new Integer(1));
-				log.info("Investment Encontrado");
-				
-				log.info(i.getQuote().getQuote());
-	
-			
-			session.getTransaction().commit();
-		}
-
-		public static void main (String args[]) {
-			//test01();
-			test02();
-
-		}
+    public static List findByActive (User user) {
+        Session session = DBManager.getSession();
+        // Query in Hibernate Query Language
+        String hql = "select i from Investment i where i.active.email = :email";
+        org.hibernate.Query query = session.createQuery(hql).setParameter("email", user.getEmail());
+        return query.list();
+    }
     
+	public static List findByPassive (User user) {
+        Session session = DBManager.getSession();
+        // Query in Hibernate Query Language
+        String hql = "select i from Investment i where i.passive.email = :email";
+        org.hibernate.Query query = session.createQuery(hql).setParameter("email", user.getEmail());
+        return query.list();
+    }
+    
+   	//TESTERS
+	private static void test01() {
+		Session session = DBManager.getSession();
+		session.beginTransaction();
+			
+			Quote q = Quote.find("PBR");
+		
+			Investment i = new Investment();
+			
+			i.setAmount(new Integer(100));
+			i.setValue(new Float(1.11));
+			i.setQuote(q);
+			i.insert();
+			
+			q.getInvestments().add(i);
+		
+		session.getTransaction().commit();
+		log.info("Investment Inserido");
+	}
+	
+	private static void test02() {
+		Session session = DBManager.getSession();
+		session.beginTransaction();
+
+		
+			Investment i = (Investment) Investment.find(new Integer(1));
+			log.info("Investment Encontrado");
+			
+			log.info(i.getQuote().getQuote());
+
+		
+		session.getTransaction().commit();
+	}
+	
+	private static void test03() {
+		Session session = DBManager.getSession();
+		session.beginTransaction();
+		
+		List list = Investment.findByActive(User.find("mail01"));
+		Iterator it = list.iterator();
+		while (it.hasNext()) {
+			Investment i = (Investment) it.next();
+			String str = "";
+			str += "User: " + i.getActive().getEmail() + "\n";
+			str += "Amount: " + i.getAmount() + "\n";
+			str += "Quote: " + i.getQuote().getQuote() + "\n";
+			log.info(str);
+		}
+		log.info("Mostrou todos os investments");
+
+		session.getTransaction().commit();
+	}
+	public static void main (String args[]) {
+		//test01();
+		//test02();
+		test03();
+	}
 }
