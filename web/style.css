@@ -178,11 +178,11 @@ table td.idCell {
 }
 
 .thumbs {
-    width: 200px;
+    width: 100px;
     height: auto;
     text-align: center;
 }
 .thumbs {
     width: auto;
-    height: 200px;
+    height: 100px;
 }

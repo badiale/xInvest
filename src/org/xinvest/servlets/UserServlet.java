@@ -28,7 +28,7 @@ private final int LOGIN         = 1;
 private final int LOGOUT	    = 2;
 private final int REGISTER	    = 3;
 private final int MODIFY	    = 4;
-private final int UNREGISTER    = 5;
+private final int USERBOX       = 5;
     
 public void doGet (HttpServletRequest request, HttpServletResponse response)
 	    throws ServletException, IOException {
@@ -76,8 +76,7 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
                 }
             }
         } catch (FileUploadException e) {
-            targetUrl = "/xInvest/message.jsp?msg=100";
-            //response.sendRedirect(targetUrl);
+            targetUrl = "/xInvest/message.jsp?msg=200";
         }
 	} else {
         operation = Integer.parseInt(request.getParameter("op"));
@@ -102,7 +101,7 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
                 }
                 session.getTransaction().commit();
             } catch (Exception e) {
-                targetUrl = "/xInvest/message.jsp?msg=200";
+                targetUrl = "/xInvest/message.jsp?msg=201";
             }
 		break;
 
@@ -147,13 +146,12 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
                     session.getTransaction().commit();
                     
                     httpSession.setAttribute("user",user);
-                    targetUrl = "/xInvest/message.jsp?msg=201";
+                    targetUrl = "/xInvest/message.jsp?msg=202";
                 } else {
-                    targetUrl="/xInvest/message.jsp?msg=106";
+                    targetUrl="/xInvest/message.jsp?msg=203";
                 }
             } catch (Exception e) {
-                targetUrl = "/xInvest/message.jsp?msg=202";
-                System.out.println(e);
+                targetUrl = "/xInvest/message.jsp?msg=204";
             }
 		break;
 
@@ -174,34 +172,31 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
                         user.setPassword(pass);
                         user.update();
                         httpSession.setAttribute("user",user);
-                        targetUrl = "/xInvest/user";
+                        targetUrl = "/xInvest/message.jsp?msg=205";
                     } else {
-                        targetUrl="/xInvest/message.jsp?msg=106";
+                        targetUrl="/xInvest/message.jsp?msg=203";
                     }
                 } else {
-                    targetUrl = "/xInvest/index.jsp";
+                    targetUrl = "/xInvest/message.jsp?msg=206";
                 }
                 session.getTransaction().commit();
             } catch (Exception e) {
-                targetUrl = "/xInvest/message.jsp?msg=204";
+                targetUrl = "/xInvest/message.jsp?msg=205";
                 System.out.println(e);
             }
         break;
 
-	    case UNREGISTER:
-		try {
-		    user = (User) httpSession.getAttribute("user");
-		    session.beginTransaction();
-            user = User.authenticate(user.getEmail(),user.getPassword());
-            if (user != null) {
-		        httpSession.invalidate();
-                user.remove();
-                targetUrl = "/xInvest/index.jsp";
-		    }
-            session.getTransaction().commit();
-		} catch (Exception e) {
-		    targetUrl = "/xInvest/message.jsp?msg=203";
-		}
+	    case USERBOX:
+            Locale currentLocale = request.getLocale();
+            ResourceBundle msg = ResourceBundle.getBundle("org.xinvest.bundles.message", currentLocale);
+            user = (User) httpSession.getAttribute("user");
+            out.println("<table>");
+            out.println("<tr><td>"+msg.getString("NAME")+":</td><td>"+user.getName()+"</td>");
+            out.println("<tr><td>"+msg.getString("MONEY")+":</td><td>"+user.getMoney()+"</td>");
+            out.println("<tr><td>"+msg.getString("INVESTED")+":</td><td>"+user.getMoney()+"</td>");
+            out.println("<tr><td>"+msg.getString("DEBTS")+":</td><td>"+user.getMoney()+"</td>");
+            out.println("<tr><td>"+msg.getString("LOANS_OFFERED")+":</td><td>"+user.getMoney()+"</td>");
+            out.println("</table>");
 		break;
 
         default:
