@@ -42,7 +42,7 @@ public class TickJuros implements Serializable {
 		/**
 		* Pojo
 		**/
-    public Tick() {
+    public TickJuros() {
     	this.id = new Integer(-1);
 			this.bank = new Bank();
 			this.tickJuros = new Float(0);
@@ -53,8 +53,8 @@ public class TickJuros implements Serializable {
 		public Integer getId() { return this.id; }
     public void setId(Integer id) { this.id = id; }
     
-    public Quote getQuote() { return this.quote; }
-    public void setQuote(Quote quote) { this.quote = quote; }
+    public Bank getBank() { return this.bank; }
+    public void setBank(Bank quote) { this.bank = bank; }
 
     public Float getTickJuros() { return this.tickJuros; }
     public void setTickJuros(Float tickJuros) { this.tickJuros = tickJuros; }
@@ -146,7 +146,7 @@ public class TickJuros implements Serializable {
 		}
 
 		public static void main (String args[]) {
-			test01();
+			//test01();
 			//test02();
 			//test03();
 			//test04();
