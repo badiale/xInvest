@@ -1,2 +1,41 @@
-Para fazer os graficos funcionarem, tem que rodar o comando:
-xhost +
+================================================================================
+Instalacao e uso:
+--------------------------------------------------------------------------------
+Para fazer os graficos funcionarem, basta exectuar o seguinte comando em seu
+servido:
+	xhost +
+
+================================================================================
+Afazeres
+--------------------------------------------------------------------------------
+
+Prioritario
+	Fazer venda e compra de acoes entre o sistema ou entre usuarios.
+	Sugerir investimentos para o usuario.
+	Fazer emprestimos e pagar emprestimos.
+	Oferecer emprestimos.
+	Fazer grafico com lucro/perda do usuario.
+	Fazer grafico com a variacao dos juro(s) do(s) banco(s).
+	Permitir ao usuario visualizar graficamente o quanto deve ao longo do tempo.
+
+Intermediario
+	Exibir grafico com lucro/perda na home.
+	Exibir cotacoes na home do usuario.
+	Exibir vendas do usuario na home.
+	Exibir emprestimos feitos na home.
+	Exibir emprestimos oferecidos na home.
+
+Opcional
+	Sessao administrativa para inserir novos quotes.
+	Exibir multiplos bancos no historico do usuario.
+	Exibir historico de transacoes do usuario.
+	Exibir grafico de juros quando um usuario for emprestar de outro.
+
+================================================================================
+Equipe
+--------------------------------------------------------------------------------
+	Fábio Abrão Luca
+	Gabriel Perri Gimenes
+	Lucas Cuculo Badiale
+	Rodrigo Leonavas
+================================================================================

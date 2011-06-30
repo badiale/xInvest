@@ -102,25 +102,16 @@ public class Transaction implements Serializable {
 		Session session = DBManager.getSession();
 		session.beginTransaction();
 		
-		log.info("Inserindo um usario de teste");
-		User user = new User();
-		user.setEmail("teste@email.com");
-		user.setName("Teste");
-		user.setPassword("pass");
-		user.setMoney(new Float(1000));
-		try {
-			user.insert();
-		} catch (Exception e) {
-			log.error("Nao pode inserir o usuario: " + e.getMessage());
-			return;
-		}
+		log.info("Pegando um usuario");
+		User user = User.find("pira2");
 
 		log.info("Inserindo 10 transacoes");
 		for (int i = 0; i < 10; i++) {
 			Transaction t = new Transaction();
-			t.setPassive(user);
+			t.setActive(user);
 			t.setValue(new Float(1000 * (i + 1)));
 			t.insert();
+			user.getTransactionActives().add(t);
 		}
 
 		session.getTransaction().commit();
@@ -140,9 +131,9 @@ public class Transaction implements Serializable {
 			String str = "";
 			str += "Timestamp: " + t.getTimestamp() + "\n";
 			str += "Valor : " + t.getValue() + "\n";
-			str += "User name: " + t.getPassive().getName() + "\n";
-			str += "User Email: " + t.getPassive().getEmail() + "\n";
-			str += "User money: " + t.getPassive().getMoney() + "\n";
+			str += "User name: " + t.getActive().getName() + "\n";
+			str += "User Email: " + t.getActive().getEmail() + "\n";
+			str += "User money: " + t.getActive().getMoney() + "\n";
 			log.info(str);
 		}
 
