@@ -15,7 +15,7 @@
         <div id="wrapper">
 			<div id="header"></div>
 <%
-			User USER = request.getSession().getAttribute("user")
+			User USER = (User) request.getSession().getAttribute("user");
             if (USER!=null) {
                 out.println("<div id=\"menu-user\"><table><tr>");
                 out.println("<td>"+msg.getString("HELLO")+ USER.getName() + "</a></td>");
