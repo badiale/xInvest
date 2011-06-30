@@ -46,4 +46,13 @@
         <url-pattern>/quote/QuoteServlet</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+        <servlet-name>investmentservlet</servlet-name>
+        <servlet-class>org.xinvest.servlets.InvestmentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>investmentservlet</servlet-name>
+        <url-pattern>/investment/investmentservlet</url-pattern>
+	</servlet-mapping>
+
 </web-app>

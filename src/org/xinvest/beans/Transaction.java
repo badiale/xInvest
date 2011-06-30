@@ -30,15 +30,15 @@ public class Transaction implements Serializable {
 	protected Date timestamp;
 	
 	@Column
-	protected Float value;;
+	protected Float value;
 	
 	// TODO voltar esses JoinColumn quando fizer o OneToMany no usuario
 	@ManyToOne
-	@JoinColumn(name = "user_active", insertable=false, updatable=false)
+	@JoinColumn(name = "user_active")
 	protected User active = null;
 	
 	@ManyToOne
-	@JoinColumn(name = "user_passive", insertable=false, updatable=false)
+	@JoinColumn(name = "user_passive")
 	protected User passive = null;
 
 	/**
