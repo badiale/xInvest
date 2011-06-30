@@ -8,6 +8,6 @@ public interface Config {
     /**
 * Web application folder.
 */
-    public static String appFolder = "/tmp/";
+    public static String appFolder = "/home/fabio/IDE/apache-tomcat-7.0.11/webapps";
 }
 

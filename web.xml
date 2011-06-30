@@ -27,5 +27,23 @@
         <servlet-name>userservlet</servlet-name>
         <url-pattern>/user/userservlet</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+        <servlet-name>WebQuotesServlet</servlet-name>
+        <servlet-class>org.xinvest.servlets.WebQuotesServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>WebQuotesServlet</servlet-name>
+        <url-pattern>/webquotes/WebQuotesServlet</url-pattern>
+	</servlet-mapping>
+	
+		<servlet>
+        <servlet-name>QuoteServlet</servlet-name>
+        <servlet-class>org.xinvest.servlets.QuoteServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>QuoteServlet</servlet-name>
+        <url-pattern>/quote/QuoteServlet</url-pattern>
+	</servlet-mapping>
 
 </web-app>
