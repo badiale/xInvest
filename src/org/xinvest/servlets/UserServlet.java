@@ -42,7 +42,6 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
 	     operation = Integer.parseInt(request.getParameter("op"));
 	} catch (Exception e) {
 	    targetUrl = "/xInvest/message.jsp?msg=404";
-	    //response.sendRedirect(targetUrl);
 	}
     
     String name = null;
@@ -99,7 +98,7 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
                 session.beginTransaction();
                 if (user == null || ((user != null) &&
                         (User.authenticate(user.getEmail(),user.getPassword())==null))) {
-                    targetUrl = "/xInvest/user";
+                    targetUrl = "/xInvest";
                 }
                 session.getTransaction().commit();
             } catch (Exception e) {
@@ -109,8 +108,6 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
 
 	    case LOGIN:
             try {
-                System.out.println("\n\nMAIL: "+mail);
-                System.out.println("PASS: "+pass+"\n");
                 session.beginTransaction();
                 user = User.authenticate(mail,pass);
                 session.getTransaction().commit();
@@ -122,7 +119,7 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
                     targetUrl = "/xInvest/message.jsp?msg=0";
                 }
             } catch (Exception e) {
-                targetUrl = "/xInvest/message.jsp?msg=exception";
+                targetUrl = "/xInvest/message.jsp?msg=0";
             }
 		break;
             
@@ -148,7 +145,8 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
                     session.beginTransaction();
                     user.insert();
                     session.getTransaction().commit();
-
+                    
+                    httpSession.setAttribute("user",user);
                     targetUrl = "/xInvest/message.jsp?msg=201";
                 } else {
                     targetUrl="/xInvest/message.jsp?msg=106";
@@ -162,40 +160,47 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
         case MODIFY:
             try {
                 user = (User) httpSession.getAttribute("user");
-                
                 session.beginTransaction();
-                if ((user != null) &&
-                        (User.authenticate(user.getEmail(),user.getPassword())!=null)) {
-                    user.setName(request.getParameter("name"));
-                    user.setPassword(request.getParameter("pass"));
-                    user.update();
-                    targetUrl = "/xInvest/user";
+                user = User.authenticate(user.getEmail(),user.getPassword());
+                if (user != null) {
+                    if (fitem.getContentType().equals("image/jpeg") ||
+                            fitem.getContentType().equals("image/png") ||
+                            fitem.getContentType().equals("image/bmp")) {
+
+                        File picture = new File(User.imagesFolder+"/"+user.getEmail());
+                        picture.delete();
+                        fitem.write(new File(User.imagesFolder+"/"+user.getEmail()));
+                        user.setName(name);
+                        user.setPassword(pass);
+                        user.update();
+                        httpSession.setAttribute("user",user);
+                        targetUrl = "/xInvest/user";
+                    } else {
+                        targetUrl="/xInvest/message.jsp?msg=106";
+                    }
                 } else {
                     targetUrl = "/xInvest/index.jsp";
                 }
                 session.getTransaction().commit();
             } catch (Exception e) {
                 targetUrl = "/xInvest/message.jsp?msg=204";
-                //response.sendRedirect(targetUrl);
+                System.out.println(e);
             }
         break;
 
 	    case UNREGISTER:
 		try {
 		    user = (User) httpSession.getAttribute("user");
-		    if ((user != null) &&
-	    		    (User.authenticate(user.getEmail(),user.getPassword())!=null)) {
+		    session.beginTransaction();
+            user = User.authenticate(user.getEmail(),user.getPassword());
+            if (user != null) {
 		        httpSession.invalidate();
-            
-                session.beginTransaction();
                 user.remove();
-                session.getTransaction().commit();
-
                 targetUrl = "/xInvest/index.jsp";
 		    }
+            session.getTransaction().commit();
 		} catch (Exception e) {
 		    targetUrl = "/xInvest/message.jsp?msg=203";
-		    //response.sendRedirect(targetUrl);
 		}
 		break;
 
