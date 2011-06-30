@@ -38,7 +38,7 @@ public class Bank extends User {
 		Session session = DBManager.getSession();
 		session.beginTransaction();
         Bank bank = new Bank();
-        bank.setEmail("bank2");
+        bank.setEmail("bank@bank.com");
         bank.setName("Bank");
         bank.setPassword("bank");
         bank.setMoney(new Float(100000));
