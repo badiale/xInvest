@@ -302,11 +302,11 @@ class xmlParser extends DefaultHandler
                     this.name = value;
                 }
             }
-             if(this.currentElement.equals("AskRealtime")) {
+             if(this.currentElement.equals("LastTradePriceOnly")) {
                 String buffer = new String(ch, start, length);
                 if(!buffer.trim().equals("")) {
                      this.value = buffer;
-                      System.out.println("AskRealtime:"+value);
+                      System.out.println("LastTradePriceOnly:"+value);
                       this.tick = Float.parseFloat(value);
                 }
             }

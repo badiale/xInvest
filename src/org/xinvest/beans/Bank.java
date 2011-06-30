@@ -15,6 +15,10 @@ public class Bank extends User {
     @Column(name="interest")
     private Float interest; // taxa de juros atual
     
+    @OneToMany
+	  @JoinColumn(name="tickjuros_fk")
+		private Set<TickJuros> ticks = new HashSet<TickJuros>();
+    
     public Bank() {
         super();
         this.interest = new Float(0.0);
@@ -28,6 +32,9 @@ public class Bank extends User {
         setMoney(new Float(money));
         setInterest(new Float(interest));
     }
+    
+    public Set getTicks() { return this.ticks; }
+    public void setTicks(Set ticks) { this.ticks = ticks; }
     
     public void setInterest(Float interest) { this.interest = interest; }
     public Float getInterest() { return this.interest; }
@@ -58,7 +65,7 @@ public class Bank extends User {
         } catch (Exception e) {
             System.err.println("ERRO:Test01:INSERT: "+e);
             e.printStackTrace();
-        }
+        }/*
         Bank bankdb = Bank.find("bank2");
         System.out.println("Email: "+bankdb.getEmail());
         System.out.println("Name: "+bankdb.getName());
@@ -73,7 +80,7 @@ public class Bank extends User {
 		}
 		System.out.println("");
         bankdb.setInterest(new Float(0.8));
-        bankdb.update();
+        bankdb.update();*/
 		session.getTransaction().commit();
     }
     
