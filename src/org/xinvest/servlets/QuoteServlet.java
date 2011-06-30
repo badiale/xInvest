@@ -47,6 +47,8 @@ public class QuoteServlet extends HttpServlet {
 					Quote q = Quote.find(request.getParameter("quote"));
 					
 					out.println("<h1>"+q.getQuote()+" - "+q.getName()+"</h1>");
+					
+					
 					session.getTransaction().commit();
 				} catch (Exception e) {//redirect 
 														}
