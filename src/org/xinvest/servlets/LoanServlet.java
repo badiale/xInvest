@@ -20,7 +20,7 @@ import java.util.*;
 public class LoanServlet extends HttpServlet {
 	private ResourceBundle msg;
 	private PrintWriter out;
-
+	
 	private final int GETINTEREST   = 0;
     private final int USERLOAN 		= 1;
     private final int BANKLOAN	    = 2;
@@ -29,7 +29,8 @@ public class LoanServlet extends HttpServlet {
 
 	private void printPage() {
 		float interest = new Float(0.0);		
-		String html = "";
+		
+		String html = "";		
 
 		Session dbSession = DBManager.getSession();
 		dbSession.beginTransaction();	
@@ -58,24 +59,36 @@ public class LoanServlet extends HttpServlet {
 				"<input type=\"submit\" value=\"Submit\">"+
 			"</form></tr></td>"+
 			"</tr></td></table></center><br><br>";
-
-		dbSession.getTransaction().commit();
 		
 
 		html += "<h1>"+msg.getString("LOAN_MORE_TITLE")+"</h1><br>";
 		
-		html += "<table><tr class=\"labelRow\"><th>COD</th><th>email</th> <th>"+msg.getString("LOAN_VALOR")+"</th><th>"+msg.getString("LOAN_JUROS")+"</th></tr>"+
-		"<tr class=\"labelRow\"><td class=\"idCell\">";
+		html += "<table><tr class=\"labelRow\"><th>Email</th> <th>"+msg.getString("LOAN_VALOR")+"</th><th>"+msg.getString("LOAN_JUROS")+"</th></tr>"+
+		"<tr><td>";
 
+		List l = Loan.findAll();
+
+		Iterator it = l.iterator();
+		Loan lo = null;
+
+		while (it.hasNext()) {
+			lo = (Loan) it.next();
+			html += "<tr><td>"+lo.getPassive().getEmail()+"</td>";
+			html += "<td>"+lo.getValue()+"</td>";
+			html += "<td>"+lo.getInterest()+"</td>";
+			html += "<td>&nbsp&nbsp<a href=/xInvest/loan/loanservlet?op=1&passive="+lo.getPassive().getEmail()+">"+msg.getString("LOAN_LEND")+"</a></td>";
+		}
+		html += "</table><br><br>";
+
+		dbSession.getTransaction().commit();
 
 		out.println(html);
-
-
 	}
 
     public void doGet (HttpServletRequest request, HttpServletResponse response)
 	    throws ServletException, IOException {
 		
+		String targetUrl = null;
 		Locale currentLocale = request.getLocale();
 		this.msg = ResourceBundle.getBundle("org.xinvest.bundles.message", currentLocale);
 		this.out = response.getWriter();
@@ -88,7 +101,6 @@ public class LoanServlet extends HttpServlet {
 		User passive = null;
 		User active = null;
 		Bank b = null;	
-		String targetUrl = null;
 		String html = null;
 
 		active = (User) session.getAttribute("user");
@@ -96,15 +108,13 @@ public class LoanServlet extends HttpServlet {
 		
 		if (active == null) {
 			targetUrl = "index.jsp";
-			response.sendRedirect(targetUrl);
-			operation = 0;
+			operation = 0; //deve ser algum valor invalido mas para testar assumimos 0 pois n tem session ainda
 		}
 		
 		try {
 			 operation = Integer.parseInt(request.getParameter("op"));
 		} catch (Exception e) {
 			targetUrl = "/xInvest/message.jsp?msg=100";
-			response.sendRedirect(targetUrl);
 		}
 
 		switch (operation) {
@@ -114,12 +124,17 @@ public class LoanServlet extends HttpServlet {
 
 			case USERLOAN:
 			try {				
+				passive = new User();
+
+				Session dbSession = DBManager.getSession();
+				dbSession.beginTransaction();				
+
+				passive = User.find(request.getParameter("passive"));
+				//System.out.println(passive.getName());
+
 				if ((passive != null) && (active != null)) {
 					l = new	Loan();		
-
-					passive = new User();
-					passive.find(request.getParameter("passive"));
-
+					
 					l.setValue(Float.parseFloat(request.getParameter("value")));
 					l.setPassive(passive);
 
@@ -129,17 +144,18 @@ public class LoanServlet extends HttpServlet {
 					l.insert();
 
 					targetUrl = "/xInvest/message.jsp?msg=105";
+
 				}
 				else {
 					targetUrl = "/xInvest/message.jsp?msg=101";
 				}
-				response.sendRedirect(targetUrl);
-				
+							
+				dbSession.getTransaction().commit();				
 
 			} catch (Exception e) {
 				targetUrl = "/xInvest/message.jsp?msg=101";
-				response.sendRedirect(targetUrl);
 			}
+			response.sendRedirect(targetUrl);
 			break;
 
 			case BANKLOAN:
@@ -149,7 +165,7 @@ public class LoanServlet extends HttpServlet {
 					
 					active = (User) session.getAttribute("user");
 				
-					if ((passive != null) && (active != null)) {
+					if (active != null) {
 						l = new	Loan();		
 
 						l.setValue(Float.parseFloat(request.getParameter("value")));
@@ -176,28 +192,21 @@ public class LoanServlet extends HttpServlet {
 						l.insert();				
 						b.setInterest(interest);
 		   				
-						
 						targetUrl = "/xInvest/message.jsp?msg=105";
 					}
 					else {
 						targetUrl = "/xInvest/message.jsp?msg=101";
 					}
-					response.sendRedirect(targetUrl);
-									
-
 
 				} catch (Exception e) {
-					targetUrl = "/xInvest/message.jsp?msg=101";
-					response.sendRedirect(targetUrl);
+					targetUrl = "/xInvest/message.jsp?msg=101";	
 				}
-				break;
+			response.sendRedirect(targetUrl);
+			break;
 		}
-
-	
     }
     public void doPost (HttpServletRequest request, HttpServletResponse response)
 	    throws ServletException, IOException {
-	doGet(request,response);
+		doGet(request, response);
     }
-
 }
