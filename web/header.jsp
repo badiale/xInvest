@@ -22,7 +22,7 @@
                 out.println("<td><a href=\"/xInvest/user\">"+msg.getString("HISTORY")+"</a></td>");
                 out.println("<td><a href=\"/xInvest/webquotes\">"+msg.getString("Cotacoes")+"</a></td>");
                 out.println("<td><a href=\"/xInvest/user\">"+msg.getString("MARKET")+"</a></td>");
-                out.println("<td><a href=\"/xInvest/user\">"+msg.getString("LOANS")+"</a></td>");
+                out.println("<td><a href=\"/xInvest/user/loan\">"+msg.getString("LOANS")+"</a></td>");
                 out.println("<td><a href=\"/xInvest/user/userservlet?op=2\">"+msg.getString("LOGOUT")+"</a></td>");
                 out.println("</tr></table></div>");
             }
