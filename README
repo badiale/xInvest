@@ -2,7 +2,7 @@
 Instalacao e uso:
 --------------------------------------------------------------------------------
 Para fazer os graficos funcionarem, basta exectuar o seguinte comando em seu
-servido:
+servidor:
 	xhost +
 
 ================================================================================

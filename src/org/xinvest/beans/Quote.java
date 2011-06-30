@@ -140,6 +140,15 @@ public class Quote implements Serializable {
 				"SELECT t.tick FROM Tick t,Quote q WHERE t.quote = q.quote and q.quote = :quote ORDER BY t.timestamp DESC "
 				).setParameter("quote",this.quote).list().iterator().next();
 		}
+		
+		//Suggestion Function
+		public String suggest() {
+			if(this.getLastestTick() < this.fiftydayMovingAverage) {
+				return new String("Compre!");
+			} else if(this.getLastestTick() > this.fiftydayMovingAverage) {
+				return new String("Venda!");
+			} else return new String("");	
+		}
 
 		//TESTERS
 		private static void test01() {
