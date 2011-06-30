@@ -53,8 +53,6 @@ public class QuoteServlet extends HttpServlet {
 					session.beginTransaction();
 					Quote q = Quote.find(request.getParameter("quote"));
 					
-					out.println("<h1>"+q.getQuote()+" - "+q.getName()+"</h1>");
-					
 					// conjunto de dados que vamos plotar
 					XYSeriesCollection dataset = new XYSeriesCollection();
 
