@@ -51,7 +51,11 @@ public class WebQuotesServlet extends HttpServlet {
 	
 								WebQuotes w = WebQuotes.find(new Integer(1));
 								out.println("<table>");
-								out.println("<tr class=\"labelRow\"><th>"+msg.getString("QUOTE")+"</th><th>"+msg.getString("NOME")+"</th><th>Tick</th><th>"+msg.getString("50_AVG")+"</th></tr>");
+								out.println("<tr class=\"labelRow\"><th>"
+										+msg.getString("QUOTE")+"</th><th>"
+										+msg.getString("NAME")+"</th>"+
+										"<th>Tick</th><th>"+
+										msg.getString("50_AVG")+"</th></tr>");
 								Iterator it = w.getQuotes().iterator();
 								while (it.hasNext()) {
 										Quote q = (Quote) it.next();
