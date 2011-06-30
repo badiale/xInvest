@@ -106,6 +106,15 @@ public class QuoteServlet extends HttpServlet {
 					Quote q = Quote.find(request.getParameter("quote"));
 						
 					out.println("<h1>"+q.getQuote()+" - "+q.getName()+"</h1>");
+					
+					out.println("<table>");
+					out.println("<tr class=\"labelRow\"><th>Tick</th><th>50day Avg</th></tr>");
+					out.println("<tr><td>"+ ( (Tick) q.getTicks().iterator().next() ).getTick()+"</td>");
+					out.println("<td>"+q.getFiftydayMovingAverage()+"</td>");
+					out.println("<td><a href=\"/xInvest/quote/index.jsp?quote="+q.getQuote()+"\">Ver</a></td></tr>");
+										
+					out.println("</table>");
+					
 						
 					session.getTransaction().commit();
 				} catch (Exception e) {e.printStackTrace(); 
