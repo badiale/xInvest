@@ -1,10 +1,13 @@
 <%@ include file="/header.jsp"%>
+<jsp:include page="/user/userservlet">
+    <jsp:param name="op" value="0"/>
+</jsp:include>
+
 <h1><%=msg.getString("MARKET")%><h1>
 
 <H2><%= msg.getString("SELL") %></H2>
 <FORM ACTION="acao_vender">
-	<p aling="center">
-	<table width="300">
+	<table>
 		<tr>
 			<th><%= msg.getString("QUOTE") %></th>
 			<td><INPUT TYPE="text" NAME="quote"></td>
@@ -22,7 +25,6 @@
 			<td><INPUT TYPE="reset" VALUE="<%= msg.getString("CANCEL") %>"></td>
 		</tr>
 	</table>
-	</p>
 </FORM>
 
 <H2><%= msg.getString("BUY") %></H2>
