@@ -1,3 +1,6 @@
+<jsp:include page="/user/userservlet">
+    <jsp:param name="op" value="0"/>
+</jsp:include>
 <%@ include file="/header.jsp"%>
 <div id="userBox">
     <jsp:include page="userservlet">

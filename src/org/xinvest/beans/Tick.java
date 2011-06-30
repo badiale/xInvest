@@ -146,9 +146,9 @@ public class Tick implements Serializable {
 		}
 
 		public static void main (String args[]) {
-			//test01();
+			test01();
 			//test02();
 			//test03();
-			test04();
+			//test04();
 		}
 }

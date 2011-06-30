@@ -166,6 +166,14 @@ p.success_msg {
     text-align: right;
     font-weight: bold;
 }
+
+#userBox {
+    width: 25%;
+}
+
+table {
+    width: 100%;
+}
 table tr.labelRow {
     text-align: center;
     font-weight: bold;

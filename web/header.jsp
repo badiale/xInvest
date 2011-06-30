@@ -17,13 +17,13 @@
 <%
             if (request.getSession().getAttribute("user")!=null) {
                 out.println("<div id=\"menu-user\"><table><tr>");
-                out.println("<td><a href=\"/xInvest/user\">Home</a></td>");
-                out.println("<td><a href=\"/xInvest/user/profile.jsp\">Profile</a></td>");
-                out.println("<td><a href=\"/xInvest/user\">Histórico</a></td>");
-                out.println("<td><a href=\"/xInvest/user\">Cotacões</a></td>");
-                out.println("<td><a href=\"/xInvest/user\">Mercado</a></td>");
-                out.println("<td><a href=\"/xInvest/user\">Empréstimo</a></td>");
-                out.println("<td><a href=\"/xInvest/user/userservlet?op=2\">Logout</a></td>");
+                out.println("<td><a href=\"/xInvest/user\">"+msg.getString("HOME")+"</a></td>");
+                out.println("<td><a href=\"/xInvest/user/profile.jsp\">"+msg.getString("PROFILE")+"</a></td>");
+                out.println("<td><a href=\"/xInvest/user\">"+msg.getString("HISTORY")+"</a></td>");
+                out.println("<td><a href=\"/xInvest/webquotes\">"+msg.getString("Cotacoes")+"</a></td>");
+                out.println("<td><a href=\"/xInvest/user\">"+msg.getString("MARKET")+"</a></td>");
+                out.println("<td><a href=\"/xInvest/user\">"+msg.getString("LOANS")+"</a></td>");
+                out.println("<td><a href=\"/xInvest/user/userservlet?op=2\">"+msg.getString("LOGOUT")+"</a></td>");
                 out.println("</tr></table></div>");
             }
 %>                    
