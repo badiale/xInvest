@@ -1,5 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="java.util.*" %>
+<%@page import="java.util.*,org.xinvest.beans.User" %>
 <%
 	Locale currentLocale = request.getLocale();
 	ResourceBundle msg = ResourceBundle.getBundle("org.xinvest.bundles.message", currentLocale);
@@ -15,10 +15,10 @@
         <div id="wrapper">
 			<div id="header"></div>
 <%
-			User USER = request.getSession().getAttribute("user")
+			User USER = (User) request.getSession().getAttribute("user");
             if (USER!=null) {
                 out.println("<div id=\"menu-user\"><table><tr>");
-                out.println("<td>"+msg.getString("HELLO")+ USER.getName() + "</a></td>");
+                out.println("<td>"+msg.getString("HELLO")+ " " +USER.getName() + "</a></td>");
                 out.println("<td><a href=\"/xInvest/user\">"+msg.getString("HOME")+"</a></td>");
                 out.println("<td><a href=\"/xInvest/user/profile.jsp\">"+msg.getString("PROFILE")+"</a></td>");
                 out.println("<td><a href=\"/xInvest/history\">"+msg.getString("HISTORY")+"</a></td>");

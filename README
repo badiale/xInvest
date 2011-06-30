@@ -17,6 +17,7 @@ Prioritario
 	Fazer grafico com lucro/perda do usuario.
 	Fazer grafico com a variacao dos juro(s) do(s) banco(s).
 	Permitir ao usuario visualizar graficamente o quanto deve ao longo do tempo.
+	O usuario pode vender quotes para o banco.
 
 Intermediario
 	Exibir grafico com lucro/perda na home.
@@ -24,6 +25,7 @@ Intermediario
 	Exibir vendas do usuario na home.
 	Exibir emprestimos feitos na home.
 	Exibir emprestimos oferecidos na home.
+	Prever investimento de forma mais elaborada.
 
 Opcional
 	Sessao administrativa para inserir novos quotes.
