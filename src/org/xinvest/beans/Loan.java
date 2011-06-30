@@ -35,4 +35,10 @@ public class Loan extends Transaction implements Serializable {
 		Session session = DBManager.getSession();
 		return (Loan) session.load(Loan.class, id);
 	}
+
+	public static List findAll() {
+//		"SELECT t.tick FROM Tick t,Quote q WHERE t.quote = q.quote and q.quote = :quote ORDER BY t.timestamp DESC
+		Session session = DBManager.getSession();
+		return session.createQuery("SELECT l FROM loan l WHERE l.user_passive = null").list();
+	}
 }
