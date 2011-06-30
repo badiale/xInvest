@@ -21,8 +21,8 @@ public class TickJuros implements Serializable {
 		
 		@Id
 		@Column
-		@SequenceGenerator(name = "seq_tickid", sequenceName = "seq_tickid")
-		@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_tickid")
+		@SequenceGenerator(name = "seq_tickjurosid", sequenceName = "seq_tickjurosid")
+		@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_tickjurosid")
 		private Integer id;
 		
 		@ManyToOne
@@ -96,59 +96,23 @@ public class TickJuros implements Serializable {
 			Session session = DBManager.getSession();
 			session.beginTransaction();
 			
-				Quote q = Quote.find("PBR");
+				Bank b = Bank.find("bank@bank.com");
 			
-				log.debug(q.getQuote());
-			
-				Tick t = new Tick();
-				t.setQuote(q);			
-				t.setTick(new Float(31.23));
-				t.insert();
+				log.debug(b.getName());
+			for(int i = 0; i< 100; i++) {
+				TickJuros tj = new TickJuros();
+				tj.setBank(b);			
+				tj.setTickJuros(new Float(1*i));
+				tj.insert();
 
-				q.getTicks().add(t);
+				b.getTicks().add(tj);
 
-			
+			}
 			session.getTransaction().commit();
-			log.info("Tick inserido");
+			log.info("TickJuros inserido");
 		}
 		
-		private static void test02() {
-			Session session = DBManager.getSession();
-			session.beginTransaction();
-				Tick t2 = Tick.find(2);
-			session.getTransaction().commit();
-
-			log.info("Tick recuperado");
-			log.debug(t2.getQuote().getQuote());
-		}
-		
-		private static void test03() {
-			Session session = DBManager.getSession();
-			session.beginTransaction();
-				Tick t2 = Tick.find(1);
-				
-				t2.remove();
-				
-			session.getTransaction().commit();
-			log.info("Tick removido");
-
-		}
-		
-		private static void test04() {
-			Session session = DBManager.getSession();
-			session.beginTransaction();
-				Tick t2 = Tick.find(2);
-				t2.setTick(new Float(2));
-				
-			session.getTransaction().commit();
-			log.info("Tick alterado");
-
-		}
-
 		public static void main (String args[]) {
-			//test01();
-			//test02();
-			//test03();
-			//test04();
+			test01();
 		}
 }

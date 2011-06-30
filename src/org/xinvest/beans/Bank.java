@@ -65,7 +65,7 @@ public class Bank extends User {
         } catch (Exception e) {
             System.err.println("ERRO:Test01:INSERT: "+e);
             e.printStackTrace();
-        }
+        }/*
         Bank bankdb = Bank.find("bank2");
         System.out.println("Email: "+bankdb.getEmail());
         System.out.println("Name: "+bankdb.getName());
@@ -80,7 +80,7 @@ public class Bank extends User {
 		}
 		System.out.println("");
         bankdb.setInterest(new Float(0.8));
-        bankdb.update();
+        bankdb.update();*/
 		session.getTransaction().commit();
     }
     
