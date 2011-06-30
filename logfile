@@ -263,3 +263,32 @@ LOG:  unexpected EOF on client connection
 LOG:  unexpected EOF on client connection
 LOG:  unexpected EOF on client connection
 LOG:  unexpected EOF on client connection
+ERROR:  null value in column "id" violates not-null constraint
+STATEMENT:  insert into investment (amount, investment_fk) VALUES (100, 'pira');
+ERROR:  insert or update on table "investment" violates foreign key constraint "fke9cc0ef31ec76517"
+DETAIL:  Key (investment_fk)=(pira) is not present in table "quote".
+STATEMENT:  insert into investment (id, amount, investment_fk) VALUES (1, 100, 'pira');
+ERROR:  insert or update on table "investment" violates foreign key constraint "fke9cc0ef31ec76517"
+DETAIL:  Key (investment_fk)=(6) is not present in table "quote".
+STATEMENT:  insert into investment (id, amount, investment_fk) VALUES (1, 100, 6);
+LOG:  unexpected EOF on client connection
+ERROR:  column "mail01" does not exist at character 403
+STATEMENT:  select investment0_.id as id5_, investment0_1_.timestamp as timestamp5_, investment0_1_.value as value5_, investment0_1_.user_active as user5_5_, investment0_1_.user_passive as user4_5_, investment0_.investment_fk as investment3_6_, investment0_.amount as amount6_ from Investment investment0_ inner join Transaction investment0_1_ on investment0_.id=investment0_1_.id where investment0_1_.user_active=mail01
+LOG:  unexpected EOF on client connection
+ERROR:  column "mail01" does not exist at character 403
+STATEMENT:  select investment0_.id as id5_, investment0_1_.timestamp as timestamp5_, investment0_1_.value as value5_, investment0_1_.user_active as user5_5_, investment0_1_.user_passive as user4_5_, investment0_.investment_fk as investment3_6_, investment0_.amount as amount6_ from Investment investment0_ inner join Transaction investment0_1_ on investment0_.id=investment0_1_.id where investment0_1_.user_active=mail01
+LOG:  unexpected EOF on client connection
+ERROR:  column "mail01" does not exist at character 403
+STATEMENT:  select investment0_.id as id5_, investment0_1_.timestamp as timestamp5_, investment0_1_.value as value5_, investment0_1_.user_active as user4_5_, investment0_1_.user_passive as user5_5_, investment0_.investment_fk as investment3_6_, investment0_.amount as amount6_ from Investment investment0_ inner join Transaction investment0_1_ on investment0_.id=investment0_1_.id where investment0_1_.user_active=mail01
+LOG:  unexpected EOF on client connection
+ERROR:  column "mail01" does not exist at character 403
+STATEMENT:  select investment0_.id as id5_, investment0_1_.timestamp as timestamp5_, investment0_1_.value as value5_, investment0_1_.user_active as user4_5_, investment0_1_.user_passive as user5_5_, investment0_.investment_fk as investment3_6_, investment0_.amount as amount6_ from Investment investment0_ inner join Transaction investment0_1_ on investment0_.id=investment0_1_.id where investment0_1_.user_active=mail01
+LOG:  unexpected EOF on client connection
+ERROR:  column "mail01" does not exist at character 403
+STATEMENT:  select investment0_.id as id5_, investment0_1_.timestamp as timestamp5_, investment0_1_.value as value5_, investment0_1_.user_active as user4_5_, investment0_1_.user_passive as user5_5_, investment0_.investment_fk as investment3_6_, investment0_.amount as amount6_ from Investment investment0_ inner join Transaction investment0_1_ on investment0_.id=investment0_1_.id where investment0_1_.user_active=mail01
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+ERROR:  duplicate key value violates unique constraint "investment_pkey"
+DETAIL:  Key (id)=(3) already exists.
+STATEMENT:  insert into investment (id, amount, investment_fk) VALUES (3,99900, 'YHOO');
+LOG:  unexpected EOF on client connection
