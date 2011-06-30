@@ -82,8 +82,13 @@ public class User implements Serializable, Config {
     public void insert () throws IOException {
         Session session = DBManager.getSession();
         session.save(this);
+		
+		System.out.println(imagesFolder);
+		File path = new File(imagesFolder);
+		if (!path.exists()) path.mkdirs();
+
         // Touching hard drive
-        File file = new File(imagesFolder+"/"+this.email);
+		File file = new File(imagesFolder+"/"+this.email);
         file.createNewFile(); // May generate IOException
     }
     

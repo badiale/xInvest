@@ -137,6 +137,9 @@ public class UserServlet extends HttpServlet {
 					if (fitem.getContentType().equals("image/jpeg") || 
 							fitem.getContentType().equals("image/png") || 
 							fitem.getContentType().equals("image/bmp")) { 
+						File path = new File(User.imagesFolder);
+						if (!path.exists()) path.mkdirs();
+
 						fitem.write(picture);
 
 						user.setName(name);
@@ -154,6 +157,7 @@ public class UserServlet extends HttpServlet {
 					}
 				} catch (Exception e) {
 					targetUrl = "/xInvest/message.jsp?msg=204";
+					e.printStackTrace();
 				}
 			break;
 

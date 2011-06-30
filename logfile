@@ -292,3 +292,9 @@ ERROR:  duplicate key value violates unique constraint "investment_pkey"
 DETAIL:  Key (id)=(3) already exists.
 STATEMENT:  insert into investment (id, amount, investment_fk) VALUES (3,99900, 'YHOO');
 LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
+LOG:  unexpected EOF on client connection
