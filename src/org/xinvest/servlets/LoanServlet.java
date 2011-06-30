@@ -108,7 +108,7 @@ public class LoanServlet extends HttpServlet {
 		
 		if (active == null) {
 			targetUrl = "index.jsp";
-			operation = 0; //deve ser algum valor invalido mas para testar assumimos 0 pois n tem session ainda
+			operation = -2; //deve ser algum valor invalido mas para testar assumimos 0 pois n tem session ainda
 		}
 		
 		try {
@@ -187,9 +187,9 @@ public class LoanServlet extends HttpServlet {
 						dbSession.getTransaction().commit();
 
 						//TODO calcular o interest de forma mais coerente
-						interest = (totalLend / 100) * (float) 0.1;
+						interest = (totalLend % 100) + (float) 0.1;
 						l.setInterest(new Float(interest));
-						l.insert();				
+						l.insert();			
 						b.setInterest(interest);
 		   				
 						targetUrl = "/xInvest/message.jsp?msg=105";
