@@ -64,8 +64,8 @@ public class LoanServlet extends HttpServlet {
 
 		html += "<h1>"+msg.getString("LOAN_MORE_TITLE")+"</h1><br>";
 		
-		html += "<table><tr class=\"labelRow\"><th>COD</th><th>email</th> <th>"+msg.getString("LOAN_VALOR")+"</th><th>"+msg.getString("LOAN_JUROS")+"</th></tr>";
-		
+		html += "<table><tr class=\"labelRow\"><th>COD</th><th>email</th> <th>"+msg.getString("LOAN_VALOR")+"</th><th>"+msg.getString("LOAN_JUROS")+"</th></tr>"+
+		"<tr class=\"labelRow\"><td class=\"idCell\">";
 
 
 		out.println(html);
