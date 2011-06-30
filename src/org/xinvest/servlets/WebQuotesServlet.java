@@ -30,9 +30,13 @@ public class WebQuotesServlet extends HttpServlet {
 
 		String targetUrl = null;
 		String html = null;
+	
+		Locale currentLocale = request.getLocale();
+		ResourceBundle msg = ResourceBundle.getBundle("org.xinvest.bundles.message", currentLocale);
 
 		int operation = -1;
 		try {
+
 			 operation = Integer.parseInt(request.getParameter("op"));
 		} catch (Exception e) {
 			targetUrl = "/xInvest/message.jsp?msg=100";
@@ -47,13 +51,13 @@ public class WebQuotesServlet extends HttpServlet {
 	
 								WebQuotes w = WebQuotes.find(new Integer(1));
 								out.println("<table>");
-								out.println("<tr class=\"labelRow\"><th>Quote</th><th>Nome</th><th>Tick</th><th>50day Avg</th></tr>");
+								out.println("<tr class=\"labelRow\"><th>"+msg.getString("QUOTE")+"</th><th>"+msg.getString("NOME")+"</th><th>Tick</th><th>"+msg.getString("50_AVG")+"</th></tr>");
 								Iterator it = w.getQuotes().iterator();
 								while (it.hasNext()) {
 										Quote q = (Quote) it.next();
 										out.println("<tr><td>"+q.getQuote()+"</td>");
 										out.println("<td>"+q.getName()+"</td>");
-										out.println("<td>"+ ( (Tick) q.getTicks().iterator().next() ).getTick()+"</td>");
+										out.println("<td>"+q.getLastestTick()+"</td>");
 										out.println("<td>"+q.getFiftydayMovingAverage()+"</td>");
 										out.println("<td><a href=\"/xInvest/quote/index.jsp?quote="+q.getQuote()+"\">Ver</a></td></tr>");
 										

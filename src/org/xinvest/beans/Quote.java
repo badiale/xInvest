@@ -133,6 +133,13 @@ public class Quote implements Serializable {
 			Session session = DBManager.getSession();
 			return session.createQuery("SELECT q FROM Quote q").list();
 		}
+		
+		public Float getLastestTick() {
+			Session session = DBManager.getSession();
+			return (Float) session.createQuery(
+				"SELECT t.tick FROM Tick t,Quote q WHERE t.quote = q.quote and q.quote = :quote ORDER BY t.timestamp DESC "
+				).setParameter("quote",this.quote).list().iterator().next();
+		}
 
 		//TESTERS
 		private static void test01() {
@@ -214,13 +221,26 @@ public class Quote implements Serializable {
 			session.getTransaction().commit();
 			log.info("Todos os investments listados");	
 		}
+		
+		private static void test06() {
+			Session session = DBManager.getSession();
+			session.beginTransaction();
+				Quote q = Quote.find("GOOG");			
+			
+				log.info("Quote Recuperada");
+				log.info(q.getLastestTick());
+		
+			session.getTransaction().commit();
+			log.info("Todos os investments listados");	
+		}
 
 		public static void main (String args[]) {
 			//test01();
 			//test02();
 			//test03();
 			//test04();
-			test05();
+			//test05();
+			test06();
 
 		}
 }

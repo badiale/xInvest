@@ -32,54 +32,58 @@ public class QuoteServlet extends HttpServlet {
     public void doGet (HttpServletRequest request, HttpServletResponse response)
 	    throws ServletException, IOException {
 		
-		PrintWriter out = response.getWriter();
 	
 	//	HttpSession session = request.getSession();
 
 		String targetUrl = null;
 		String html = null;
+	  Locale currentLocale = request.getLocale();
+	  ResourceBundle msg = ResourceBundle.getBundle("org.xinvest.bundles.message", currentLocale);
 
 		int operation = -1;
 		try {
+	
 			 operation = Integer.parseInt(request.getParameter("op"));
 		} catch (Exception e) {
 			targetUrl = "/xInvest/message.jsp?msg=100";
 			response.sendRedirect(targetUrl);
 		}
+		
+		
 
 		switch (operation) {
 			case GRAPH:
 				try {
 					Session session = DBManager.getSession();
 					session.beginTransaction();
-					//Quote q = Quote.find(request.getParameter("quote"));
+					Quote q = Quote.find(request.getParameter("quote"));
 					
 					// conjunto de dados que vamos plotar
 					XYSeriesCollection dataset = new XYSeriesCollection();
 
 					// dados de uma "curva"
 					XYSeries curva1 = new XYSeries("Ticks");
-					curva1.add(1.0, 1.0); // (x, y)
-					curva1.add(2.0, 4.0);
-					curva1.add(3.0, 3.0);
-					curva1.add(4.0, 5.0);
-					curva1.add(5.0, 5.0);
-					curva1.add(6.0, 7.0);
-					curva1.add(7.0, 7.0);
-					curva1.add(8.0, 8.0);
-	
+					
+			
+					
+					Iterator it = q.getTicks().iterator();
+					while (it.hasNext()) {
+						Tick t = (Tick) it.next();
+						curva1.add(t.getTimestamp().getTime(),t.getTick()); // (x, y)
+					}
+				
 					// coloca a curva no conjunto de dados
 					dataset.addSeries(curva1);
 
 					// retorna uma abstracao do grafo
 					JFreeChart chart = ChartFactory.createXYLineChart( 
-							"Grafico muito loko!",      // titulo do grafico
-							"X",                        // descricao do eixo X
-							"Y",                        // descricao do eixo Y
+							msg.getString("NOME_GRAFICO"),      // titulo do grafico
+							msg.getString("X_GRAFICO"),                        // descricao do eixo X
+							msg.getString("Y_GRAFICO"),                        // descricao do eixo Y
 							dataset,                    // dados
 							PlotOrientation.VERTICAL,   // orientacao do grafico
-							true,                       // mostrar legendas
-							true,                       // mostrar tooltips
+							false,                       // mostrar legendas
+							false,                       // mostrar tooltips
 							false);                     // mostrar urls (nao sei o q eh isso)
 
 					OutputStream outS = response.getOutputStream();
@@ -94,6 +98,7 @@ public class QuoteServlet extends HttpServlet {
 	
 				
 					
+					outS.close();
 					session.getTransaction().commit();
 				} catch (Exception e) {e.printStackTrace(); 
 														}
@@ -101,17 +106,40 @@ public class QuoteServlet extends HttpServlet {
 			
 			case QUOTEINFO:
 				try {
+					PrintWriter out = response.getWriter();
+
+					response.setContentType("text/html");
 					Session session = DBManager.getSession();
 					session.beginTransaction();
 					Quote q = Quote.find(request.getParameter("quote"));
 						
 					out.println("<h1>"+q.getQuote()+" - "+q.getName()+"</h1>");
+					
+					out.println("<br/>");
+					out.println("<br/>");
+					out.println("<br/>");
+					out.println("<table>");
+					out.println("<tr class=\"labelRow\"><th>TICK</th><th>"+msg.getString("50_AVG")+"</th><th>"+msg.getString("DAYS_LOW")+"</th><th>"+msg.getString("DAYS_HIGH")+"</th><th>"+msg.getString("YEAR_LOW")+"</th><th>"+msg.getString("YEAR_HIGH")+"</th><th>Volume</th><th>"+msg.getString("STOCK_EXCHANGE")+"</th></tr>");
+					out.println("<tr><td>"+q.getLastestTick()+"</td>");
+					out.println("<td>"+q.getFiftydayMovingAverage()+"</td>");
+					out.println("<td>"+q.getDaysLow()+"</td>");					
+					out.println("<td>"+q.getDaysHigh()+"</td>");		
+					out.println("<td>"+q.getYearLow()+"</td>");		
+					out.println("<td>"+q.getYearHigh()+"</td>");		
+					out.println("<td>"+q.getVolume()+"</td>");		
+					out.println("<td>"+q.getStockExchange()+"</td></tr>");		
+					out.println("</table>");
+					out.println("<br/>");
+					out.println("<br/>");
+					out.println("<br/>");
+					
 						
 					session.getTransaction().commit();
 				} catch (Exception e) {e.printStackTrace(); 
 					}
 			break;
 			}
+
 		}
 		
     public void doPost (HttpServletRequest request, HttpServletResponse response)
