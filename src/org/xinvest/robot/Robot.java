@@ -31,7 +31,7 @@ import org.xinvest.beans.*;
 
 public class Robot implements Serializable {
 
-		private String[] companies = {"YHOO","AAPL","GOOG", "MSFT"};
+		private String[] companies = {"YHOO","AAPL","GOOG","MSFT","PBR", "CSCO", "BAC", "AMZN", "AXP","T", "BA","HPQ","DELL","DIS","AMD","F","GE","INTC", "JNJ", "NOK", "NKE", "NVDA"};
 
 		/**
 		* Logger
@@ -52,7 +52,7 @@ public class Robot implements Serializable {
       try {
 
 				//OBS AS EMPRESAS ESTAO DEFINIDAS HARCODED SE MUDAR TEM QUE MUDAR O VETOR COMPANIES
-         u = new URL("http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22YHOO%22%2C%22AAPL%22%2C%22GOOG%22%2C%22MSFT%22)%0A%09%09&diagnostics=true&env=http%3A%2F%2Fdatatables.org%2Falltables.env");
+         u = new URL("http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22YHOO%22%2C%22AAPL%22%2C%22GOOG%22%2C%22MSFT%22%2C%22PBR%22%2C%20%22CSCO%22%2C%20%22BAC%22%2C%20%22AMZN%22%2C%20%22AXP%22%2C%22T%22%2C%20%22BA%22%2C%22HPQ%22%2C%22DELL%22%2C%22DIS%22%2C%22AMD%22%2C%22F%22%2C%22GE%22%2C%22INTC%22%2C%20%22JNJ%22%2C%20%22NOK%22%2C%20%22NKE%22%2C%20%22NVDA%22)%0A%09%09&diagnostics=true&env=http%3A%2F%2Fdatatables.org%2Falltables.env");
          is = u.openStream();     
          dis = new DataInputStream(new BufferedInputStream(is));
 
@@ -154,7 +154,7 @@ public class Robot implements Serializable {
 		  
 		public static void main(String args[]) {
 			Robot r =  new Robot();
-			r.robotize(0);
+			r.robotize(1);
 		}
 }
 
