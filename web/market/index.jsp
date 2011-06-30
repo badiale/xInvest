@@ -14,7 +14,7 @@
 		</tr>
 		<tr>
 			<th><%= msg.getString("PRICE") %></th>
-			<td><INPUT TYPE="text" NAME="price"</td>
+			<td><INPUT TYPE="text" NAME="price"></td>
 		</tr>
 		<tr>
 			<th><%= msg.getString("QUANTITY") %></th>
@@ -28,6 +28,9 @@
 </FORM>
 
 <H2><%= msg.getString("BUY") %></H2>
+<jsp:include page="/investment/investmentservlet">
+    <jsp:param name="op" value="3"/>
+</jsp:include>
 <table width=100>
 	<tr>
 		<th><%= msg.getString("EMAIL") %></th>

@@ -32,11 +32,11 @@ public class User implements Serializable, Config {
     private Float money;
     
 	@OneToMany
-	@JoinColumn(name="user_active")
+	@JoinColumn(name="user_active", insertable=false, updatable=false)
 	private Set<Transaction> tactives = new HashSet<Transaction>();
 	
 	@OneToMany
-	@JoinColumn(name="user_passive")
+	@JoinColumn(name="user_passive", insertable=false, updatable=false)
 	private Set<Transaction> tpassives = new HashSet<Transaction>();
 
     // quotes
