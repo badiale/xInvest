@@ -37,6 +37,24 @@ public class Loan extends Transaction implements Serializable {
 		return loan;
 	}
 
+	public static List findByActive (User user) {
+        Session session = DBManager.getSession();
+        // Query in Hibernate Query Language
+        String hql = "select l from Loan l where l.active.email = :email";
+        org.hibernate.Query query = 
+                session.createQuery(hql).setParameter("email", user.getEmail());
+        return query.list();
+    }
+    
+	public static List findByPassive (User user) {
+        Session session = DBManager.getSession();
+        // Query in Hibernate Query Language
+        String hql = "select l from Loan l where l.passive.email = :email";
+        org.hibernate.Query query = 
+                session.createQuery(hql).setParameter("email", user.getEmail());
+        return query.list();
+    }
+
 	public static List findAll() {
 		Session session = DBManager.getSession();
 		return session.createQuery("SELECT l FROM Loan l WHERE l.active = null").list();

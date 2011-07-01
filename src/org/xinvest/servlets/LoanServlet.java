@@ -27,6 +27,8 @@ public class LoanServlet extends HttpServlet {
     private final int PAY           = 3; 
     private final int BANKPAY       = 4;
     private final int CREATELOAN    = 5;
+    private final int LISTACTIVE    = 6;
+    private final int LISTPASSIVE   = 7;
 
 	// must be inside a transaction!!!
 	private void refreshInterest() {		
@@ -170,8 +172,9 @@ public class LoanServlet extends HttpServlet {
 					l = Loan.find(Integer.parseInt(request.getParameter("id")));
 
 					l.setActive(active2);
-
+					active2.setMoney(active2.getMoney() + l.getValue());
 					active2.getTransactionActives().add(l);
+					active2.update();
 					passive.getTransactionPassives().add(l);
 
 					l.update();
@@ -184,6 +187,7 @@ public class LoanServlet extends HttpServlet {
 				}
 							
 				dbSession.getTransaction().commit();				
+				out.println(html);
 
 			} catch (Exception e) {
 				targetUrl = "/xInvest/message.jsp?msg=101";
@@ -246,12 +250,20 @@ public class LoanServlet extends HttpServlet {
 					l.setPassive(active2);
 					l.setActive(null);
 					
-					l.insert();
+					if (active2.getMoney() >= l.getValue()) {
 
-					active2.getTransactionPassives().add(l);
+						l.insert();
 
-					targetUrl = "/xInvest/message.jsp?msg=106";
+						active2.getTransactionPassives().add(l);
+						active2.setMoney(active2.getMoney() - l.getValue());
+						active2.update();			
+	
+						targetUrl = "/xInvest/message.jsp?msg=106";
 
+					}
+					else {
+						targetUrl = "/xInvest/message.jsp?msg=102";
+					}
 					dbSession.getTransaction().commit();
 
 				} catch (Exception e) {
@@ -281,14 +293,92 @@ public class LoanServlet extends HttpServlet {
 						if (l.getPassive().getEmail().equals("bank@bank.com")) {
 							refreshInterest();
 						}
+						targetUrl = "/xInvest/message.jsp?msg=107";
+					}					
+					else {
+						targetUrl = "/xInvest/message.jsp?msg=103";
 					}
-					targetUrl = "/xInvest/message.jsp?msg=107";
+					dbSession.getTransaction().commit();
 
 				} catch (Exception e) {
 					e.printStackTrace();
 					targetUrl = "/xInvest/message.jsp?msg=103";
 				}
 				response.sendRedirect(targetUrl);
+			break;
+
+			case LISTACTIVE:
+				String html2 = "";	
+				try {
+					Session dbSession = DBManager.getSession();
+					dbSession.beginTransaction();													
+
+					User active2 = User.find(active.getEmail());
+
+					html2 += "<b><h1>"+msg.getString("LOAN_LIST_TITLE1")+"</b><h1><br>";
+					html2 += "<table><tr class=\"labelRow\"><th>"+msg.getString("LOAN_SOURCE")+"</th><th>"+msg.getString("LOAN_QUANTITY")+"</th> <th>"+msg.getString("LOAN_JUROS")+"</th><th>"+msg.getString("LOAN_DATE")+"</th><th>"+msg.getString("LOAN_VALUE")+"</th></tr>"+
+					"<tr><td>";
+
+					List li = Loan.findByActive(active2);
+
+					Iterator it = li.iterator();
+					Loan lo = null;
+
+					while (it.hasNext()) {
+						lo = (Loan) it.next();
+						html2 += "<tr><td>"+lo.getPassive().getEmail()+"</td>";
+						html2 += "<td>"+lo.getValue()+"</td>";
+						html2 += "<td>"+lo.getInterest()+"</td>";
+						html2 += "<td>"+lo.getTimestamp()+"</td>";
+						html2 += "<td>"+"TODO"+"</td>";
+						html2 += "<td>&nbsp&nbsp<a href=/xInvest/loan/loanservlet?op=3&id="+lo.getId()+">"+msg.getString("LOAN_PAY")+"</a></td></tr>";
+					}
+					html2 += "</table><br><br>";
+
+					dbSession.getTransaction().commit();
+
+				} catch (Exception e) {
+					e.printStackTrace();
+					targetUrl = "/xInvest/message.jsp?msg=103";
+				}
+				out.println(html2);
+				//response.sendRedirect(targetUrl);
+			break;
+
+			case LISTPASSIVE:
+				String html3 = "";
+				try {
+					Session dbSession = DBManager.getSession();
+					dbSession.beginTransaction();														
+
+					User active2 = User.find(active.getEmail());
+
+					html3 += "<b><h1>"+msg.getString("LOAN_LIST_TITLE2")+"</b><h1><br>";
+					html3 += "<table><tr class=\"labelRow\"><th>"+msg.getString("LOAN_SOURCE")+"</th><th>"+msg.getString("LOAN_QUANTITY")+"</th> <th>"+msg.getString("LOAN_JUROS")+"</th><th>"+msg.getString("LOAN_DATE")+"</tr>"+
+					"<tr><td>";
+
+					List li = Loan.findByPassive(active2);
+
+					Iterator it = li.iterator();
+					Loan lo = null;
+
+					while (it.hasNext()) {
+						lo = (Loan) it.next();
+						html3 += "<tr><td>"+lo.getPassive().getEmail()+"</td>";
+						html3 += "<td>"+lo.getValue()+"</td>";
+						html3 += "<td>"+lo.getInterest()+"</td>";
+						html3 += "<td>"+lo.getTimestamp()+"</td>";
+					}
+					html3 += "</table><br><br>";
+
+					dbSession.getTransaction().commit();
+
+				} catch (Exception e) {
+					e.printStackTrace();
+					targetUrl = "/xInvest/message.jsp?msg=103";
+				}
+				out.println(html3);
+				//response.sendRedirect(targetUrl);
 			break;
 		}
     }
