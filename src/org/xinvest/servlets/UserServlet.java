@@ -18,6 +18,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import java.util.*;
 import java.text.SimpleDateFormat;
 import org.xinvest.beans.Investment;
+import org.xinvest.beans.Loan;
 
 /**
 * Servlet to handle user operations within the stock simulator application.
@@ -204,6 +205,21 @@ public class UserServlet extends HttpServlet {
                     Investment i = (Investment) it.next();
                     invested += i.getValue();
                 }
+                Float debts = new Float(0.0);
+                list = Loan.findByActive(user);
+                it = list.iterator();
+                while (it.hasNext()) {
+                    Loan l = (Loan) it.next();
+                    debts += l.getValue();
+                }
+                
+                Float offered = new Float(0.0);
+                list = Loan.findByPassive(user);
+                it = list.iterator();
+                while (it.hasNext()) {
+                    Loan l = (Loan) it.next();
+                    offered += l.getValue();
+                }
                 session.getTransaction().commit();
                 
                 Locale currentLocale = request.getLocale();
@@ -212,8 +228,8 @@ public class UserServlet extends HttpServlet {
 				out.println("<tr><td>"+msg.getString("NAME")+":</td><td>"+user.getName()+"</td>");
 				out.println("<tr><td>"+msg.getString("MONEY")+":</td><td>"+user.getMoney()+"</td>");
 				out.println("<tr><td>"+msg.getString("INVESTED")+":</td><td>"+invested+"</td>");
-				out.println("<tr><td>"+msg.getString("DEBTS")+":</td><td>"+user.getMoney()+"</td>");
-				out.println("<tr><td>"+msg.getString("LOANS_OFFERED")+":</td><td>"+user.getMoney()+"</td>");
+				out.println("<tr><td>"+msg.getString("DEBTS")+":</td><td>"+debts+"</td>");
+				out.println("<tr><td>"+msg.getString("LOANS_OFFERED")+":</td><td>"+offered+"</td>");
 				out.println("</table>");
 			break;
 

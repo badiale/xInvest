@@ -8,22 +8,22 @@
     </jsp:include>
 </div>
 <br/>
-
+<h2><%=msg.getString("MY_INVESTMENTS")%></h2>
 <jsp:include page="/investment/investmentservlet">
     <jsp:param name="op" value="3"/>
 </jsp:include>
 <br/>
+<h2><%=msg.getString("MY_SELLINGS")%></h2>
 <jsp:include page="/investment/investmentservlet">
     <jsp:param name="op" value="4"/>
 </jsp:include>
-
+<br/>
 <jsp:include page="/loan/loanservlet">
     <jsp:param name="op" value="6"/>
 </jsp:include>
-
+<br/>
 <jsp:include page="/loan/loanservlet">
     <jsp:param name="op" value="7"/>
 </jsp:include>
-
 <br/>
 <%@ include file="/footer.jsp"%>
