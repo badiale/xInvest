@@ -48,7 +48,7 @@ public class Quote implements Serializable {
     private WebQuotes webQuotes = null;
     
     @OneToMany
-	    @JoinColumn(name="investment_fk")
+	    @JoinColumn(name="investment_fk", insertable=false, updatable=false)
 		private Set<Investment> investments = new HashSet<Investment>();
 
 		

@@ -3,7 +3,7 @@
 </jsp:include>
 <%@ include file="/header.jsp"%>
 <h1><%=msg.getString("MARKET")%></h1>
-<jsp:include page="/investment/investmentservlet">
+<jsp:include page="investmentservlet">
     <jsp:param name="op" value="5"/>
 </jsp:include>
 <br/>

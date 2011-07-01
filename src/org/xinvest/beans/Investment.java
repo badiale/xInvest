@@ -15,7 +15,7 @@ import org.xinvest.config.Config;   // Hibernate session handler
 public class Investment extends Transaction implements Serializable {
     
     @ManyToOne
-    @JoinColumn(name="investment_fk", insertable=false, updatable=false)
+    @JoinColumn(name="investment_fk")
     private Quote quote = null;
     
     @Column(name="amount")
