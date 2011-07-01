@@ -13,20 +13,28 @@ import org.hibernate.Session;
 // Other Imports
 import java.util.*;
 
+// Graficos
+import org.jfree.chart.*;
+import org.jfree.chart.plot.*;
+import org.jfree.data.xy.*;
+import org.jfree.chart.servlet.ServletUtilities;
+
 /**
  * Servlet to handle loan operations.
  * @author Rodrigo Leonavas
  */
 public class LoanServlet extends HttpServlet {
 	private ResourceBundle msg;
-	private PrintWriter out;	
+
 
 	private final int GETINTEREST   = 0;
     private final int USERLOAN 		= 1;
     private final int BANKLOAN	    = 2;
     private final int PAY           = 3; 
-    private final int BANKPAY       = 4;
     private final int CREATELOAN    = 5;
+    private final int LISTACTIVE    = 6;
+    private final int LISTPASSIVE   = 7;
+    private final int GRAPH   = 4;
 
 	// must be inside a transaction!!!
 	private void refreshInterest() {		
@@ -58,7 +66,7 @@ public class LoanServlet extends HttpServlet {
 		b.update();		   
 	}
 
-	private void printPage() {
+	private void printPage(PrintWriter out) {
 		float interest = new Float(0.0);		
 		
 		String html = "";		
@@ -124,9 +132,8 @@ public class LoanServlet extends HttpServlet {
 		String targetUrl = null;
 		Locale currentLocale = request.getLocale();
 		this.msg = ResourceBundle.getBundle("org.xinvest.bundles.message", currentLocale);
-		this.out = response.getWriter();
 
-		//PrintWriter out = response.getWriter();
+		
 	
 		HttpSession session = request.getSession();
 
@@ -152,7 +159,8 @@ public class LoanServlet extends HttpServlet {
 
 		switch (operation) {
 			case GETINTEREST:
-				printPage();
+				PrintWriter out = response.getWriter();
+				printPage(out);
 				break;
 
 			case USERLOAN:
@@ -170,8 +178,9 @@ public class LoanServlet extends HttpServlet {
 					l = Loan.find(Integer.parseInt(request.getParameter("id")));
 
 					l.setActive(active2);
-
+					active2.setMoney(active2.getMoney() + l.getValue());
 					active2.getTransactionActives().add(l);
+					active2.update();
 					passive.getTransactionPassives().add(l);
 
 					l.update();
@@ -184,6 +193,7 @@ public class LoanServlet extends HttpServlet {
 				}
 							
 				dbSession.getTransaction().commit();				
+				//out.println(html);
 
 			} catch (Exception e) {
 				targetUrl = "/xInvest/message.jsp?msg=101";
@@ -246,12 +256,20 @@ public class LoanServlet extends HttpServlet {
 					l.setPassive(active2);
 					l.setActive(null);
 					
-					l.insert();
+					if (active2.getMoney() >= l.getValue()) {
 
-					active2.getTransactionPassives().add(l);
+						l.insert();
 
-					targetUrl = "/xInvest/message.jsp?msg=106";
+						active2.getTransactionPassives().add(l);
+						active2.setMoney(active2.getMoney() - l.getValue());
+						active2.update();			
+	
+						targetUrl = "/xInvest/message.jsp?msg=106";
 
+					}
+					else {
+						targetUrl = "/xInvest/message.jsp?msg=102";
+					}
 					dbSession.getTransaction().commit();
 
 				} catch (Exception e) {
@@ -281,14 +299,151 @@ public class LoanServlet extends HttpServlet {
 						if (l.getPassive().getEmail().equals("bank@bank.com")) {
 							refreshInterest();
 						}
+						targetUrl = "/xInvest/message.jsp?msg=107";
+					}					
+					else {
+						targetUrl = "/xInvest/message.jsp?msg=103";
 					}
-					targetUrl = "/xInvest/message.jsp?msg=107";
+					dbSession.getTransaction().commit();
 
 				} catch (Exception e) {
 					e.printStackTrace();
 					targetUrl = "/xInvest/message.jsp?msg=103";
 				}
 				response.sendRedirect(targetUrl);
+			break;
+
+			case LISTACTIVE:
+			  out = response.getWriter();
+				String html2 = "";	
+				try {
+					Session dbSession = DBManager.getSession();
+					dbSession.beginTransaction();													
+
+					User active2 = User.find(active.getEmail());
+
+					html2 += "<b><h1>"+msg.getString("LOAN_LIST_TITLE1")+"</b></h1><br>";
+					html2 += "<table><tr class=\"labelRow\"><th>"+msg.getString("LOAN_SOURCE")+"</th><th>"+msg.getString("LOAN_QUANTITY")+"</th> <th>"+msg.getString("LOAN_JUROS")+"</th><th>"+msg.getString("LOAN_DATE")+"</th><th>"+msg.getString("LOAN_VALUE")+"</th></tr>"+
+					"<tr><td>";
+
+					List li = Loan.findByActive(active2);
+
+					Iterator it = li.iterator();
+					Loan lo = null;
+
+					while (it.hasNext()) {
+						lo = (Loan) it.next();
+						html2 += "<tr><td>"+lo.getPassive().getEmail()+"</td>";
+						html2 += "<td>"+lo.getValue()+"</td>";
+						html2 += "<td>"+lo.getInterest()+"</td>";
+						html2 += "<td>"+lo.getTimestamp()+"</td>";
+						html2 += "<td>"+"TODO"+"</td>";
+						html2 += "<td>&nbsp&nbsp<a href=/xInvest/loan/loanservlet?op=3&id="+lo.getId()+">"+msg.getString("LOAN_PAY")+"</a></td></tr>";
+					}
+					html2 += "</table><br><br>";
+
+					dbSession.getTransaction().commit();
+
+				} catch (Exception e) {
+					e.printStackTrace();
+					targetUrl = "/xInvest/message.jsp?msg=103";
+				}
+				out.println(html2);
+				//response.sendRedirect(targetUrl);
+			break;
+
+			case LISTPASSIVE:
+				out = response.getWriter();
+				String html3 = "";
+				try {
+					Session dbSession = DBManager.getSession();
+					dbSession.beginTransaction();														
+
+					User active2 = User.find(active.getEmail());
+
+					html3 += "<b><h1>"+msg.getString("LOAN_LIST_TITLE2")+"</b></h1><br>";
+					html3 += "<table><tr class=\"labelRow\"><th>"+msg.getString("LOAN_SOURCE")+"</th><th>"+msg.getString("LOAN_QUANTITY")+"</th> <th>"+msg.getString("LOAN_JUROS")+"</th><th>"+msg.getString("LOAN_DATE")+"</tr>"+
+					"<tr><td>";
+
+					List li = Loan.findByPassive(active2);
+
+					Iterator it = li.iterator();
+					Loan lo = null;
+
+					while (it.hasNext()) {
+						lo = (Loan) it.next();
+						html3 += "<tr><td>"+lo.getPassive().getEmail()+"</td>";
+						html3 += "<td>"+lo.getValue()+"</td>";
+						html3 += "<td>"+lo.getInterest()+"</td>";
+						html3 += "<td>"+lo.getTimestamp()+"</td>";
+					}
+					html3 += "</table><br><br>";
+
+					dbSession.getTransaction().commit();
+
+				} catch (Exception e) {
+					e.printStackTrace();
+					targetUrl = "/xInvest/message.jsp?msg=103";
+				}
+				out.println(html3);
+				//response.sendRedirect(targetUrl);
+			break;
+			
+		case GRAPH:
+				try {
+					Session dbSession = DBManager.getSession();
+					dbSession.beginTransaction();
+					l = Loan.find(Integer.parseInt(request.getParameter("id")));
+					
+					// conjunto de dados que vamos plotar
+					XYSeriesCollection dataset = new XYSeriesCollection();
+
+					// dados de uma "curva"
+					XYSeries curva1 = new XYSeries("Ticks");
+					
+					int offset = (int ) (l.getTimestamp().getTime() / (86400 * 1000));
+					
+					int start = (int ) ((l.getTimestamp().getTime() / (86400 * 1000)) - offset)  ;
+					int end = (int ) ((new Date().getTime() / (86400 * 1000)) - offset);
+					float valor = l.getValue();
+					float interest = l.getInterest();
+					
+					for(int i=start;i<end;i++) {
+						curva1.add(i,valor); // (x, y)
+						valor = ((valor*interest)+valor);
+					}
+				
+					// coloca a curva no conjunto de dados
+					dataset.addSeries(curva1);
+
+					// retorna uma abstracao do grafo
+					JFreeChart chart = ChartFactory.createXYLineChart( 
+							msg.getString("NOME_GRAFICO"),      // titulo do grafico
+							msg.getString("X_GRAFICO"),                        // descricao do eixo X
+							msg.getString("Y_GRAFICO"),                        // descricao do eixo Y
+							dataset,                    // dados
+							PlotOrientation.VERTICAL,   // orientacao do grafico
+							false,                       // mostrar legendas
+							false,                       // mostrar tooltips
+							false);                     // mostrar urls (nao sei o q eh isso)
+
+					OutputStream outS = response.getOutputStream();
+					response.setContentType("image/png");
+
+					// metodo que salva o grafo em um arquivo temporario
+					ChartUtilities.writeChartAsPNG(
+							outS,   // output stream
+							chart, // grafico
+							500,   // largura
+							300);  // altura
+	
+				
+					
+					outS.close();
+					dbSession.getTransaction().commit();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			break;
 		}
     }

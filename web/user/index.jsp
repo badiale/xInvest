@@ -18,4 +18,12 @@
     <jsp:param name="op" value="4"/>
 </jsp:include>
 <br/>
+<jsp:include page="/loan/loanservlet">
+    <jsp:param name="op" value="6"/>
+</jsp:include>
+<br/>
+<jsp:include page="/loan/loanservlet">
+    <jsp:param name="op" value="7"/>
+</jsp:include>
+<br/>
 <%@ include file="/footer.jsp"%>
