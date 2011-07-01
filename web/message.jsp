@@ -9,7 +9,10 @@
 	// Operacoes de transaction
 	case 100: out.println("error_msg\">"+msg.getString("LOAN_ERROR")); break;
 	case 101: out.println("error_msg\">"+msg.getString("LOAN_USER_ERROR")); break;
-	case 105: out.println("error_msg\">"+msg.getString("LOAN_SUCCESS")); break;
+	case 102: out.println("error_msg\">"+msg.getString("LOAN_CREATE_ERROR")); break;
+	case 103: out.println("error_msg\">"+msg.getString("LOAN_PAY_ERROR")); break;
+	case 105: out.println("success_msg\">"+msg.getString("LOAN_SUCCESS")); break;
+	case 106: out.println("success_msg\">"+msg.getString("LOAN_CREATE_SUCCESS")); break;
 	// Operacoes de user
     case 200: out.println("error_msg\">"+msg.getString("USER_FORM_ERROR")); break;
     case 201: out.println("error_msg\">"+msg.getString("USER_CONFIRM_ERROR")); break;

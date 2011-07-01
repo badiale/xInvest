@@ -33,11 +33,31 @@ public class Loan extends Transaction implements Serializable {
 
 	public static Loan find (Integer id) {
 		Session session = DBManager.getSession();
-		return (Loan) session.load(Loan.class, id);
+		Loan loan = (Loan) session.get("org.xinvest.beans.Loan", id);
+		return loan;
 	}
 
 	public static List findAll() {
 		Session session = DBManager.getSession();
 		return session.createQuery("SELECT l FROM Loan l WHERE l.active = null").list();
 	}
+
+	 private static void Test01 () {
+		Session dbSession = DBManager.getSession();
+		dbSession.beginTransaction();				
+
+		Loan loan = Loan.find(new Integer(29));
+							
+		dbSession.getTransaction().commit();
+		
+		System.out.println("O interest do loan eh:" + loan.getInterest());
+		System.out.println("O comedor de loan eh:" + loan.getActive());
+		System.out.println("O comido de loan eh:" + loan.getPassive().getName());
+	}
+
+	public static void main (String args[]){
+        //Test01();
+        Test01();
+        //Test03();
+    } 
 }
