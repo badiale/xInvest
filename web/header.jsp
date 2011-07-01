@@ -23,6 +23,8 @@
                 out.println("<td><a href=\"/xInvest/user/profile.jsp\">"+msg.getString("PROFILE")+"</a></td>");
                 out.println("<td><a href=\"/xInvest/history\">"+msg.getString("HISTORY")+"</a></td>");
                 out.println("<td><a href=\"/xInvest/webquotes\">"+msg.getString("Cotacoes")+"</a></td>");
+                out.println("<td><a href=\"/xInvest/user\">"+msg.getString("MARKET")+"</a></td>");
+                out.println("<td><a href=\"/xInvest/loan\">"+msg.getString("LOANS")+"</a></td>");
                 out.println("<td><a href=\"/xInvest/market\">"+msg.getString("MARKET")+"</a></td>");
                 out.println("<td><a href=\"/xInvest/user\">"+msg.getString("LOANS")+"</a></td>");
                 out.println("<td><a href=\"/xInvest/user/userservlet?op=2\">"+msg.getString("LOGOUT")+"</a></td>");
