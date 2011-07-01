@@ -39,6 +39,9 @@ public class InvestmentServlet extends HttpServlet {
 
 		String targetUrl = null;
 		int operation = -1;
+		try {
+			operation = Integer.parseInt(request.getParameter("op"));
+		} catch (Exception e) { e.printStackTrace(); }
 
 		User active = null;
 		User passive = null;
