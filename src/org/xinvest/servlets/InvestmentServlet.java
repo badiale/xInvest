@@ -124,8 +124,10 @@ public class InvestmentServlet extends HttpServlet {
                         active.update();
                         httpSession.setAttribute("user",active);
                         targetUrl = "/xInvest/message.jsp?msg=300"; // BUY SUCCESS
-                    }
-                    
+                    } else {
+                        targetUrl = "/xInvest/message.jsp?msg=301"; // NO CASH
+                    }                    
+
                     session.getTransaction().commit();
                 } catch (Exception e) {
 					targetUrl = "/xInvest/message.jsp?msg=302"; // BUY ERROR
@@ -203,10 +205,10 @@ public class InvestmentServlet extends HttpServlet {
                             httpSession.setAttribute("user",active);
                             targetUrl = "/xInvest/message.jsp?msg=307"; // SELL SUCCESS
                         } else {
-                            targetUrl = "/xInvest/message.jsp?msg=308"; // NOT ENOUGH
+                            targetUrl = "/xInvest/message.jsp?msg=304"; // NOT ENOUGH
                         }
                     } else {
-                        targetUrl = "/xInvest/message.jsp?msg=309"; // DONT HAVE
+                        targetUrl = "/xInvest/message.jsp?msg=305"; // DONT HAVE
                     }
                     
                     session.getTransaction().commit();
@@ -254,7 +256,7 @@ public class InvestmentServlet extends HttpServlet {
                     
                     session.getTransaction().commit();
                 } catch (Exception e) {
-					targetUrl = "/xInvest/message.jsp?msg=310";
+					targetUrl = "/xInvest/message.jsp?msg=308";
                     e.printStackTrace();
 				}
             break;
@@ -295,8 +297,7 @@ public class InvestmentServlet extends HttpServlet {
                     
                     session.getTransaction().commit();
                 } catch (Exception e) {
-					targetUrl = "/xInvest/message.jsp?msg=311";
-                    
+					targetUrl = "/xInvest/message.jsp?msg=309";
 				}
             break;
 
@@ -335,7 +336,7 @@ public class InvestmentServlet extends HttpServlet {
                     
                     session.getTransaction().commit();
                 } catch (Exception e) {
-					targetUrl = "/xInvest/message.jsp?msg=312";
+					targetUrl = "/xInvest/message.jsp?msg=310";
 				}
 			break;
             
