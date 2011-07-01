@@ -64,12 +64,16 @@ public class QuoteServlet extends HttpServlet {
 					// dados de uma "curva"
 					XYSeries curva1 = new XYSeries("Ticks");
 					
-			
-					
+					long valor = 0;
+					long offset = 0;
 					Iterator it = q.getTicks().iterator();
+					// HARDCODED POR CAUSA DA DATA INICIAL DO ROBOT
+					offset = (long ) (new Date(2010,6,1).getTime() / (86400 * 1000));
 					while (it.hasNext()) {
 						Tick t = (Tick) it.next();
-						curva1.add(t.getTimestamp().getTime(),t.getTick()); // (x, y)
+						//FIXED BY VALUE 694000
+						valor = ((long ) ((t.getTimestamp().getTime() / (86400 * 1000)) - offset)) + 694000;
+						curva1.add(valor,t.getTick()); // (x, y)
 					}
 				
 					// coloca a curva no conjunto de dados
