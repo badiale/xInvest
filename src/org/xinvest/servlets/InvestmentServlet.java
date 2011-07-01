@@ -154,7 +154,7 @@ public class InvestmentServlet extends HttpServlet {
                             i.setValue(i.getValue()-value);
                             i.update();
                             targetUrl = "/xInvest/message.jsp?msg=303"; // SELL SUCCESS
-                        } else if (i.getAmount() == amount) {
+                        } else if (i.getAmount().equals(amount)) {
                             i.setPassive(active);
                             i.setActive(null);
                             i.setValue(value);
@@ -188,11 +188,13 @@ public class InvestmentServlet extends HttpServlet {
                     if (i != null) {
                         
                         if (i.getAmount() > amount) {
-                            i.setAmount(i.getAmount()-amount);
-                            i.update();
                             active.setMoney(active.getMoney()+value);
                             active.update();
                             httpSession.setAttribute("user",active);
+                            value = i.getAverageTick()*amount;
+                            i.setValue(i.getValue()-value);
+                            i.setAmount(i.getAmount()-amount);
+                            i.update();
                             targetUrl = "/xInvest/message.jsp?msg=307"; // SELL SUCCESS
                         } else if (i.getAmount().equals(amount)) {
                             i.remove();
