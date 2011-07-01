@@ -13,7 +13,7 @@
 	</macrodef>
 
 	<!-- variaveis -->
-	<property name="mainclass" value="org.xinvest.examples.Heranca"/>
+	<property name="mainclass" value="org.xinvest.beans.Investment"/>
 	<property name="mensagem"  value="commit default"/>
 	<property name="arg"       value=""/>
 	<property name="webapps" value="/home/fabio/IDE/apache-tomcat-7.0.11/webapps"/>
