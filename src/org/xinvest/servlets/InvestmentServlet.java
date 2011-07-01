@@ -239,7 +239,7 @@ public class InvestmentServlet extends HttpServlet {
                     Iterator it = list.iterator();
                     while (it.hasNext()) {
                         i = (Investment) it.next();
-                        Float gain = new Float(i.getAmount()*(i.getAverageTick()-i.getQuote().getLastestTick()));
+                        Float gain = new Float(i.getAmount()*(i.getQuote().getLastestTick()-i.getAverageTick()));
                         out.println("<tr><td>"+i.getQuote().getQuote()+"</td>");
                         out.println("<td>"+i.getQuote().getName()+"</td>");
                         out.println("<td>"+i.getAmount()+"</td>");
