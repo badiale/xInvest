@@ -85,6 +85,11 @@ public class Investment extends Transaction implements Serializable {
         query.setMaxResults(1);
         return (Investment) query.uniqueResult();
     }
+	
+	public static List findAll() {
+		Session session = DBManager.getSession();
+		return session.createQuery("SELECT i FROM Investment i").list();
+	}
     
    	//TESTERS
 	private static void test01() {

@@ -294,6 +294,7 @@ public class InvestmentServlet extends HttpServlet {
                     session.getTransaction().commit();
                 } catch (Exception e) {
 					targetUrl = "/xInvest/message.jsp?msg=309";
+					e.printStackTrace();
 				}
             break;
 
@@ -333,6 +334,7 @@ public class InvestmentServlet extends HttpServlet {
                     session.getTransaction().commit();
                 } catch (Exception e) {
 					targetUrl = "/xInvest/message.jsp?msg=310";
+					e.printStackTrace();
 				}
 			break;
             
