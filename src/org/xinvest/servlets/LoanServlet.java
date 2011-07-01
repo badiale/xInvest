@@ -184,6 +184,7 @@ public class LoanServlet extends HttpServlet {
 					passive.getTransactionPassives().add(l);
 
 					l.update();
+					session.setAttribute("user", active2);
 
 					targetUrl = "/xInvest/message.jsp?msg=106";
 
@@ -191,7 +192,8 @@ public class LoanServlet extends HttpServlet {
 				else {
 					targetUrl = "/xInvest/message.jsp?msg=102";
 				}
-							
+				
+				
 				dbSession.getTransaction().commit();				
 				//out.println(html);
 
@@ -225,14 +227,20 @@ public class LoanServlet extends HttpServlet {
 
 						b.getTransactionPassives().add(l);
 						active2.getTransactionActives().add(l);
+						
+						active2.setMoney(active2.getMoney()+l.getValue());
+						active2.update();
 	
 						refreshInterest();	
+						
+						session.setAttribute("user", active2);
 
 						targetUrl = "/xInvest/message.jsp?msg=105";
 					}
 					else {
 						targetUrl = "/xInvest/message.jsp?msg=101";
 					}
+					session.setAttribute("user", active2);
 					dbSession.getTransaction().commit();
 
 				} catch (Exception e) {
@@ -264,12 +272,14 @@ public class LoanServlet extends HttpServlet {
 						active2.setMoney(active2.getMoney() - l.getValue());
 						active2.update();			
 	
+						session.setAttribute("user", active2);
 						targetUrl = "/xInvest/message.jsp?msg=106";
 
 					}
 					else {
 						targetUrl = "/xInvest/message.jsp?msg=102";
 					}
+					
 					dbSession.getTransaction().commit();
 
 				} catch (Exception e) {
@@ -299,11 +309,17 @@ public class LoanServlet extends HttpServlet {
 						if (l.getPassive().getEmail().equals("bank@bank.com")) {
 							refreshInterest();
 						}
+						//added
+						active2.update();	
+						
+						session.setAttribute("user", active2);
+						//fim added
 						targetUrl = "/xInvest/message.jsp?msg=107";
 					}					
 					else {
 						targetUrl = "/xInvest/message.jsp?msg=103";
 					}
+					session.setAttribute("user", active2);
 					dbSession.getTransaction().commit();
 
 				} catch (Exception e) {
