@@ -2,16 +2,17 @@
     <jsp:param name="op" value="0"/>
 </jsp:include>
 <%@ include file="/header.jsp"%>
-<h1><%=msg.getString("SELL")%> - <%=request.getParameter("quote")%><h1>
-<FORM ACTION="/investment/investmentservlet">
+<h1><%=msg.getString("SELL")%> - <%=request.getParameter("quote")%></h1>
+<FORM ACTION="/xInvest/investment/investmentservlet">
+    <INPUT TYPE="hidden" NAME="op" VALUE="1">
     <INPUT TYPE="hidden" NAME="quote" VALUE="<%=request.getParameter("quote")%>">
 	<table>
 		<tr>
-			<td><%= msg.getString("PRICE") %></td>
+			<th><%= msg.getString("PRICE") %></th>
 			<td><INPUT TYPE="text" NAME="price"></td>
 		</tr>
 		<tr>
-			<td><%= msg.getString("QUANTITY") %></td>
+			<th><%= msg.getString("QUANTITY") %></th>
 			<td><INPUT TYPE="text" NAME="amount"></td>
 		</tr>
 		<tr>

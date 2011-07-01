@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat;
 */
 public class InvestmentServlet extends HttpServlet {
 	private final int BUY           = 0;
+	private final int BUYMARKET     = 7;
 	private final int SELL          = 1;
 	private final int SELLBANK      = 2;
 	private final int LIST          = 3;
@@ -55,14 +56,10 @@ public class InvestmentServlet extends HttpServlet {
                     session.beginTransaction();
 
                     active = (User) httpSession.getAttribute("user");
-                    if (request.getParameter("seller") != null) {
-                        passive = User.find(request.getParameter("seller"));
-                    }
+                    active = User.authenticate(active.getEmail(),active.getPassword());
                     quote = Quote.find(request.getParameter("quote"));
-                    System.out.println("QUOTE: "+quote.getQuote());
-                    System.out.println("QUOTE.NAME: "+quote.getName());
                     Integer amount = Integer.parseInt(request.getParameter("amount"));
-                    Float value = quote.getLastestTick()*amount;
+                    Float value = new Float(quote.getLastestTick()*amount);
                     
                     if (active.getMoney() > value) {
                         i = Investment.findByQuoteActive(quote,active);
@@ -79,12 +76,9 @@ public class InvestmentServlet extends HttpServlet {
                             i.setValue(new Float(value));
                             i.insert();
                         }
-                        if (passive != null) {
-                            Investment ipassive = Investment.findByQuotePassive(quote,passive);
-                            ipassive.remove();
-                        }
                         active.setMoney(active.getMoney()-value);
                         active.update();
+                        httpSession.setAttribute("user",active);
                         targetUrl = "/xInvest/message.jsp?msg=300"; // BUY SUCCESS
                     } else {
                         targetUrl = "/xInvest/message.jsp?msg=301"; // NO CASH
@@ -97,16 +91,58 @@ public class InvestmentServlet extends HttpServlet {
 				}
 			break;
 
-			case SELL:
+            case BUYMARKET:
+                try {
+                    session.beginTransaction();
+
+                    active = (User) httpSession.getAttribute("user");
+                    active = User.authenticate(active.getEmail(),active.getPassword());
+                    Investment ibuy = Investment.find(Integer.parseInt(request.getParameter("id")));
+                    passive = ibuy.getPassive();
+                    quote = ibuy.getQuote();
+                    Integer amount = ibuy.getAmount();
+                    Float value = ibuy.getValue();
+                    
+                    if (active.getMoney() > value) {
+                        i = Investment.findByQuoteActive(quote,active);
+                        if (i != null) {
+                            i.setAmount(i.getAmount()+amount);
+                            i.setValue(i.getValue()+value);
+                            i.setTimestamp(new Date());
+                            i.update();
+                        } else {
+                            i = new Investment();
+                            i.setActive(active);
+                            i.setQuote(quote);
+                            i.setAmount(amount);
+                            i.setValue(new Float(value));
+                            i.insert();
+                        }
+                        passive.setMoney(passive.getMoney()+value);
+                        ibuy.remove();
+                        active.setMoney(active.getMoney()-value);
+                        active.update();
+                        httpSession.setAttribute("user",active);
+                        targetUrl = "/xInvest/message.jsp?msg=300"; // BUY SUCCESS
+                    }
+                    
+                    session.getTransaction().commit();
+                } catch (Exception e) {
+					targetUrl = "/xInvest/message.jsp?msg=302"; // BUY ERROR
+                    e.printStackTrace();
+				}
+            break;
+            
+            case SELL:
 				try {
                     session.beginTransaction();
                     
                     active = (User) httpSession.getAttribute("user");
+                    active = User.authenticate(active.getEmail(),active.getPassword());
                     quote = Quote.find(request.getParameter("quote"));
                     Integer amount = Integer.parseInt(request.getParameter("amount"));
                     Float price = new Float(request.getParameter("price"));
                     Float value = price*amount;
-                    
                     
                     i = Investment.findByQuoteActive(quote,active);
                     if (i != null) {
@@ -144,24 +180,27 @@ public class InvestmentServlet extends HttpServlet {
                     session.beginTransaction();
                     
                     active = (User) httpSession.getAttribute("user");
+                    active = User.authenticate(active.getEmail(),active.getPassword());
                     quote = Quote.find(request.getParameter("quote"));
                     Integer amount = Integer.parseInt(request.getParameter("amount"));
                     Float price = new Float(quote.getDaysLow());
                     Float value = price*amount;
                     
                     i = Investment.findByQuoteActive(quote,active);
-                    System.out.println("INVESTMENT: "+i);
                     if (i != null) {
+                        
                         if (i.getAmount() > amount) {
                             i.setAmount(i.getAmount()-amount);
                             i.update();
                             active.setMoney(active.getMoney()+value);
                             active.update();
+                            httpSession.setAttribute("user",active);
                             targetUrl = "/xInvest/message.jsp?msg=307"; // SELL SUCCESS
-                        } else if (i.getAmount() == amount) {
+                        } else if (i.getAmount().equals(amount)) {
                             i.remove();
                             active.setMoney(active.getMoney()+value);
                             active.update();
+                            httpSession.setAttribute("user",active);
                             targetUrl = "/xInvest/message.jsp?msg=307"; // SELL SUCCESS
                         } else {
                             targetUrl = "/xInvest/message.jsp?msg=308"; // NOT ENOUGH
@@ -173,6 +212,7 @@ public class InvestmentServlet extends HttpServlet {
                     session.getTransaction().commit();
                 } catch (Exception e) {
 					targetUrl = "/xInvest/message.jsp?msg=306";
+                    System.out.println(e);
 				}
 			break;
 
@@ -190,14 +230,21 @@ public class InvestmentServlet extends HttpServlet {
                             +msg.getString("QUOTE")+"</th><th>"
                             +msg.getString("NAME")+"</th><th>"
                             +msg.getString("AMOUNT")+"</th><th>"
-                            +msg.getString("50_AVG")+"</th></tr>");
+                            +"TICK</th><th>"
+                            +msg.getString("50_AVG")+"</th><th>"
+                            +msg.getString("INVESTMENT_AVG")+"</th><th>"
+                            +msg.getString("GAIN_LOSS")+"</th></tr>");
                     Iterator it = list.iterator();
                     while (it.hasNext()) {
                         i = (Investment) it.next();
+                        Float gain = new Float(i.getValue()*(i.getAverageTick()-i.getQuote().getLastestTick()));
                         out.println("<tr><td>"+i.getQuote().getQuote()+"</td>");
                         out.println("<td>"+i.getQuote().getName()+"</td>");
                         out.println("<td>"+i.getAmount()+"</td>");
+                        out.println("<td>"+i.getQuote().getLastestTick()+"</td>");
                         out.println("<td>"+i.getQuote().getFiftydayMovingAverage()+"</td>");
+                        out.println("<td>"+i.getAverageTick()+"</td>");
+                        out.println("<td>"+gain+"</td>");
                         out.println("<td><a href=\"/xInvest/quote/index.jsp?quote="
                                 +i.getQuote().getQuote()+"\">"+msg.getString("BUY")+"</a><br/>"
                                 +"<a href=\"/xInvest/investment/sell.jsp?quote="
@@ -226,19 +273,22 @@ public class InvestmentServlet extends HttpServlet {
                             +msg.getString("QUOTE")+"</th><th>"
                             +msg.getString("NAME")+"</th><th>"
                             +msg.getString("AMOUNT")+"</th><th>"
-                            +"Tick</th><th>"
-                            +msg.getString("50_AVG")+"</th></tr>");
+                            +"TICK</th><th>"
+                            +msg.getString("50_AVG")+"</th><th>"
+                            +msg.getString("PRICE")+"</th></tr>");
                     Iterator it = list.iterator();
                     while (it.hasNext()) {
                         i = (Investment) it.next();
+                        Float price = new Float(i.getValue()/i.getAmount());
                         out.println("<tr><td>"+i.getQuote().getQuote()+"</td>");
                         out.println("<td>"+i.getQuote().getName()+"</td>");
                         out.println("<td>"+i.getAmount()+"</td>");
                         out.println("<td>"+i.getQuote().getLastestTick()+"</td>");
                         out.println("<td>"+i.getQuote().getFiftydayMovingAverage()+"</td>");
-                        out.println("<td><a href=\"/xInvest/quote/index.jsp?quote="
-                                +i.getQuote().getQuote()+"\">"+msg.getString("BUY")+"</a>"
-                                +"<a href=\"/xInvest/quote/index.jsp?quote="
+                        out.println("<td>"+price+"</td>");
+                        out.println("<td><a href=\"/xInvest/investment/investmentservlet?op=7&id="
+                                +i.getId()+"\">"+msg.getString("BUY")+"</a><br/>"
+                                +"<a href=\"/xInvest/investment/investmentservlet?quote="
                                 +i.getQuote().getQuote()+"\">"+msg.getString("SELL")+"</a></td></tr>");
                     }
                     out.println("</table>");
@@ -264,17 +314,22 @@ public class InvestmentServlet extends HttpServlet {
                             +msg.getString("NAME")+"</th><th>"
                             +msg.getString("AMOUNT")+"</th><th>"
                             +"Tick</th><th>"
-                            +msg.getString("50_AVG")+"</th></tr>");
+                            +msg.getString("50_AVG")+"</th><th>"
+                            +msg.getString("PRICE")+"</th></tr>");
                     Iterator it = list.iterator();
                     while (it.hasNext()) {
                         i = (Investment) it.next();
-                        out.println("<tr><td>"+i.getQuote().getQuote()+"</td>");
-                        out.println("<td>"+i.getQuote().getName()+"</td>");
-                        out.println("<td>"+i.getAmount()+"</td>");
-                        out.println("<td>"+i.getQuote().getLastestTick()+"</td>");
-                        out.println("<td>"+i.getQuote().getFiftydayMovingAverage()+"</td>");
-                        out.println("<td><a href=\"/xInvest/quote/index.jsp?quote="
-                                +i.getQuote().getQuote()+"\">"+msg.getString("BUY")+"</a></td></tr>");
+                        if (i.getPassive()!=null) {
+                            Float price = new Float(i.getValue()/i.getAmount());
+                            out.println("<tr><td>"+i.getQuote().getQuote()+"</td>");
+                            out.println("<td>"+i.getQuote().getName()+"</td>");
+                            out.println("<td>"+i.getAmount()+"</td>");
+                            out.println("<td>"+i.getQuote().getLastestTick()+"</td>");
+                            out.println("<td>"+i.getQuote().getFiftydayMovingAverage()+"</td>");
+                            out.println("<td>"+price+"</td>");
+                            out.println("<td><a href=\"/xInvest/investment/investmentservlet?op=7&id="
+                                    +i.getId()+"\">"+msg.getString("BUY")+"</a></td></tr>");
+                        }
                     }
                     out.println("</table>");
                     
