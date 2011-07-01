@@ -29,6 +29,7 @@ public class InvestmentServlet extends HttpServlet {
 	private final int LIST          = 3;
 	private final int LISTONSALE    = 4;
 	private final int MARKET        = 5;
+	private final int BANKPRICE     = 6;
 
 	public void doGet (HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -54,8 +55,12 @@ public class InvestmentServlet extends HttpServlet {
                     session.beginTransaction();
 
                     active = (User) httpSession.getAttribute("user");
-                    passive = User.find(request.getParameter("seller"));
+                    if (request.getParameter("seller") != null) {
+                        passive = User.find(request.getParameter("seller"));
+                    }
                     quote = Quote.find(request.getParameter("quote"));
+                    System.out.println("QUOTE: "+quote.getQuote());
+                    System.out.println("QUOTE.NAME: "+quote.getName());
                     Integer amount = Integer.parseInt(request.getParameter("amount"));
                     Float value = quote.getLastestTick()*amount;
                     
@@ -65,18 +70,19 @@ public class InvestmentServlet extends HttpServlet {
                             i.setAmount(i.getAmount()+amount);
                             i.setValue(i.getValue()+value);
                             i.setTimestamp(new Date());
+                            i.update();
                         } else {
                             i = new Investment();
                             i.setActive(active);
                             i.setQuote(quote);
                             i.setAmount(amount);
                             i.setValue(new Float(value));
+                            i.insert();
                         }
                         if (passive != null) {
                             Investment ipassive = Investment.findByQuotePassive(quote,passive);
                             ipassive.remove();
                         }
-                        i.update();
                         active.setMoney(active.getMoney()-value);
                         active.update();
                         targetUrl = "/xInvest/message.jsp?msg=300"; // BUY SUCCESS
@@ -87,6 +93,7 @@ public class InvestmentServlet extends HttpServlet {
                     session.getTransaction().commit();
                 } catch (Exception e) {
 					targetUrl = "/xInvest/message.jsp?msg=302"; // BUY ERROR
+                    e.printStackTrace();
 				}
 			break;
 
@@ -134,7 +141,7 @@ public class InvestmentServlet extends HttpServlet {
 
 			case SELLBANK:
 				try {
-                    session.getTransaction();
+                    session.beginTransaction();
                     
                     active = (User) httpSession.getAttribute("user");
                     quote = Quote.find(request.getParameter("quote"));
@@ -143,6 +150,7 @@ public class InvestmentServlet extends HttpServlet {
                     Float value = price*amount;
                     
                     i = Investment.findByQuoteActive(quote,active);
+                    System.out.println("INVESTMENT: "+i);
                     if (i != null) {
                         if (i.getAmount() > amount) {
                             i.setAmount(i.getAmount()-amount);
@@ -170,7 +178,7 @@ public class InvestmentServlet extends HttpServlet {
 
 			case LIST:
 				try {
-                    session.getTransaction();
+                    session.beginTransaction();
                     
                     active = (User) httpSession.getAttribute("user");
                     List list = Investment.findByActive(active);
@@ -191,8 +199,8 @@ public class InvestmentServlet extends HttpServlet {
                         out.println("<td>"+i.getAmount()+"</td>");
                         out.println("<td>"+i.getQuote().getFiftydayMovingAverage()+"</td>");
                         out.println("<td><a href=\"/xInvest/quote/index.jsp?quote="
-                                +i.getQuote().getQuote()+"\">"+msg.getString("BUY")+"</a>"
-                                +"<a href=\"/xInvest/quote/index.jsp?quote="
+                                +i.getQuote().getQuote()+"\">"+msg.getString("BUY")+"</a><br/>"
+                                +"<a href=\"/xInvest/investment/sell.jsp?quote="
                                 +i.getQuote().getQuote()+"\">"+msg.getString("SELL")+"</a></td></tr>");
                     }
                     out.println("</table>");
@@ -200,14 +208,15 @@ public class InvestmentServlet extends HttpServlet {
                     session.getTransaction().commit();
                 } catch (Exception e) {
 					targetUrl = "/xInvest/message.jsp?msg=310";
+                    e.printStackTrace();
 				}
             break;
 
 			case LISTONSALE:
 				try {
-                    session.getTransaction();
+                    session.beginTransaction();
                     
-                    passive = (User) httpSession.getAttribute("user");
+                    passive = (User) httpSession.getAttribute("user");                    
                     List list = Investment.findByPassive(passive);
                     
                     Locale currentLocale = request.getLocale();
@@ -237,12 +246,13 @@ public class InvestmentServlet extends HttpServlet {
                     session.getTransaction().commit();
                 } catch (Exception e) {
 					targetUrl = "/xInvest/message.jsp?msg=311";
+                    
 				}
             break;
 
             case MARKET:
 				try {
-                    session.getTransaction();
+                    session.beginTransaction();
                     
                     List list = Investment.findAll();
                     
@@ -273,7 +283,13 @@ public class InvestmentServlet extends HttpServlet {
 					targetUrl = "/xInvest/message.jsp?msg=312";
 				}
 			break;
-
+            
+            case BANKPRICE:
+                    session.beginTransaction();
+                    out.println(Quote.find(request.getParameter("quote")).getDaysLow());
+                    session.getTransaction().commit();
+            break;
+                
             default:
 				targetUrl = "/xInvest/message.jsp?msg=404";
 			break;
