@@ -270,11 +270,11 @@ public class LoanServlet extends HttpServlet {
 
 					User active2 = User.find(active.getEmail());
 
-					User passive = l.getPassive();
+					passive = l.getPassive();
 
 					if (active2.getMoney() >= l.getValue()) {
 						active2.setMoney(active2.getMoney() - l.getValue());
-						passive.setMoney(passive.getMoney() + l.getvalue());
+						passive.setMoney(passive.getMoney() + l.getValue());
 
 						l.remove();
 
