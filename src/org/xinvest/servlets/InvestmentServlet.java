@@ -3,20 +3,14 @@ package org.xinvest.servlets;
 // Servlet Imports
 import java.io.*;
 import javax.servlet.*;
-import javax.servlet.jsp.*;
 import javax.servlet.http.*;
 // xInvest Imports
 import org.xinvest.beans.*;
 import org.xinvest.db.DBManager;
 // Hibernate Imports
 import org.hibernate.Session;
-// Apache Commons for file uploading
-import org.apache.commons.fileupload.*;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 // Other Imports
 import java.util.*;
-import java.text.SimpleDateFormat;
 
 /**
 * Servlet to handle trade operations within the stock simulator application.
@@ -155,7 +149,9 @@ public class InvestmentServlet extends HttpServlet {
                             isplit.setAmount(amount);
                             isplit.setValue(value);
                             isplit.insert();
+                            value = i.getAverageTick()*amount;
                             i.setAmount(i.getAmount()-amount);
+                            i.setValue(i.getValue()-value);
                             i.update();
                             targetUrl = "/xInvest/message.jsp?msg=303"; // SELL SUCCESS
                         } else if (i.getAmount() == amount) {
