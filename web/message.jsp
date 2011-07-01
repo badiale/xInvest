@@ -24,6 +24,19 @@
     case 205: out.println("success_msg\">"+msg.getString("USER_MODIFY_SUCCESS")); break;
     case 206: out.println("error_msg\">"+msg.getString("USER_MODIFY_ERROR")); break;
 	
+    // Operacoes de investment
+    case 300: out.println("success_msg\">"+msg.getString("BUY_SUCCESS")); break;
+    case 301: out.println("error_msg\">"+msg.getString("NO_CASH")); break;
+    case 302: out.println("error_msg\">"+msg.getString("BUY_ERROR")); break;
+    case 303: out.println("success_msg\">"+msg.getString("SELL_SUCCESS")); break;
+    case 304: out.println("error_msg\">"+msg.getString("SELL_NOT_ENOUGH")); break;
+    case 305: out.println("error_msg\">"+msg.getString("SELL_DONT_HAVE")); break;
+    case 306: out.println("error_msg\">"+msg.getString("SELL_ERROR")); break;
+    case 307: out.println("success_msg\">"+msg.getString("SELLBANK_SUCCESS")); break;
+    case 308: out.println("error_msg\">"+msg.getString("LIST_ERROR")); break;
+    case 309: out.println("error_msg\">"+msg.getString("LISTONSALE_ERROR")); break;
+    case 310: out.println("error_msg\">"+msg.getString("MARKET_ERROR")); break;
+    
 	// Erro inesperado
 	default: out.println("error_msg\">"+msg.getString("UNEXPECTED_ERROR")); break;
     }
