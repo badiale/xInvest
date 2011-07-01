@@ -266,13 +266,27 @@ public class LoanServlet extends HttpServlet {
 					Session dbSession = DBManager.getSession();
 					dbSession.beginTransaction();										
 
-					User active2 = new User(); 
-					active2 = User.find(active.getEmail());
-				
+					l = Loan.find(Integer.parseInt(request.getParameter("id")));
+
+					User active2 = User.find(active.getEmail());
+
+					User passive = l.getPassive();
+
+					if (active2.getMoney() >= l.getValue()) {
+						active2.setMoney(active2.getMoney() - l.getValue());
+						passive.setMoney(passive.getMoney() + l.getvalue());
+
+						l.remove();
+
+						if (l.getPassive().getEmail().equals("bank@bank.com")) {
+							refreshInterest();
+						}
+					}
+					targetUrl = "/xInvest/message.jsp?msg=107";
 
 				} catch (Exception e) {
 					e.printStackTrace();
-					targetUrl = "/xInvest/message.jsp?msg=102";
+					targetUrl = "/xInvest/message.jsp?msg=103";
 				}
 				response.sendRedirect(targetUrl);
 			break;
