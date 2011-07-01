@@ -2,7 +2,7 @@
 Instalacao e uso:
 --------------------------------------------------------------------------------
 Para fazer os graficos funcionarem, basta exectuar o seguinte comando em seu
-servidor:
+servidor, antes de iniciar o application server:
 	xhost +
 
 ================================================================================
@@ -10,14 +10,8 @@ Afazeres
 --------------------------------------------------------------------------------
 
 Prioritario
-	Fazer venda e compra de acoes entre o sistema ou entre usuarios.
-	Sugerir investimentos para o usuario.
-	Fazer emprestimos e pagar emprestimos.
-	Oferecer emprestimos.
 	Fazer grafico com lucro/perda do usuario.
-	Fazer grafico com a variacao dos juro(s) do(s) banco(s).
 	Permitir ao usuario visualizar graficamente o quanto deve ao longo do tempo.
-	O usuario pode vender quotes para o banco.
 
 Intermediario
 	Exibir grafico com lucro/perda na home.
