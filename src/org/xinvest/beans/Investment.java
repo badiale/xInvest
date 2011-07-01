@@ -46,7 +46,8 @@ public class Investment extends Transaction implements Serializable {
         Session session = DBManager.getSession();
         // Query in Hibernate Query Language
         String hql = "select i from Investment i where i.active.email = :email";
-        org.hibernate.Query query = session.createQuery(hql).setParameter("email", user.getEmail());
+        org.hibernate.Query query = 
+                session.createQuery(hql).setParameter("email", user.getEmail());
         return query.list();
     }
     
@@ -54,8 +55,35 @@ public class Investment extends Transaction implements Serializable {
         Session session = DBManager.getSession();
         // Query in Hibernate Query Language
         String hql = "select i from Investment i where i.passive.email = :email";
-        org.hibernate.Query query = session.createQuery(hql).setParameter("email", user.getEmail());
+        org.hibernate.Query query = 
+                session.createQuery(hql).setParameter("email", user.getEmail());
         return query.list();
+    }
+    
+    public static Investment findByQuoteActive (Quote quote, User user) {
+        Session session = DBManager.getSession();
+        // Query in Hibernate Query Language
+        String hql = "select i from Investment i "+
+                        "where i.quote.quote = :quote "+
+                        "and i.active.email = :email";
+        org.hibernate.Query query = session.createQuery(hql);
+        query.setParameter("quote", quote.getQuote());
+        query.setParameter("email", user.getEmail());
+        query.setMaxResults(1);
+        return (Investment) query.uniqueResult();
+    }
+    
+    public static Investment findByQuotePassive (Quote quote, User user) {
+        Session session = DBManager.getSession();
+        // Query in Hibernate Query Language
+        String hql = "select i from Investment i "+
+                        "where i.quote.quote = :quote "+
+                        "and i.passive.email = :email";
+        org.hibernate.Query query = session.createQuery(hql);
+        query.setParameter("quote", quote.getQuote());
+        query.setParameter("email", user.getEmail());
+        query.setMaxResults(1);
+        return (Investment) query.uniqueResult();
     }
     
    	//TESTERS
@@ -70,6 +98,7 @@ public class Investment extends Transaction implements Serializable {
 			i.setAmount(new Integer(100));
 			i.setValue(new Float(1.11));
 			i.setQuote(q);
+            i.setActive(User.find("user1@user.com"));
 			i.insert();
 			
 			q.getInvestments().add(i);
@@ -110,9 +139,30 @@ public class Investment extends Transaction implements Serializable {
 
 		session.getTransaction().commit();
 	}
-	public static void main (String args[]) {
-		//test01();
+	
+    private static void test04() {
+		Session session = DBManager.getSession();
+		session.beginTransaction();
+        
+		Investment i = Investment.findByQuoteActive(Quote.find("PBR"),User.find("user1@user.com"));
+        if (i != null) {
+            String str = "";
+            str += "User: " + i.getActive().getEmail() + "\n";
+            str += "Amount: " + i.getAmount() + "\n";
+            str += "Quote: " + i.getQuote().getQuote() + "\n";
+            log.info(str);
+            log.info("Encontrou investment de user em quote");
+        } else {
+            log.info("Não encontrou investment");
+        }
+
+		session.getTransaction().commit();
+	}
+
+    public static void main (String args[]) {
+		test01();
 		//test02();
-		test03();
+		//test03();
+		//test04();
 	}
 }
