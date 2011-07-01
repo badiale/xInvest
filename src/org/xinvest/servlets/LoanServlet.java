@@ -338,6 +338,7 @@ public class LoanServlet extends HttpServlet {
 						html2 += "<td>"+lo.getInterest()+"</td>";
 						html2 += "<td>"+lo.getTimestamp()+"</td>";
 						html2 += "<td>"+"TODO"+"</td>";
+						html2 += "<td>&nbsp&nbsp<a href=/xInvest/loan/graph.jsp?op=4&id="+lo.getId()+">"+msg.getString("LOAN_GRAPH")+"</a></td>";
 						html2 += "<td>&nbsp&nbsp<a href=/xInvest/loan/loanservlet?op=3&id="+lo.getId()+">"+msg.getString("LOAN_PAY")+"</a></td></tr>";
 					}
 					html2 += "</table><br><br>";
@@ -418,9 +419,9 @@ public class LoanServlet extends HttpServlet {
 
 					// retorna uma abstracao do grafo
 					JFreeChart chart = ChartFactory.createXYLineChart( 
-							msg.getString("NOME_GRAFICO"),      // titulo do grafico
-							msg.getString("X_GRAFICO"),                        // descricao do eixo X
-							msg.getString("Y_GRAFICO"),                        // descricao do eixo Y
+							msg.getString("NOME_GRAFICO_LOAN"),      // titulo do grafico
+							msg.getString("X_GRAFICO_LOAN"),                        // descricao do eixo X
+							msg.getString("Y_GRAFICO_LOAN"),                        // descricao do eixo Y
 							dataset,                    // dados
 							PlotOrientation.VERTICAL,   // orientacao do grafico
 							false,                       // mostrar legendas
