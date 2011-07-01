@@ -315,7 +315,7 @@ public class LoanServlet extends HttpServlet {
 
 					User active2 = User.find(active.getEmail());
 
-					html2 += "<b><h1>"+msg.getString("LOAN_LIST_TITLE1")+"</b><h1><br>";
+					html2 += "<b><h1>"+msg.getString("LOAN_LIST_TITLE1")+"</b></h1><br>";
 					html2 += "<table><tr class=\"labelRow\"><th>"+msg.getString("LOAN_SOURCE")+"</th><th>"+msg.getString("LOAN_QUANTITY")+"</th> <th>"+msg.getString("LOAN_JUROS")+"</th><th>"+msg.getString("LOAN_DATE")+"</th><th>"+msg.getString("LOAN_VALUE")+"</th></tr>"+
 					"<tr><td>";
 
@@ -353,7 +353,7 @@ public class LoanServlet extends HttpServlet {
 
 					User active2 = User.find(active.getEmail());
 
-					html3 += "<b><h1>"+msg.getString("LOAN_LIST_TITLE2")+"</b><h1><br>";
+					html3 += "<b><h1>"+msg.getString("LOAN_LIST_TITLE2")+"</b></h1><br>";
 					html3 += "<table><tr class=\"labelRow\"><th>"+msg.getString("LOAN_SOURCE")+"</th><th>"+msg.getString("LOAN_QUANTITY")+"</th> <th>"+msg.getString("LOAN_JUROS")+"</th><th>"+msg.getString("LOAN_DATE")+"</tr>"+
 					"<tr><td>";
 
