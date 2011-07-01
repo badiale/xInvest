@@ -184,6 +184,7 @@ public class LoanServlet extends HttpServlet {
 					passive.getTransactionPassives().add(l);
 
 					l.update();
+					session.setAttribute("user", active2);
 
 					targetUrl = "/xInvest/message.jsp?msg=106";
 
@@ -191,7 +192,8 @@ public class LoanServlet extends HttpServlet {
 				else {
 					targetUrl = "/xInvest/message.jsp?msg=102";
 				}
-							
+				
+				
 				dbSession.getTransaction().commit();				
 				//out.println(html);
 
@@ -225,14 +227,20 @@ public class LoanServlet extends HttpServlet {
 
 						b.getTransactionPassives().add(l);
 						active2.getTransactionActives().add(l);
+						
+						active2.setMoney(active2.getMoney()+l.getValue());
+						active2.update();
 	
 						refreshInterest();	
+						
+						session.setAttribute("user", active2);
 
 						targetUrl = "/xInvest/message.jsp?msg=105";
 					}
 					else {
 						targetUrl = "/xInvest/message.jsp?msg=101";
 					}
+					session.setAttribute("user", active2);
 					dbSession.getTransaction().commit();
 
 				} catch (Exception e) {
@@ -264,12 +272,14 @@ public class LoanServlet extends HttpServlet {
 						active2.setMoney(active2.getMoney() - l.getValue());
 						active2.update();			
 	
+						session.setAttribute("user", active2);
 						targetUrl = "/xInvest/message.jsp?msg=106";
 
 					}
 					else {
 						targetUrl = "/xInvest/message.jsp?msg=102";
 					}
+					
 					dbSession.getTransaction().commit();
 
 				} catch (Exception e) {
@@ -299,11 +309,17 @@ public class LoanServlet extends HttpServlet {
 						if (l.getPassive().getEmail().equals("bank@bank.com")) {
 							refreshInterest();
 						}
+						//added
+						active2.update();	
+						
+						session.setAttribute("user", active2);
+						//fim added
 						targetUrl = "/xInvest/message.jsp?msg=107";
 					}					
 					else {
 						targetUrl = "/xInvest/message.jsp?msg=103";
 					}
+					session.setAttribute("user", active2);
 					dbSession.getTransaction().commit();
 
 				} catch (Exception e) {
@@ -338,6 +354,7 @@ public class LoanServlet extends HttpServlet {
 						html2 += "<td>"+lo.getInterest()+"</td>";
 						html2 += "<td>"+lo.getTimestamp()+"</td>";
 						html2 += "<td>"+"TODO"+"</td>";
+						html2 += "<td>&nbsp&nbsp<a href=/xInvest/loan/graph.jsp?op=4&id="+lo.getId()+">"+msg.getString("LOAN_GRAPH")+"</a></td>";
 						html2 += "<td>&nbsp&nbsp<a href=/xInvest/loan/loanservlet?op=3&id="+lo.getId()+">"+msg.getString("LOAN_PAY")+"</a></td></tr>";
 					}
 					html2 += "</table><br><br>";
@@ -418,9 +435,9 @@ public class LoanServlet extends HttpServlet {
 
 					// retorna uma abstracao do grafo
 					JFreeChart chart = ChartFactory.createXYLineChart( 
-							msg.getString("NOME_GRAFICO"),      // titulo do grafico
-							msg.getString("X_GRAFICO"),                        // descricao do eixo X
-							msg.getString("Y_GRAFICO"),                        // descricao do eixo Y
+							msg.getString("NOME_GRAFICO_LOAN"),      // titulo do grafico
+							msg.getString("X_GRAFICO_LOAN"),                        // descricao do eixo X
+							msg.getString("Y_GRAFICO_LOAN"),                        // descricao do eixo Y
 							dataset,                    // dados
 							PlotOrientation.VERTICAL,   // orientacao do grafico
 							false,                       // mostrar legendas
