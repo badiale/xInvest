@@ -346,14 +346,36 @@ public class LoanServlet extends HttpServlet {
 
 					Iterator it = li.iterator();
 					Loan lo = null;
+					
+					int offset2;
+					int start2;
+					int end2;
+					int days;
+					float value = 0;
 
 					while (it.hasNext()) {
 						lo = (Loan) it.next();
+						
+						offset2 = (int ) (lo.getTimestamp().getTime() / (86400 * 1000));
+					
+						start2 = (int ) ((lo.getTimestamp().getTime() / (86400 * 1000)) - offset2)  ;
+					  end2 = (int ) ((new Date().getTime() / (86400 * 1000)) - offset2);
+					  days = end2 - start2;
+					  
+					  if(days <= 0) {
+					  	value = lo.getValue();
+					  }
+					  
+					  value = lo.getValue();
+					  for(int i=start2;i<end2;i++) {
+							value = ((value*(lo.getInterest()))+value);
+						}
+						
 						html2 += "<tr><td>"+lo.getPassive().getEmail()+"</td>";
 						html2 += "<td>"+lo.getValue()+"</td>";
 						html2 += "<td>"+lo.getInterest()+"</td>";
 						html2 += "<td>"+lo.getTimestamp()+"</td>";
-						html2 += "<td>"+"TODO"+"</td>";
+						html2 += "<td>"+value+"</td>";
 						html2 += "<td>&nbsp&nbsp<a href=/xInvest/loan/graph.jsp?op=4&id="+lo.getId()+">"+msg.getString("LOAN_GRAPH")+"</a></td>";
 						html2 += "<td>&nbsp&nbsp<a href=/xInvest/loan/loanservlet?op=3&id="+lo.getId()+">"+msg.getString("LOAN_PAY")+"</a></td></tr>";
 					}
